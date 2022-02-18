@@ -1,23 +1,26 @@
 const {validationResult} = require("express-validator");
 const News = require('../models/News')
 const NewsService = require('../services/news.service')
+const {errorHandler} = require("../utils/errorHandler");
 
 exports.get = async function (req, res) {
     try {
-        const news = await NewsService.get()
+        const { page, count } = req.query
+
+        const news = await NewsService.get(count, page)
+
         res.json(news)
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
 exports.getDetail = async function (req, res) {
     try {
-        const news = await News.findById(req.params.id).populate('tag')
+        const news = await News.findById(req.params.id).populate('tags')
         res.json(news)
     } catch (e) {
-        console.log(e)
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
@@ -31,12 +34,13 @@ exports.filterByTag = async function (req, res) {
             })
         }
 
-        const { tagId } = req.query
+        const { page, count } = req.query
+        const { tagId } = req.params
 
-        const news = await NewsService.filterByTag(tagId)
+        const news = await NewsService.filterByTag(tagId, count, page)
         res.json(news)
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
@@ -53,11 +57,13 @@ exports.add = async function (req, res) {
 
         const { previewImg, title, previewText, content, date, tags } = req.body
 
-        const news = await NewsService.add(previewImg, title, previewText, content, date, tags)
+        if (!await NewsService.add(previewImg, title, previewText, content, date, tags)) {
+            throw Error()
+        }
 
-        res.status(201).json({ message: 'Новость успешно добавлена', news })
+        res.status(201).json({ message: 'Новость успешно добавлена' })
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
@@ -72,14 +78,16 @@ exports.update = async function (req, res) {
             })
         }
 
-        const { id } = req.params.id
+        const { id } = req.params
         const { previewImg, title, previewText, content, date, tags } = req.body
 
-        const news = await NewsService.update(id, previewImg, title, previewText, content, date, tags)
+        if (!await NewsService.update(id, previewImg, title, previewText, content, date, tags)) {
+            throw Error()
+        }
 
-        res.status(201).json({ message: 'Новость успешно обновлена', news })
+        res.status(201).json({ message: 'Новость успешно обновлена' })
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
@@ -94,12 +102,12 @@ exports.delete = async function (req, res) {
             })
         }
 
-        const { id } = req.params.id
+        const { id } = req.params
 
-        const news = await NewsService.delete(id)
+        await NewsService.delete(id)
 
-        return res.json({ message: 'Новость успешно удалена', news })
+        return res.json({ message: 'Новость успешно удалена' })
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }

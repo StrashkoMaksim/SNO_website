@@ -1,4 +1,6 @@
 const Tag = require('../models/Tag')
+const createError = require("http-errors");
+const {Types} = require("mongoose");
 
 exports.get = async function () {
     const tags = await Tag.find()
@@ -7,47 +9,45 @@ exports.get = async function () {
 }
 
 exports.add = async function (name) {
-    try {
-        const tag = new Tag({name})
+    const tag = new Tag({name})
 
-        await tag.save()
+    await tag.save()
 
-        const tags = await exports.get()
+    const tags = await exports.get()
 
-        return tags
-    } catch (e) {
-        throw Error('Что-то пошло не так, попробуйте снова')
-    }
+    return tags
 }
 
 exports.update = async function (id, name) {
-    try {
-        const tag = await Tag.findById(id)
-
-        if(!tag) {
-            throw new Error('Тег не найден')
-        }
-
-        await Tag.replaceOne({ _id: id }, {name})
-
-        await tag.save()
-
-        const tags = await exports.get()
-
-        return tags
-    } catch (e) {
-        throw Error(e.message)
+    if (!Types.ObjectId.isValid(id)) {
+        throw createError(400, 'Некорректный ID тега')
     }
+
+    const tag = await Tag.findById(id)
+
+    if(!tag) {
+        throw createError(404, 'Тег не найден')
+    }
+
+    const savedTags = await Tag.replaceOne({ _id: id }, {name})
+
+    if (savedTags.modifiedCount !== 1) {
+        throw Error()
+    }
+
+    const tags = await exports.get()
+
+    return tags
 }
 
 exports.delete = async function (id) {
-    try {
-        await Tag.findByIdAndDelete(id)
-
-        const tags = await exports.get()
-
-        return tags
-    } catch (e) {
-        throw Error(e.message)
+    if (!Types.ObjectId.isValid(id)) {
+        throw createError(400, 'Некорректный ID тега')
     }
+
+    await Tag.findByIdAndDelete(id)
+
+    const tags = await exports.get()
+
+    return tags
 }

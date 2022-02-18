@@ -1,13 +1,14 @@
 const {validationResult} = require("express-validator");
 const Tag = require('../models/Tag')
 const TagService = require('../services/tag.service')
+const {errorHandler} = require("../utils/errorHandler");
 
 exports.get = async function (req, res) {
     try {
         const news = await TagService.get()
         res.json(news)
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
@@ -28,7 +29,7 @@ exports.add = async function (req, res) {
 
         res.status(201).json({ message: 'Тег успешно добавлен', tags })
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }
 
@@ -50,7 +51,7 @@ exports.update = async function (req, res) {
 
         res.status(201).json({ message: 'Тег успешно отредактирован', tags })
     } catch (e) {
-        res.status(500).json({ message: e.message })
+        errorHandler(e, res)
     }
 }
 
@@ -71,6 +72,6 @@ exports.delete = async function (req, res) {
 
         return res.json({ message: 'Тег успешно удален', tags })
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }

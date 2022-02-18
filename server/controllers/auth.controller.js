@@ -1,5 +1,6 @@
 const UserService = require('../services/auth.service')
 const {validationResult} = require("express-validator");
+const {errorHandler} = require("../utils/errorHandler");
 
 exports.login = async function (req, res) {
     try {
@@ -8,7 +9,7 @@ exports.login = async function (req, res) {
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
-                message: 'Некорректный логин и/или пароль'
+                message: 'Отсутствует логин и/или пароль'
             })
         }
 
@@ -18,6 +19,6 @@ exports.login = async function (req, res) {
 
         res.json({ token })
     } catch (e) {
-        res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+        errorHandler(e, res)
     }
 }

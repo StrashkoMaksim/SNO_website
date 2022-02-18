@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const {check, param} = require("express-validator");
+const {check, param, query} = require("express-validator");
 const NewsController = require('../controllers/news.controller')
 const AuthMiddleware = require('../middlewares/auth.middleware')
 const router = Router()
@@ -12,9 +12,9 @@ router.get('/:id',
     NewsController.getDetail
 )
 
-router.get('/filter-by-tag',
+router.get('/filter-by-tag/:tagId',
     [
-        check('tagId', 'Отсутствует ID тега').exists()
+        param('tagId', 'Отсутствует ID тега').exists()
     ],
     NewsController.filterByTag
 )
@@ -38,8 +38,8 @@ router.put('/:id',
         check('title', 'Отсутствует название новости').exists(),
         check('previewImg', 'Отсутствует изображение превью').exists(),
         check('previewText', 'Отсутствует текст превью').exists(),
-        check('content', 'Некорректный контент новости').isJSON(),
-        check('tags', 'Некорректный теги').isJSON()
+        check('content', 'Некорректный контент новости').isArray(),
+        check('tags', 'Некорректный теги').isArray()
     ],
     NewsController.update
 )

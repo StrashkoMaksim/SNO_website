@@ -1,107 +1,116 @@
 const News = require("../models/News")
 const Tag = require('../models/Tag')
+const {Types} = require("mongoose");
+const createError = require("http-errors");
 
-exports.get = async function () {
-    try {
-        const news = await News.find().sort({ _id: -1 }).limit(10).populate('tags')
+exports.get = async function (countStr, pageStr) {
+    const { count, page } = validatePagination(countStr, pageStr)
 
-        return news
-    } catch (e) {
-        throw Error('Что-то пошло не так, попробуйте снова')
-    }
+    const news = await News.find()
+        .sort({ _id: -1 })
+        .skip(count * (page - 1))
+        .limit(count)
+        .populate('tags')
+
+    return news
 }
 
-exports.filterByTag = async function (tagId) {
-    try {
-        const news = await News.find({ "tag._id": tagId }).sort({ _id: -1 }).limit(12).populate('tags')
+exports.filterByTag = async function (tagId, countStr, pageStr) {
+    const { count, page } = validatePagination(countStr, pageStr)
 
-        return news
-    } catch (e) {
-        throw Error('Что-то пошло не так, попробуйте снова')
+    if(!Types.ObjectId.isValid(tagId)) {
+        throw createError(400, 'Некорректный ID тега')
     }
+
+    const news = await News.find({ tags: {_id: tagId} })
+        .sort({ _id: -1 })
+        .skip(count * (page - 1))
+        .limit(10)
+        .populate('tags')
+
+    return news
 }
 
-exports.add = async function (previewImg, title, previewText, content, date, tags) {
-    try {
-        const tagsPromises = []
+exports.add = async function (previewImg, title, previewText, content, date, tagsArr) {
+    const tags = await getTags(tagsArr)
 
-        tags.forEach(tagId => {
-            const tagPromise = Tag.findById(tagId)
-            tagsPromises.push(tagPromise)
-        })
+    const news = new News({
+        previewImg,
+        title,
+        previewText,
+        content: JSON.stringify(content),
+        date,
+        tags
+    })
 
-        const resultTags = await Promise.all(tagsPromises)
+    const savedNews = await news.save()
 
-        const news = new News({
-            previewImg,
-            title,
-            previewText,
-            content: JSON.stringify(content),
-            date,
-            tags: resultTags
-        })
-
-        await news.save()
-
-        console.log(1)
-
-        const resultNews = await exports.get()
-
-        console.log(resultNews)
-
-        return resultNews
-    } catch (e) {
-        console.log(e.message)
-        throw Error('Что-то пошло не так, попробуйте снова')
+    if (savedNews.__v !== 0) {
+        return false
     }
+
+    return true
 }
 
-exports.update = async function (id, previewImg, title, previewText, content, date, tags) {
-    try {
-        const news = await News.findById(id)
-
-        if(!news) {
-            throw new Error('Новость не найдена')
-        }
-
-        const tagsIdArr = JSON.parse(tags)
-        const tagsPromises = []
-
-        tagsIdArr.forEach(tagId => {
-            const tagPromise = Tag.findById(tagId)
-            tagsPromises.push(tagPromise)
-        })
-
-        const resultTags = await Promise.all(tagsPromises)
-
-
-        await News.replaceOne({ _id: id }, {
-            previewImg,
-            title,
-            previewText,
-            content,
-            date,
-            tags: resultTags
-        })
-
-        await news.save()
-
-        const resultNews = await exports.get()
-
-        return resultNews
-    } catch (e) {
-        throw Error('Что-то пошло не так, попробуйте снова')
+exports.update = async function (id, previewImg, title, previewText, content, date, tagsArr) {
+    if (!Types.ObjectId.isValid(id)) {
+        throw createError(400, 'Некорректный ID новости')
     }
+
+    const news = await News.findById(id)
+
+    if(!news) {
+        throw createError(404, 'Новость не найдена')
+    }
+
+    const tags = await getTags(tagsArr)
+
+    const savedNews = await News.replaceOne({ _id: id }, {
+        previewImg,
+        title,
+        previewText,
+        content: JSON.stringify(content),
+        date,
+        tags
+    })
+
+    if (savedNews.modifiedCount !== 1) {
+        return false
+    }
+
+    return true
 }
 
 exports.delete = async function (id) {
-    try {
-        await News.findByIdAndDelete(id)
-
-        const resultNews = await exports.get()
-
-        return resultNews
-    } catch (e) {
-        throw Error('Что-то пошло не так, попробуйте снова')
+    if (!Types.ObjectId.isValid(id)) {
+        throw createError(400, 'Некорректный ID новости')
     }
+
+    await News.findByIdAndDelete(id)
+}
+
+const validatePagination = (countStr, pageStr) => {
+    const count = countStr ? Number(countStr) : 10
+    const page = pageStr ? Number(pageStr) : 1
+
+    if (!Number.isInteger(count) || !Number.isInteger(page)) {
+        throw createError(400, 'Некорректные параметры запроса')
+    }
+
+    return { count, page }
+}
+
+const getTags = async (tagsIdArr) => {
+    const tagsPromises = []
+
+    tagsIdArr.forEach(tagId => {
+        if (!Types.ObjectId.isValid(tagId)) {
+            throw createError(400, 'Некорректный ID тега')
+        }
+
+        const tagPromise = Tag.findById(tagId)
+        tagsPromises.push(tagPromise)
+    })
+
+    return await Promise.all(tagsPromises)
 }
