@@ -19,7 +19,7 @@ router.post('/',
 router.put('/:id',
     AuthMiddleware,
     [
-        param('id').exists(),
+        param('id', 'Отсутствует ID тега').exists(),
         check('name', 'Отсутствует название тега').exists(),
     ],
     TagController.update
@@ -28,7 +28,7 @@ router.put('/:id',
 router.delete('/:id',
     AuthMiddleware,
     [
-        param('id').exists()
+        param('id', 'Отсутствует ID тега').exists()
     ],
     TagController.delete
 )

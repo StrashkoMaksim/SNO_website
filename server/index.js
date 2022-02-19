@@ -1,16 +1,24 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
+const express = require('express')
+const mongoose = require('mongoose')
+const formData = require("express-form-data")
+require('dotenv').config()
 
 const app = express();
 
+app.use(express.static('static'))
+
 app.use(express.json())
+app.use(formData.parse({
+    uploadDir: '.\\server\\tmp',
+    autoClean: true
+}))
 
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/news', require('./routes/news.routes'))
 app.use('/api/tag', require('./routes/tag.routes'))
+app.use('/api/council', require('./routes/council.routes'))
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 
 async function start () {
     try {

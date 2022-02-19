@@ -1,12 +1,11 @@
 const {validationResult} = require("express-validator");
-const Tag = require('../models/Tag')
 const TagService = require('../services/tag.service')
 const {errorHandler} = require("../utils/errorHandler");
 
 exports.get = async function (req, res) {
     try {
-        const news = await TagService.get()
-        res.json(news)
+        const tags = await TagService.get()
+        res.json(tags)
     } catch (e) {
         errorHandler(e, res)
     }

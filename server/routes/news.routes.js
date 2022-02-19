@@ -34,7 +34,7 @@ router.post('/',
 router.put('/:id',
     AuthMiddleware,
     [
-        param('id').exists(),
+        param('id', 'Отсутствует ID новости').exists(),
         check('title', 'Отсутствует название новости').exists(),
         check('previewImg', 'Отсутствует изображение превью').exists(),
         check('previewText', 'Отсутствует текст превью').exists(),
@@ -47,7 +47,7 @@ router.put('/:id',
 router.delete('/:id',
     AuthMiddleware,
     [
-        param('id').exists()
+        param('id', 'Отсутствует ID новости').exists()
     ],
     NewsController.delete
 )
