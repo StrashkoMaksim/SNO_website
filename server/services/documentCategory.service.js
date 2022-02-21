@@ -1,8 +1,9 @@
 const DocumentCategory = require('../models/DocumentCategory')
 const createError = require("http-errors");
 const {Types} = require("mongoose");
-const uuid = require('uuid')
 const fs = require("fs");
+const {saveFile} = require("../utils/fileHelper");
+const validUrl = require("valid-url");
 
 exports.getCategories = async function () {
     const categories = await DocumentCategory.find().select('title')
@@ -55,10 +56,12 @@ exports.deleteCategory = async function (id) {
 
     const category = await DocumentCategory.findById(id)
 
-    category.documents.forEach(document => {
-        fs.unlink(`${process.env.staticPath}\\${document.link}`, (err) => {
-            if(err) console.log(err);
-        })
+    category.get('documents').forEach(document => {
+        if (document.type !== 'link') {
+            fs.unlink(`${process.env.staticPath}\\${document.link}`, (err) => {
+                if(err) console.log(err);
+            })
+        }
     })
 
     await DocumentCategory.findByIdAndDelete(id)
@@ -83,36 +86,25 @@ exports.addDocumentInCategory = async function (categoryId, name, link, file, ty
         throw createError(400, 'Некорректный ID категории')
     }
 
-    if (!file && !link) {
-        throw createError(400, 'Отсутствует ссылка или файл')
-    } else if (file) {
-        const fileNameArr = file.name.split('.')
-        type = fileNameArr[fileNameArr.length - 1].toLowerCase()
-
-        if (type !== 'pdf' && type !== 'docx' && type !== 'doc') {
-            throw createError(400, 'Недопустимый тип файла. Попробуйте PDF, DOCX, DOC.')
-        }
-
-        link = `${uuid.v4()}.${type}`
-
-        await fs.readFile(`${process.env.tempPath}\\${file.path.split('\\')[2]}`,
-            async (err, data) => {
-                if(err) throw err
-
-                await fs.writeFile(`${process.env.staticPath}\\${link}`, data, (err) => {
-                    if(err) throw err
-                })
-            }
-        )
-    }
-
     const category = await DocumentCategory.findById(categoryId).populate('documents')
 
     if (!category) {
         throw createError(404, 'Категория не найдена')
     }
 
-    category.documents.push({type, name, link})
+    if (!file && !link) {
+        throw createError(400, 'Отсутствует ссылка или файл')
+    } else if (file) {
+        const { resultType, resultLink } = saveFile(file)
+        type = resultType
+        link = resultLink
+    } else {
+        if (!validUrl.isUri(link)) {
+            throw createError(400, 'Некорректная ссылка')
+        }
+    }
+
+    category.get('document').push({type, name, link})
     await category.save()
 
     const categories = await exports.getDocumentsFromCategory(categoryId)
@@ -131,17 +123,19 @@ exports.deleteDocumentInCategory = async function (categoryId, documentNumber) {
         throw createError(404, 'Категория не найдена')
     }
 
-    const document = category.documents[documentNumber]
+    const document = category.get('documents')[documentNumber]
 
     if (!document) {
         throw createError(404, 'Документ не найден')
     }
 
-    fs.unlink(`${process.env.staticPath}\\${document.link}`, (err) => {
-        if(err) console.log(err);
-    })
+    if (document.type !== 'link') {
+        fs.unlink(`${process.env.staticPath}\\${document.link}`, (err) => {
+            if(err) console.log(err);
+        })
+    }
 
-    category.documents.splice(documentNumber, 1)
+    category.get('documents').splice(documentNumber, 1)
 
     await category.save()
 
