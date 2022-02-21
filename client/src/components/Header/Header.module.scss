@@ -1,0 +1,160 @@
+@import "../../assets/styles/variables.scss";
+
+.Header {
+    padding: 30px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: relative;
+    
+    &__Top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &__Call {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+    }
+
+    &__Navigation {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-row-gap: 25px;
+        grid-column-gap: 20px;
+        transition: 300ms;
+    }
+
+    &__Link {
+        display: flex;
+        justify-content: center;
+        border: 1px solid $salad-green;
+        padding: 13px 0px;
+        color: $salad-green;
+        font-size: 18px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: 200ms;
+
+        &:hover {
+            background-color: $salad-green;
+            color: white;
+        }
+    }
+}
+
+.PhoneNumber {
+    font-size: 24px;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: black;
+
+    img {
+        display: none;
+    }
+}
+
+.Burger {
+    height: 35px;
+    width: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    transition: 200ms;
+
+    div {
+        background-color: rgb(160, 160, 160);
+        width: 100%;
+        height: 3px;
+        border-radius: 3px;
+        transition: 200ms;
+    }
+}
+
+.burger-open {
+    transition: 300ms;
+    background-color: rgba(255, 255, 255, 0.9);
+    div:first-child {
+        transform: rotate(45deg) translateY(17px);
+    }
+    div:nth-child(2n) {
+        opacity: 0;
+    }
+    div:last-child {
+        transform: rotate(-45deg) translateY(-17px);
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .Burger {
+        display: flex;
+    }
+
+    .Header__Navigation {
+        opacity: 0;
+        transform: translateX(100%);
+        margin-top: 84px;
+        margin-right: -15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.2);
+        grid-template-columns: minmax(300px, 30vw);
+        height: 70vh;
+        align-self: flex-end;
+        grid-row-gap: 0px;
+        position: absolute;
+        .Header__Link {
+            border: none;
+            justify-content: right;
+            align-items: center;
+            padding-right: 20px;
+        }
+    }
+}
+
+.menu-open {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+@media screen and (max-width: 900px) {
+    .PhoneNumber {
+        img {
+            display: block;
+        }
+        span {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .Header__Top__Call {
+        button:first-child {
+            display: none;
+        }
+    }
+
+    .Header__Navigation {
+        margin-top: 76px;
+    }
+}
+
+@media (max-width: 420px) {
+    .PhoneNumber {
+        display: none;
+    }
+
+    .Header__Top > img {
+        width: 230px;
+    }
+
+    .Header__Navigation {
+        margin-top: 70px;
+    }
+}

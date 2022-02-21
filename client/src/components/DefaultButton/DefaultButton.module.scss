@@ -1,0 +1,18 @@
+@import "../../assets/styles/variables.scss";
+
+.DefaultButton {
+    background-color: $dark-green;
+    border: 1px solid $dark-green;
+    color: white;
+    cursor: pointer;
+    border-radius: 30px;
+    padding: 15px 60px;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    transition: 200ms;
+
+    &:hover{
+        background-color: $salad-green;
+        border: 1px solid $salad-green;
+    };
+}
