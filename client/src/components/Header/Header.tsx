@@ -19,7 +19,7 @@ const Header = () => {
                 <div className={styles.Header__Top}>
                     <img src={headerLogo} alt="Логотип СНО ДВГУПС" id="headerLogo" />
                     <div className={styles.Header__Top__Call}>
-                        <DefaultButton text='Заказать звонок' id="RequestACallBtn"></DefaultButton>
+                        <DefaultButton text='Заказать звонок'></DefaultButton>
                         <a href="tel: +7 (999) 999-99-99" className={cn(styles.PhoneNumber, styles.ExtraLight)}>
                         <span>
                             +7 (999) 999-99-99

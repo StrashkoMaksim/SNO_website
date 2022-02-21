@@ -1,5 +1,6 @@
 import React from 'react';
 import MainLayout from './components/MainLayout/MainLayout';
+import NewsBlock from './components/News/NewsBlock';
 import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
 
 const Routes = () => {
@@ -8,6 +9,7 @@ const Routes = () => {
       path: '/',
       element:
         <MainLayout>
+          <NewsBlock />
         </MainLayout>
     }
   ]);

@@ -1,7 +1,7 @@
-const {validationResult} = require("express-validator");
+const { validationResult } = require("express-validator");
 const News = require('../models/News')
 const NewsService = require('../services/news.service')
-const {errorHandler} = require("../utils/errorHandler");
+const { errorHandler } = require("../utils/errorHandler");
 
 exports.get = async function (req, res) {
     try {
