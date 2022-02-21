@@ -19,6 +19,7 @@ app.use('/api/tag', require('./routes/tag.routes'))
 app.use('/api/council', require('./routes/council.routes'))
 app.use('/api/supervisor', require('./routes/supervisor.routes'))
 app.use('/api/event', require('./routes/event.routes'))
+app.use('/api/document-category', require('./routes/documentCategory.routes'))
 
 const PORT = process.env.PORT || 5000
 
