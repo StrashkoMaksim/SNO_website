@@ -1,9 +1,8 @@
 const Council = require('../models/Council')
 const createError = require("http-errors");
 const {Types} = require("mongoose");
-const sharp = require("sharp");
-const uuid = require('uuid')
 const fs = require("fs");
+const {saveImg} = require("../utils/fileHelper");
 
 exports.get = async function () {
     const council = await Council.find()
@@ -12,7 +11,7 @@ exports.get = async function () {
 }
 
 exports.add = async function (fio, department, position, phone, photo) {
-    const photoName = await saveImg(photo)
+    const photoName = await saveImg(photo, 263, 173)
 
     const councilMember = new Council({ fio, department, position, phone, photo: photoName })
 
@@ -40,7 +39,7 @@ exports.update = async function (id, fio, department, position, phone, photo) {
 
     fs.unlinkSync(`${process.env.staticPath}\\${councilMember.get('photo')}`)
 
-    const photoName = await saveImg(photo)
+    const photoName = await saveImg(photo, 263, 173)
 
     const savedCouncilMember = await Council.replaceOne({ _id: id }, {
         fio,
@@ -73,22 +72,4 @@ exports.delete = async function (id) {
     const council = await exports.get()
 
     return council
-}
-
-const saveImg = async (photo) => {
-    if (!photo) {
-        throw createError(400, 'Отсутствует фотография')
-    }
-
-    if (photo.name.substring(photo.name.length - 4) !== '.jpg') {
-        throw createError(400, 'Некорректный формат картинки')
-    }
-
-    const photoName = `${uuid.v4()}.jpg`
-
-    await sharp(`${process.env.tempPath}\\${photo.path.split('\\')[2]}`)
-        .resize(263, 173)
-        .toFile(`${process.env.staticPath}\\${photoName}`)
-
-    return photoName
 }

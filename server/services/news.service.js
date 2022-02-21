@@ -11,6 +11,8 @@ exports.get = async function (countStr, pageStr) {
         .skip(count * (page - 1))
         .limit(count)
         .populate('tags')
+        .select('title previewImg previewText date tags')
+
 
     return news
 }
@@ -27,6 +29,7 @@ exports.filterByTag = async function (tagId, countStr, pageStr) {
         .skip(count * (page - 1))
         .limit(10)
         .populate('tags')
+        .select('title previewImg previewText date tags')
 
     return news
 }

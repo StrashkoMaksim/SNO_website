@@ -17,6 +17,8 @@ app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/news', require('./routes/news.routes'))
 app.use('/api/tag', require('./routes/tag.routes'))
 app.use('/api/council', require('./routes/council.routes'))
+app.use('/api/supervisor', require('./routes/supervisor.routes'))
+app.use('/api/event', require('./routes/event.routes'))
 
 const PORT = process.env.PORT || 5000
 

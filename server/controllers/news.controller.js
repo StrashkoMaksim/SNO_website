@@ -17,7 +17,7 @@ exports.get = async function (req, res) {
 
 exports.getDetail = async function (req, res) {
     try {
-        const news = await News.findById(req.params.id).populate('tags')
+        const news = await News.findById(req.params.id).populate('tags').select('title content date tags')
         res.json(news)
     } catch (e) {
         errorHandler(e, res)
