@@ -1,11 +1,16 @@
 @import "../../assets/styles/variables.scss";
 
 .Header {
+    box-shadow: rgba(0, 0, 0, .1) 0px 0px 20px;
     padding: 30px 0px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
     position: relative;
+
+    &__Container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        position: relative;
+    }
     
     &__Top {
         display: flex;
@@ -24,7 +29,7 @@
         grid-template-columns: repeat(4, 1fr);
         grid-row-gap: 25px;
         grid-column-gap: 20px;
-        transition: 300ms;
+        transition: .3s;
     }
 
     &__Link {
@@ -36,7 +41,7 @@
         font-size: 18px;
         font-weight: 500;
         text-decoration: none;
-        transition: 200ms;
+        transition: .2s;
 
         &:hover {
             background-color: $salad-green;
@@ -66,28 +71,29 @@
     display: none;
     flex-direction: column;
     justify-content: space-around;
-    transition: 200ms;
+    transition: .2s;
 
     div {
         background-color: rgb(160, 160, 160);
         width: 100%;
         height: 3px;
         border-radius: 3px;
-        transition: 200ms;
+        transition: .2s;
     }
 }
 
-.burger-open {
-    transition: 300ms;
-    background-color: rgba(255, 255, 255, 0.9);
-    div:first-child {
-        transform: rotate(45deg) translateY(17px);
+.burgerOpen {
+    transition: .3s;
+    background-color: #fff;
+    div:nth-child(1) {
+        transform: translateY(12px) rotate(-45deg);
     }
-    div:nth-child(2n) {
+    div:nth-child(2) {
+        transform: translateX(-100%);
         opacity: 0;
     }
-    div:last-child {
-        transform: rotate(-45deg) translateY(-17px);
+    div:nth-child(3) {
+        transform: translateY(-12px) rotate(45deg);
     }
 }
 
@@ -99,7 +105,6 @@
     .Header__Navigation {
         opacity: 0;
         transform: translateX(100%);
-        margin-top: 84px;
         margin-right: -15px;
         background-color: rgba(255, 255, 255, 0.9);
         box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.2);
@@ -108,6 +113,8 @@
         align-self: flex-end;
         grid-row-gap: 0px;
         position: absolute;
+        top: calc(100% + 30px);
+
         .Header__Link {
             border: none;
             justify-content: right;
@@ -117,7 +124,7 @@
     }
 }
 
-.menu-open {
+.menuOpen {
     opacity: 1;
     transform: translateX(0%);
 }
@@ -139,10 +146,6 @@
             display: none;
         }
     }
-
-    .Header__Navigation {
-        margin-top: 76px;
-    }
 }
 
 @media (max-width: 420px) {
@@ -152,9 +155,5 @@
 
     .Header__Top > img {
         width: 230px;
-    }
-
-    .Header__Navigation {
-        margin-top: 70px;
     }
 }

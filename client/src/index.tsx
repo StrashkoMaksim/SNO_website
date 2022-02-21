@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './assets/styles/reload.scss'
+import './assets/styles/global.scss'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -10,6 +10,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-
-// reportWebVitals();

@@ -7,12 +7,9 @@ export interface Props {
 
 const MainLayout = ({ children }: Props) => {
     return (
-        <div className={styles.MainLayoutWrapper}>
-            <div className={styles.Container + " " + styles.BoxShadow} >
-                <Header />
-            </div>
-
-            <div className={styles.Container} style={{ 'backgroundColor': '#EFF3EB' }}>
+        <div className={styles.MainLayout}>
+            <Header />
+            <div className={styles.MainLayout__Content}>
                 {children}
             </div>
             {/* Форма */}
