@@ -1,0 +1,53 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.newsArticle {
+    max-width: 565px;
+    background-color: white;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+
+    &__Text {
+        padding: 30px;
+
+    }
+}
+
+.shortInfo {
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+.readMoreLink {
+    color: $salad-green;
+    cursor: pointer;
+    transition: .3s;
+
+    &:hover{
+        color: $dark-green;
+    }
+}
+
+.tagsWrapper{
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.tag{
+    color: $salad-green;
+    border: 1px solid $salad-green;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 14px;
+    min-width: 70px;
+    text-align: center;
+    transition: .2s;
+
+    &:hover{
+        background-color: $salad-green;
+        color: white;
+        cursor: pointer;
+    }
+}
+

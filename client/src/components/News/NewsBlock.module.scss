@@ -1,0 +1,20 @@
+.newsBlock {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 40px;
+    grid-row-gap: 40px;
+    place-items: center;
+}
+
+.buttonWrapper{
+display: flex;
+justify-content: center;
+padding-top: 40px;
+}
+
+@media screen and (max-width: 800px) {
+    .newsBlock {
+        grid-template-columns: 1fr;
+    }
+}
