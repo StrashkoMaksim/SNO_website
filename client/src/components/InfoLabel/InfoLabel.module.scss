@@ -1,0 +1,14 @@
+@import "../../assets/styles/variables.scss";
+@import "../../assets/styles/global.scss";
+
+.InfoLabel {
+    background-color: $salad-green;
+    font-size: 16px;
+    font-weight: 300;
+    border-radius: 0px 0px 20px 0px;
+    padding: 5px 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+}
