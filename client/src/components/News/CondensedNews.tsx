@@ -25,8 +25,10 @@ const CondensedNews: FC<CondensedNewsProps> = ({ imgSrc, title, shortInfo, tags,
 
     return (
         <article className={styles.newsArticle}>
+            <div className={styles.imgContainer}>
+                <img className={styles.previewImg} src={imgSrc} alt="News picture" />
+            </div>
             <InfoLabel text={convertDate(date)} />
-            <img className={styles.previewImg} src={imgSrc} alt="News picture" />
             <div className={styles.newsArticle__Text}>
                 <h2>{title}</h2>
                 <p className={cn(styles.shortInfo, "Light")}>

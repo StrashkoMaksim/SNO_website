@@ -13,6 +13,11 @@ html {
   overflow-x: hidden;
 }
 
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
 .section {
   display: flex;
   justify-content: center;
@@ -40,18 +45,30 @@ h2 {
 
 /* Модификаторы */
 
+.Black {
+  font-weight: 900;
+}
+
 .Bold {
   font-weight: 700;
 }
 
-.Regular{
+.Medium {
   font-weight: 500;
 }
 
-.Light{
+.Regular {
+  font-weight: 400;
+}
+
+.Light {
   font-weight: 300;
 }
 
 .ExtraLight {
   font-weight: 200;
+}
+
+.Thin {
+  font-weight: 100;
 }
