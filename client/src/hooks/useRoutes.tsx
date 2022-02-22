@@ -1,10 +1,11 @@
-import React, {useEffect} from "react";
-import {Routes, Route} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import MainLayout from "../components/MainLayout/MainLayout";
-import {useTypedSelector} from "./useTypedSelector";
-import {useActions} from "./useActions";
+import { useTypedSelector } from "./useTypedSelector";
+import { useActions } from "./useActions";
 import NewsPage from "../pages/NewsPage/NewsPage";
 import SupervisorsPage from "../pages/SupervisorsPage/SupervisorsPage";
+import MainPage from "../pages/MainPage/MainPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -22,7 +23,7 @@ export const useRoutes = () => {
             }
             <Route path="/news" element={<NewsPage />} />
             <Route path="/supervisors" element={<SupervisorsPage />} />
-            <Route path="*" element={<MainLayout />} />
+            <Route path="*" element={<MainPage />} />
         </Routes>
     )
 }
