@@ -2,14 +2,31 @@
 @import "../../assets/styles/variables.scss";
 
 .newsArticle {
-    max-width: 565px;
     background-color: white;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
     position: relative;
+    transition: 0.4s;
     &__Text {
         padding: 30px;
-
     }
+
+    &:hover {
+        box-shadow: 0px 0px 30px rgba(106, 171, 82, 0.8);
+        border-radius: 0px 0px 40px 40px;
+
+        .previewImg {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.imgContainer {
+    overflow: hidden;
+    height: 300px;
+}
+
+.previewImg {
+    transition: 0.4s;
 }
 
 .shortInfo {
@@ -20,21 +37,21 @@
 .readMoreLink {
     color: $salad-green;
     cursor: pointer;
-    transition: .3s;
+    transition: 0.3s;
 
-    &:hover{
+    &:hover {
         color: $dark-green;
     }
 }
 
-.tagsWrapper{
+.tagsWrapper {
     margin-top: 20px;
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
 }
 
-.tag{
+.tag {
     color: $salad-green;
     border: 1px solid $salad-green;
     border-radius: 20px;
@@ -42,12 +59,23 @@
     font-size: 14px;
     min-width: 70px;
     text-align: center;
-    transition: .2s;
+    transition: 0.2s;
 
-    &:hover{
+    &:hover {
         background-color: $salad-green;
         color: white;
         cursor: pointer;
     }
 }
 
+@media screen and (max-width: 1200px) {
+    .imgContainer {
+        height: calc((100vw - 30px - 40px) * 0.53 / 2);
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .imgContainer {
+        height: calc((100vw - 30px) * 0.53);
+    }
+}

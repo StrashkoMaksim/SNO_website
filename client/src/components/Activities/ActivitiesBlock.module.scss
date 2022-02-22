@@ -5,17 +5,63 @@
     grid-column-gap: 40px;
     grid-row-gap: 40px;
     place-items: center;
+    overflow: hidden;
+    max-height: calc(264px * 2 + 50px);
+    transition: all 0.4s linear;
+}
+
+.expandedBlock {
+    transition: all linear 0.4s 0.5s;
+    max-height: fit-content !important;
+}
+
+.expandActivitiesBtn {
+    margin-top: 40px;
+    cursor: pointer;
+    border-bottom: 1px solid #b0b0b0;
+    transition: all 0.2s ease-in-out;
+    padding-bottom: 10px;
+
+    .expandText {
+        display: flex;
+        justify-content: center;
+
+        color: #b0b0b0;
+        text-transform: uppercase;
+        font-size: 18px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .arrowImg {
+        transition: all 0.2s ease-in-out;
+        margin-left: 10px;
+    }
+
+    &:hover {
+        padding-bottom: 20px;
+        .arrowImg {
+            margin-left: 20px;
+        }
+    }
+}
+
+.hideActivities {
+    img {
+        transform: rotate(180deg);
+    }
 }
 
 @media screen and (max-width: 1200px) {
     .activitiesBlock {
         grid-template-columns: repeat(3, 1fr);
+        max-height: calc(264px * 3 + 50px * 2);
     }
 }
 
 @media screen and (max-width: 800px) {
     .activitiesBlock {
         grid-template-columns: repeat(2, 1fr);
+        max-height: calc(264px * 4 + 50px * 3);
     }
 }
 
