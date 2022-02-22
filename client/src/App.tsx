@@ -1,24 +1,13 @@
 import React from 'react';
-import MainLayout from './components/MainLayout/MainLayout';
-import { BrowserRouter as Router, useRoutes } from 'react-router-dom';
-
-const Routes = () => {
-  let routes = useRoutes([
-    {
-      path: '/',
-      element:
-        <MainLayout>
-        </MainLayout>
-    }
-  ]);
-
-  return routes;
-}
+import { BrowserRouter as Router } from 'react-router-dom';
+import {useRoutes} from "./hooks/useRoutes";
 
 const App = () => {
+  const Routes = useRoutes()
+
   return (
     <Router>
-      <Routes />
+      {Routes}
     </Router>
   )
 

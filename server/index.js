@@ -1,12 +1,17 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const formData = require("express-form-data")
+const cors = require("cors");
 require('dotenv').config()
 
 const app = express();
 
-app.use(express.static('static'))
+app.use(cors({
+    origin: '*',
+    optionsSuccessStatus: 200
+}))
 
+app.use(express.static('static'))
 app.use(express.json())
 app.use(formData.parse({
     uploadDir: '.\\server\\tmp',

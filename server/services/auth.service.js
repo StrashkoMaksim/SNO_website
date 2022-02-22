@@ -17,3 +17,13 @@ exports.login = async function (login, password) {
 
     return token
 }
+
+exports.checkAuth = async function (login) {
+    const token = jwt.sign(
+        { login },
+        process.env.jwtSecret,
+        { expiresIn: '1h' }
+    )
+
+    return token
+}

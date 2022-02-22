@@ -22,3 +22,14 @@ exports.login = async function (req, res) {
         errorHandler(e, res)
     }
 }
+
+exports.checkAuth = async function (req, res) {
+    try {
+        const user = req.user
+        const token = await UserService.checkAuth(user.login)
+
+        res.json({ token })
+    } catch (e) {
+        errorHandler(e, res)
+    }
+}
