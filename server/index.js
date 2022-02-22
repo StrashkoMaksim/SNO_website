@@ -1,8 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const formData = require("express-form-data")
-const cors = require("cors");
 require('dotenv').config()
+const cors = require('cors')
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.use('/api/grants-document', require('./routes/grantsDocument.routes'))
 
 const PORT = process.env.PORT || 5000
 
-async function start () {
+async function start() {
     try {
         await mongoose.connect(process.env.DB, {
             useNewUrlParser: true

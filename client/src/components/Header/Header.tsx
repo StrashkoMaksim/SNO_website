@@ -19,22 +19,22 @@ const Header = () => {
                 <div className={styles.Header__Top}>
                     <img src={headerLogo} alt="Логотип СНО ДВГУПС" id="headerLogo" />
                     <div className={styles.Header__Top__Call}>
-                        <DefaultButton text='Заказать звонок' id="RequestACallBtn"></DefaultButton>
+                        <DefaultButton text='Заказать звонок'></DefaultButton>
                         <a href="tel: +7 (999) 999-99-99" className={cn(styles.PhoneNumber, styles.ExtraLight)}>
-                        <span>
-                            +7 (999) 999-99-99
-                        </span>
+                            <span>
+                                +7 (999) 999-99-99
+                            </span>
                             <img src={PhoneIcon} alt="Phone Icon" />
                         </a>
-                        <button className={cn(styles.Burger, {[styles.burgerOpen]: menuOpened})}
-                                onClick={burgerClickHandler}>
+                        <button className={cn(styles.Burger, { [styles.burgerOpen]: menuOpened })}
+                            onClick={burgerClickHandler}>
                             <div />
                             <div />
                             <div />
                         </button>
                     </div>
                 </div>
-                <nav className={cn(styles.Header__Navigation, {[styles.menuOpen]: menuOpened})}>
+                <nav className={cn(styles.Header__Navigation, { [styles.menuOpen]: menuOpened })}>
                     <Link className={styles.Header__Link} to={'/'}>О СНО</Link>
                     <Link className={styles.Header__Link} to={'/'}>Руководители</Link>
                     <Link className={styles.Header__Link} to={'/'}>Совет СНО</Link>
