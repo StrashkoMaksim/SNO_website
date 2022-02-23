@@ -38,3 +38,10 @@ export const checkAuthUser = () => {
         }
     }
 }
+
+export const logoutUser = () => {
+    return (dispatch: Dispatch<UserAction>) => {
+        dispatch({ type: UserActionTypes.LOGOUT_USER })
+        localStorage.removeItem('token')
+    }
+}
