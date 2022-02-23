@@ -6,6 +6,7 @@ import { useActions } from "./useActions";
 import NewsPage from "../pages/NewsPage/NewsPage";
 import SupervisorsPage from "../pages/SupervisorsPage/SupervisorsPage";
 import MainPage from "../pages/MainPage/MainPage";
+import About from "../pages/About/About";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -23,6 +24,7 @@ export const useRoutes = () => {
             }
             <Route path="/news" element={<NewsPage />} />
             <Route path="/supervisors" element={<SupervisorsPage />} />
+            <Route path="/about" element={<About />} />
             <Route path="*" element={<MainPage />} />
         </Routes>
     )
