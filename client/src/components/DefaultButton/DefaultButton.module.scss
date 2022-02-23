@@ -9,10 +9,20 @@
     padding: 15px 60px;
     font-family: "Roboto", sans-serif;
     font-size: 18px;
-    transition: .4s;
+    transition: 0.4s;
 
-    &:hover{
+    &:hover {
         background-color: $salad-green;
         border: 1px solid $salad-green;
-    };
+    }
+}
+
+.OutlinedButton {
+    border: 1px solid white;
+    background-color: transparent;
+
+    &:hover {
+        background-color: white;
+        color: #3a7440;
+    }
 }

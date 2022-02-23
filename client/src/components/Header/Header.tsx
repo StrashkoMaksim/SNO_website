@@ -1,25 +1,34 @@
-import React from "react";
+import React, { FC, useEffect } from "react";
 import headerLogo from "../../assets/img/headerLogo.svg"
-import DefaultButton from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles } from "../DefaultButton/DefaultButton";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss"
 import PhoneIcon from "../../assets/img/Phone.svg"
 import cn from "classnames";
+import CallForm from "../../components/CallForm/CallForm"
+import ModalCallForm from "../CallForm/ModalCallForm";
+
 
 const Header = () => {
     const [menuOpened, setMenuOpened] = React.useState<boolean>(false)
+
+    const [modalOpened, setModalOpened] = React.useState<boolean>(false);
+    const openModalForm = () => setModalOpened(true)
+    const closeModalForm = () => setModalOpened(false)
 
     const burgerClickHandler = (e: React.MouseEvent<HTMLElement>) => {
         setMenuOpened(!menuOpened)
     }
 
     return (
+
         <header className={cn('section', styles.Header)}>
             <div className={cn('container', styles.Header__Container)}>
+                <ModalCallForm modalOpened={modalOpened} closeModal={closeModalForm} />
                 <div className={styles.Header__Top}>
                     <img src={headerLogo} alt="Логотип СНО ДВГУПС" id="headerLogo" />
                     <div className={styles.Header__Top__Call}>
-                        <DefaultButton text='Заказать звонок'></DefaultButton>
+                        <DefaultButton text='Заказать звонок' style={ButtonStyles.filled} onClick={openModalForm}></DefaultButton>
                         <a href="tel: +7 (999) 999-99-99" className={cn(styles.PhoneNumber, styles.ExtraLight)}>
                             <span>
                                 +7 (999) 999-99-99

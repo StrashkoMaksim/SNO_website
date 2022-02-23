@@ -1,23 +1,17 @@
-
 import image1 from "../../assets/img/mockslider/1.png"
 import image2 from "../../assets/img/mockslider/2.png"
 import image3 from "../../assets/img/mockslider/3.png"
-import image4 from "../../assets/img/mockslider/4.png"
+import image4 from "../../assets/img/mockslider/4.jpg"
 import image5 from "../../assets/img/mockslider/5.png"
 import cn from 'classnames';
 import styles from './CustomSlider.module.scss'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Scrollbar, Navigation, Pagination } from 'swiper';
 
-import 'swiper/scss'
-import 'swiper/scss/navigation'
-import 'swiper/scss/scrollbar'
-import 'swiper/scss/pagination'
-
-SwiperCore.use([Scrollbar, Navigation, Pagination])
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./CustomSliderRestyle.scss"
 
 const CustomSlider = () => {
-    console.log(document.querySelector(`.${styles.bullets}`))
     // Тут надо фетчить с бэка наверное
     const partners = [
         {
@@ -34,11 +28,11 @@ const CustomSlider = () => {
         },
         {
             name: '4',
-            imgSrc: image4
+            imgSrc: image5
         },
         {
             name: '5',
-            imgSrc: image5
+            imgSrc: image4
         },
         {
             name: '6',
@@ -58,20 +52,25 @@ const CustomSlider = () => {
         }
     ]
 
+    const sliderOptions = {
+        arrows: false,
+        dots: true,
+        slidesToScroll: 1,
+        variableWidth: true,
+        threshold: 50
+    }
+
     return (
         <section className={cn('section', styles.sliderBlock)}>
             <div className={cn('container')}>
-                <Swiper
-                    spaceBetween={50}
-                    slidesPerView={4}
-                    pagination={{ clickable: true, dynamicBullets: true }} //el: `.${styles.bullets}` - блок куда должны встать точки не находится из за ебучего css-модуля
-                >
+                <h1>Партнеры</h1>
+                <Slider {...sliderOptions} className={styles.slider}>
                     {partners.map(partner =>
-                        <SwiperSlide key={partner.name}><div className={styles.imgContainer}><img src={partner.imgSrc} /></div></SwiperSlide>
+                        <a href="#" target="_blank" className={styles.slide}>
+                            <img src={partner.imgSrc} alt="" />
+                        </a>
                     )}
-                    <div className={styles.bullets}></div>
-
-                </Swiper>
+                </Slider>
             </div>
         </section >
     )

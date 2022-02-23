@@ -6,8 +6,9 @@
     grid-row-gap: 40px;
     place-items: center;
     overflow: hidden;
-    max-height: calc(264px * 2 + 50px);
+    max-height: calc(264px * 2 + 50px + 50px);
     transition: all 0.4s linear;
+    padding: 25px 0px 60px 0px;
 }
 
 .expandedBlock {
@@ -21,7 +22,7 @@
     border-bottom: 1px solid #b0b0b0;
     transition: all 0.2s ease-in-out;
     padding-bottom: 10px;
-
+    margin-bottom: 60px;
     .expandText {
         display: flex;
         justify-content: center;
@@ -54,14 +55,14 @@
 @media screen and (max-width: 1200px) {
     .activitiesBlock {
         grid-template-columns: repeat(3, 1fr);
-        max-height: calc(264px * 3 + 50px * 2);
+        max-height: calc(264px * 3 + 50px * 2 + 50px);
     }
 }
 
 @media screen and (max-width: 800px) {
     .activitiesBlock {
         grid-template-columns: repeat(2, 1fr);
-        max-height: calc(264px * 4 + 50px * 3);
+        max-height: calc(264px * 4 + 50px * 3 + 50px);
     }
 }
 

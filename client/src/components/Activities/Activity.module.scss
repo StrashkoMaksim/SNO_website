@@ -8,7 +8,7 @@
     align-items: center;
     padding: 20px;
     border-radius: 20px;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: 0.4s;
     position: relative;
@@ -48,7 +48,7 @@
     &:hover {
         color: $salad-green;
         border-radius: 40px;
-        box-shadow: 0px 0px 30px rgba(106, 171, 82, 0.8);
+        box-shadow: 0px 0px 20px rgba(106, 171, 82, 0.8);
 
         .shortInfo {
             transform: translateY(-5px);
