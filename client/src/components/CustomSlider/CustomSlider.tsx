@@ -1,7 +1,7 @@
 import image1 from "../../assets/img/mockslider/1.png"
 import image2 from "../../assets/img/mockslider/2.png"
 import image3 from "../../assets/img/mockslider/3.png"
-import image4 from "../../assets/img/mockslider/4.png"
+import image4 from "../../assets/img/mockslider/4.jpg"
 import image5 from "../../assets/img/mockslider/5.png"
 import cn from 'classnames';
 
@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from './CustomSlider.module.scss'
+import "./CustomSliderRestyle.scss"
 
 const CustomSlider = () => {
     // Тут надо фетчить с бэка наверное
@@ -62,10 +63,11 @@ const CustomSlider = () => {
     return (
         <section className={cn('section', styles.sliderBlock)}>
             <div className={cn('container')}>
+                <h1>Партнеры</h1>
                 <Slider {...sliderOptions} className={styles.slider}>
                     {partners.map(partner =>
                         <a href="#" target="_blank" className={styles.slide}>
-                            <img src={partner.imgSrc} alt=""/>
+                            <img src={partner.imgSrc} alt="" />
                         </a>
                     )}
                 </Slider>

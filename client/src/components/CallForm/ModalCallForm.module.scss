@@ -1,0 +1,41 @@
+.ModalForm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    background-color: rgba(99, 99, 99, 0.2);
+    align-items: center;
+    display: none !important;
+    z-index: 200;
+
+    h1 {
+        display: none;
+    }
+
+    .modalInnerContainer {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+
+        .aroundForm {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        // Это собственно контейнер с оригинальной формой
+        section {
+            background-color: transparent;
+            align-self: center;
+        }
+    }
+
+    &-active {
+        display: flex !important;
+    }
+}

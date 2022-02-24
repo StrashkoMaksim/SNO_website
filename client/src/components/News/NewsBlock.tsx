@@ -38,7 +38,7 @@ const NewsBlock = () => {
                     ></CondensedNews>)}
                 </div>
                 <div className={styles.buttonWrapper}>
-                    <DefaultButton text="Все новости"></DefaultButton>
+                    <DefaultButton text="Все новости" onClick={function () { }}></DefaultButton>
                 </div>
             </div>
         </section >

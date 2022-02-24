@@ -1,0 +1,109 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.About {
+    background-color: white;
+    border-radius: 100px;
+    margin-top: 60px;
+    &__Block {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 70px 100px 120px 70px;
+        position: relative;
+    }
+
+    &__MainInfo {
+        &__Title {
+            text-transform: uppercase;
+            p:first-child {
+                font-size: 65px;
+                line-height: 65px;
+                margin-bottom: 20px;
+            }
+            p:last-child {
+                font-size: 48px;
+                line-height: 48px;
+            }
+        }
+
+        &__Achievements {
+            display: flex;
+            flex-direction: column;
+            row-gap: 25px;
+            margin-top: 25px;
+
+            &__Single {
+                display: flex;
+                align-items: center;
+                column-gap: 10px;
+
+                .BigNumber {
+                    font-size: 50px;
+                }
+
+                .AchievementInfo {
+                    font-size: 36px;
+                }
+            }
+        }
+    }
+
+    &__BossBlock {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__Img {
+            user-select: none;
+        }
+        &__FIO {
+            margin-top: 10px;
+            p:first-child {
+                text-transform: uppercase;
+                font-size: 43px;
+                line-height: 43px;
+            }
+            p:last-child {
+                font-size: 21px;
+                line-height: 21px;
+            }
+        }
+
+        &__Position {
+            font-size: 18px;
+            margin-top: 5px;
+        }
+    }
+
+    .Wave {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .Stories {
+        background-color: $salad-green;
+        padding: 0px 100px 100px 100px;
+        color: white;
+        align-items: baseline;
+
+        .Regular {
+            font-size: 18px;
+            max-width: 45ch;
+            text-indent: 40px;
+        }
+
+        .Story-Left {
+            p:first-child {
+                margin-bottom: 60px;
+            }
+        }
+
+        .Story-Right {
+            p:nth-child(2) {
+                margin: 60px 0px;
+            }
+        }
+    }
+}

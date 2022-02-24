@@ -10,7 +10,7 @@ const MainPage = () => {
             <NewsBlock />
             <ActivitiesBlock />
             <Slider />
-        </MainLayout>
+        </MainLayout >
     )
 }
 

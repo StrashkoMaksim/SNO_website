@@ -5,6 +5,7 @@ import { useActions } from "./useActions";
 import NewsPage from "../pages/NewsPage/NewsPage";
 import SupervisorsPage from "../pages/SupervisorsPage/SupervisorsPage";
 import MainPage from "../pages/MainPage/MainPage";
+import AboutPage from "../pages/AboutPage/AboutPage";
 import AdminNewsPage from "../pages/AdminNewsPage/AdminNewsPage";
 import AdminNewsAddPage from "../pages/AdminNewsPage/AdminNewsAddPage/AdminNewsAddPage";
 
@@ -34,6 +35,7 @@ export const useRoutes = () => {
             }
             <Route path="/news" element={<NewsPage />} />
             <Route path="/supervisors" element={<SupervisorsPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<MainPage />} />
         </Routes>
     )
