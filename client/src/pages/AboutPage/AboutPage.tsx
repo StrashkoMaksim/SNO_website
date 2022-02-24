@@ -1,11 +1,12 @@
 import MainLayout from "../../components/MainLayout/MainLayout";
-import styles from "./About.module.scss"
+import styles from "./AboutPage.module.scss"
 import cn from "classnames";
 import Tkachenko from "../../assets/img/Tkachenko.svg"
 import wave from "../../assets/img/(About)Wave.svg"
-import DefaultButton, { ButtonStyles } from "../../components/DefaultButton/DefaultButton";
+import DefaultButton from "../../components/DefaultButton/DefaultButton";
+import OutlinedButton from "../../components/OutlinedButton/OutlinedButton";
 
-const About = () => {
+const AboutPage = () => {
     return (
         <MainLayout>
             <section className={cn('section')}>
@@ -66,8 +67,7 @@ const About = () => {
 
                                 <p className={styles.Regular}>Некоторых студентов это задевает за живое, им уже хочется большего, хочется выйти на новый уровень 
                                 и начать заниматься еще больше.</p>
-
-                                <DefaultButton text="Узнать о кружках больше" style={ButtonStyles.outlined}></DefaultButton>
+                                <OutlinedButton text="Узнать о кружках больше" />
                             </div>
                         </div>
                     </article>
@@ -78,4 +78,4 @@ const About = () => {
     )
 }
 
-export default About;
+export default AboutPage;

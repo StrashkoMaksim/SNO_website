@@ -76,3 +76,66 @@ h3 {
 .Thin {
   font-weight: 100;
 }
+
+.adminH1 {
+  color: #1C1C1C;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 120%;
+  letter-spacing: -0.02em;
+  margin: 0 20px 0 0;
+}
+
+.adminHeader {
+  align-items: flex-end;
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  .btns {
+    align-items: center;
+    display: flex;
+    margin-left: 20px;
+
+    & > *:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+}
+
+.admin-add-form {
+  margin-top: 30px;
+
+  &__field {
+    display: grid;
+    grid-gap: 50px;
+    grid-template-columns: 130px 1fr;
+
+    input {
+      background: #FFF;
+      border: none;
+      border-radius: 25px;
+      box-shadow: 0px 0px 25px rgba(0, 0, 0, .1);
+      color: #1C1C1C;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 100%;
+      padding: 14px 16px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    & + & {
+      margin-top: 17px;
+    }
+  }
+
+  &__field-name {
+    color: #565656;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 100%;
+    margin-top: 14px;
+  }
+}

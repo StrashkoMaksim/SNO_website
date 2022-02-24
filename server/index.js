@@ -11,7 +11,7 @@ app.use(cors({
     optionsSuccessStatus: 200
 }))
 
-app.use(express.static('static'))
+app.use(express.static(__dirname + '/static'))
 app.use(express.json())
 app.use(formData.parse({
     uploadDir: '.\\server\\tmp',

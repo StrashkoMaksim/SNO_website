@@ -4,11 +4,11 @@ import image3 from "../../assets/img/mockslider/3.png"
 import image4 from "../../assets/img/mockslider/4.jpg"
 import image5 from "../../assets/img/mockslider/5.png"
 import cn from 'classnames';
-import styles from './CustomSlider.module.scss'
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import styles from './CustomSlider.module.scss'
 import "./CustomSliderRestyle.scss"
 
 const CustomSlider = () => {

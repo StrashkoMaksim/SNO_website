@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import cn from "classnames";
 import styles from './CallForm.module.scss'
-import DefaultButton, {ButtonStyles} from "../DefaultButton/DefaultButton";
+import DefaultButton from "../DefaultButton/DefaultButton";
 import checkMark from "../../assets/img/checkMark.svg"
 import xMark from "../../assets/img/xMark.svg"
 
@@ -83,7 +83,7 @@ const CallForm: FC<CallFormProps> = ({ hasCloseBtn, closeModal }) => {
                             ></textarea>
                         </label>
                     </div>
-                    <DefaultButton text="Отправить" style={ButtonStyles.filled}></DefaultButton>
+                    <DefaultButton text="Отправить" />
                 </form>
             </div>
         </section >
