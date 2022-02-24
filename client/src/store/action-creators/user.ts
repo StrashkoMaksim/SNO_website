@@ -9,7 +9,7 @@ export const loginUser = (login: String, password: String) => {
                 login,
                 password
             })
-            dispatch({ type: UserActionTypes.LOGIN_USER })
+            dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
             localStorage.setItem('token', response.data.token)
         } catch (e) {
             dispatch({
@@ -24,10 +24,10 @@ export const loginUser = (login: String, password: String) => {
 export const checkAuthUser = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
-            await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/auth/check-auth`, {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/auth/check-auth`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
             })
-            dispatch({ type: UserActionTypes.LOGIN_USER })
+            dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
         } catch (e) {
             dispatch({
                 type: UserActionTypes.LOGIN_USER_ERROR,

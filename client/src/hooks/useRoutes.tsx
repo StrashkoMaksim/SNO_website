@@ -6,6 +6,7 @@ import NewsPage from "../pages/NewsPage/NewsPage";
 import SupervisorsPage from "../pages/SupervisorsPage/SupervisorsPage";
 import MainPage from "../pages/MainPage/MainPage";
 import AdminNewsPage from "../pages/AdminNewsPage/AdminNewsPage";
+import AdminNewsAddPage from "../pages/AdminNewsPage/AdminNewsAddPage/AdminNewsAddPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -21,6 +22,8 @@ export const useRoutes = () => {
                 isAuth && (
                     <>
                         <Route path="/admin/news" element={<AdminNewsPage />} />
+                        <Route path="/admin/news/add" element={<AdminNewsAddPage />} />
+                        <Route path="/admin/news/:id" element={<AdminNewsAddPage />} />
                         <Route path="/admin/conf" element={<AdminNewsPage />} />
                         <Route path="/admin/council" element={<AdminNewsPage />} />
                         <Route path="/admin/supervisors" element={<AdminNewsPage />} />

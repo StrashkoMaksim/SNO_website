@@ -1,5 +1,6 @@
 export interface UserState {
     isAuth: boolean,
+    token: null | string,
     error: null | string
 }
 
@@ -11,6 +12,7 @@ export enum UserActionTypes {
 
 interface LoginUserAction {
     type: UserActionTypes.LOGIN_USER
+    payload: string
 }
 
 interface LoginUserErrorAction {

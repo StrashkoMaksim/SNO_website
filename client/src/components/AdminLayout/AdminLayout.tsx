@@ -35,6 +35,10 @@ const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
         setIsNavOpen(!isNavOpen)
     }
 
+    const navLinkClickHandle = (link: string) => {
+        setCurrentPage(link)
+    }
+
     return (
         <div className={cn("section", styles.adminLayout)}>
             <div className={cn("container", styles.adminLayout__container)}>
@@ -58,7 +62,7 @@ const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
                         {navLinks.map(link =>
                             <Link to={'/admin/' + link.link}
                                   className={cn({[styles.navLinkActive]: currentPage === link.link})}
-                                  onClick={() => {setCurrentPage(link.link)}}>
+                                  onClick={() => {navLinkClickHandle(link.link)}}>
                                 <img src={link.imgSrc} alt={link.text}/>
                                 <span>{link.text}</span>
                             </Link>

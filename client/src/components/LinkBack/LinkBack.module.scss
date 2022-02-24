@@ -1,0 +1,17 @@
+.link {
+  display: flex;
+  margin-bottom: 12px;
+  text-decoration: none;
+  width: fit-content;
+
+  img {
+    margin-right: 5px;
+  }
+
+  span {
+    color: #959595;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+  }
+}

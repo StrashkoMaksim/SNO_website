@@ -1,0 +1,20 @@
+@import "../../assets/styles/variables.scss";
+
+.DefaultButton {
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    border-radius: 30px;
+    display: flex;
+    padding: 10px 20px;
+    color: #565656;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 100%;
+    transition: .4s;
+
+    img {
+        margin-right: 10px;
+    }
+}

@@ -8,10 +8,11 @@
     cursor: pointer;
     border-radius: 30px;
     display: flex;
-    padding: 10px 60px;
-    font-family: "Roboto", sans-serif;
-    font-size: 18px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
     transition: .4s;
+    text-decoration: none;
 
     &:hover{
         background-color: $salad-green;

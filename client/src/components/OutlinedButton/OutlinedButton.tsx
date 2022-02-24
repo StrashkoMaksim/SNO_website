@@ -1,5 +1,5 @@
 import {MouseEventHandler} from "react";
-import styles from "./DefaultButton.module.scss"
+import styles from "./OutlinedButton.module.scss"
 
 export interface ButtonProps {
     text: string,
@@ -8,11 +8,11 @@ export interface ButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const DefaultButton = ({ style, text, imgSrc, onClick }: ButtonProps) => {
+const OutlinedButton = ({ style, text, imgSrc, onClick }: ButtonProps) => {
     return <button style={style} className={styles.DefaultButton} onClick={onClick}>
         {imgSrc && <img src={imgSrc} alt={text}/>}
         <span>{text}</span>
     </button>
 }
 
-export default DefaultButton;
+export default OutlinedButton;
