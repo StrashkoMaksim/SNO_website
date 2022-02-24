@@ -1,5 +1,5 @@
 .adminLayout {
-  background: #F7F7F7;
+  background: #f7f7f7;
   min-height: 100vh;
   padding: 40px 0;
 
@@ -15,7 +15,7 @@
     margin-top: 34px;
 
     h2 {
-      color: #1C1C1C;
+      color: #1c1c1c;
       font-weight: bold;
       font-size: 20px;
       line-height: 1;
@@ -52,7 +52,7 @@
       }
 
       span {
-        color: #1C1C1C;
+        color: #1c1c1c;
         font-weight: 600;
         font-size: 14px;
         line-height: 100%;
@@ -60,11 +60,20 @@
     }
   }
 
+  aside {
+    margin-top: 15px;
+  }
+
   .navLinkActive {
-    background: #00753a;
+    background: rgba(0, 117, 59, 0.13);
 
     span {
-      color: #FFFFFF;
+      color: rgb(0, 117, 59);
+    }
+
+    img {
+      filter: brightness(0) saturate(100%) invert(25%) sepia(88%) saturate(1491%) hue-rotate(130deg) brightness(92%)
+        contrast(101%);
     }
   }
 }
@@ -109,9 +118,9 @@
       padding: 1px;
 
       div {
-        background: #CCCCCC;
+        background: #cccccc;
         height: 2px;
-        transition: .3s;
+        transition: 0.3s;
         width: 100%;
       }
     }
@@ -134,14 +143,14 @@
     }
 
     &__nav {
-      background: #F7F7F7;
+      background: #f7f7f7;
       margin-top: 0;
       padding: 20px;
       position: absolute;
       top: 35px;
       right: 0;
       transform: translateX(calc(100% + 16px));
-      transition: .3s;
+      transition: 0.3s;
 
       &Active {
         transform: translateX(0);

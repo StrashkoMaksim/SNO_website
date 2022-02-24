@@ -3,8 +3,7 @@ import styles from "./AboutPage.module.scss"
 import cn from "classnames";
 import Tkachenko from "../../assets/img/Tkachenko.svg"
 import wave from "../../assets/img/(About)Wave.svg"
-import DefaultButton from "../../components/DefaultButton/DefaultButton";
-import OutlinedButton from "../../components/OutlinedButton/OutlinedButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../../components/DefaultButton/DefaultButton";
 
 const AboutPage = () => {
     return (
@@ -65,9 +64,9 @@ const AboutPage = () => {
                                     проведения научного исследования, его первые результаты, которые анализируют со своим научным руководителем.
                                 </p>
 
-                                <p className={styles.Regular}>Некоторых студентов это задевает за живое, им уже хочется большего, хочется выйти на новый уровень 
-                                и начать заниматься еще больше.</p>
-                                <OutlinedButton text="Узнать о кружках больше" />
+                                <p className={styles.Regular}>Некоторых студентов это задевает за живое, им уже хочется большего, хочется выйти на новый уровень
+                                    и начать заниматься еще больше.</p>
+                                <DefaultButton text="Узнать о кружках больше" style={ButtonStyles.outlined} type={ButtonTypes.button} />
                             </div>
                         </div>
                     </article>

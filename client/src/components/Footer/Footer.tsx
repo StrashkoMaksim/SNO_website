@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./Footer.module.scss"
-import DefaultButton from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 import waLogo from "../../assets/img/whatsappLogo.svg"
 import instaLogo from "../../assets/img/instagramLogo.svg"
 import ytLogo from "../../assets/img/youtubeLogo.svg"
 import cn from "classnames";
 import ModalCallForm from "../CallForm/ModalCallForm";
-import OutlinedButton from "../OutlinedButton/OutlinedButton";
 
 const Footer = () => {
 
@@ -62,8 +61,8 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className={cn(styles.Footer__Block, styles.LinksBlock)}>
-                    <OutlinedButton text="Заказать звонок" onClick={openModalForm} />
-                    <OutlinedButton text="Зарегистрироваться" />
+                    <DefaultButton text="Заказать звонок" style={ButtonStyles.outlined} type={ButtonTypes.button} onClick={openModalForm} />
+                    <DefaultButton text="Зарегистрироваться" style={ButtonStyles.outlined} type={ButtonTypes.button} />
                     <div className={styles.socialNetworks}>
                         <a href="*"><img src={waLogo} alt="whats app link" /></a>
                         <a href="*"><img src={instaLogo} alt="instagram link" /></a>

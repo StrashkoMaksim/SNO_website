@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import headerLogo from "../../assets/img/headerLogo.svg"
-import DefaultButton from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss"
 import PhoneIcon from "../../assets/img/Phone.svg"
@@ -30,7 +30,7 @@ const Header = () => {
                         <img src={headerLogo} alt="Логотип СНО ДВГУПС" id="headerLogo" />
                     </Link>
                     <div className={styles.Header__Top__Call}>
-                        <DefaultButton text='Заказать звонок' onClick={openModalForm}></DefaultButton>
+                        <DefaultButton text='Заказать звонок' style={ButtonStyles.filled} type={ButtonTypes.button} onClick={openModalForm}></DefaultButton>
                         <a href="tel: +7 (999) 999-99-99" className={cn(styles.PhoneNumber, styles.ExtraLight)}>
                             <span>
                                 +7 (999) 999-99-99

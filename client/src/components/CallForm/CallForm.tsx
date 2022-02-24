@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import cn from "classnames";
 import styles from './CallForm.module.scss'
-import DefaultButton from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 import checkMark from "../../assets/img/checkMark.svg"
 import xMark from "../../assets/img/xMark.svg"
 
@@ -24,7 +24,7 @@ const CallForm: FC<CallFormProps> = ({ hasCloseBtn, closeModal }) => {
         data.append('Вопрос', target.question.value)
 
         setFormSubmitted(true)
-        setTimeout(e => setFormSubmitted(false), 3000)
+        setTimeout(() => setFormSubmitted(false), 3000)
 
         target.reset();
 
@@ -83,7 +83,7 @@ const CallForm: FC<CallFormProps> = ({ hasCloseBtn, closeModal }) => {
                             ></textarea>
                         </label>
                     </div>
-                    <DefaultButton text="Отправить" />
+                    <DefaultButton text="Отправить" style={ButtonStyles.filled} type={ButtonTypes.submit} />
                 </form>
             </div>
         </section >
