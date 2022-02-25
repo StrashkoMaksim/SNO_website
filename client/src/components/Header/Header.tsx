@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import headerLogo from "../../assets/img/headerLogo.svg"
-import DefaultButton from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss"
 import PhoneIcon from "../../assets/img/Phone.svg"
@@ -30,7 +30,7 @@ const Header = () => {
                         <img src={headerLogo} alt="Логотип СНО ДВГУПС" id="headerLogo" />
                     </Link>
                     <div className={styles.Header__Top__Call}>
-                        <DefaultButton text='Заказать звонок' onClick={openModalForm}></DefaultButton>
+                        <DefaultButton text='Заказать звонок' style={ButtonStyles.filled} type={ButtonTypes.button} onClick={openModalForm}></DefaultButton>
                         <a href="tel: +7 (999) 999-99-99" className={cn(styles.PhoneNumber, styles.ExtraLight)}>
                             <span>
                                 +7 (999) 999-99-99
@@ -47,8 +47,8 @@ const Header = () => {
                 </div>
                 <nav className={cn(styles.Header__Navigation, { [styles.menuOpen]: menuOpened })}>
                     <Link className={styles.Header__Link} to={'/about'}>О СНО</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Руководители</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Совет СНО</Link>
+                    <Link className={styles.Header__Link} to={'/supervisors'}>Руководители</Link>
+                    <Link className={styles.Header__Link} to={'/council'}>Совет СНО</Link>
                     <Link className={styles.Header__Link} to={'/'}>Регистрация участников</Link>
                     <Link className={styles.Header__Link} to={'/'}>Мероприятия</Link>
                     <Link className={styles.Header__Link} to={'/'}>Документы</Link>
