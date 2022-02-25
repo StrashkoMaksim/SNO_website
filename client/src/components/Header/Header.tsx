@@ -47,8 +47,8 @@ const Header = () => {
                 </div>
                 <nav className={cn(styles.Header__Navigation, { [styles.menuOpen]: menuOpened })}>
                     <Link className={styles.Header__Link} to={'/about'}>О СНО</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Руководители</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Совет СНО</Link>
+                    <Link className={styles.Header__Link} to={'/supervisors'}>Руководители</Link>
+                    <Link className={styles.Header__Link} to={'/council'}>Совет СНО</Link>
                     <Link className={styles.Header__Link} to={'/'}>Регистрация участников</Link>
                     <Link className={styles.Header__Link} to={'/'}>Мероприятия</Link>
                     <Link className={styles.Header__Link} to={'/'}>Документы</Link>

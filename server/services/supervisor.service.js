@@ -1,8 +1,8 @@
 const Supervisor = require('../models/Supervisor')
 const createError = require("http-errors");
-const {Types} = require("mongoose");
+const { Types } = require("mongoose");
 const fs = require("fs");
-const {saveImg} = require("../utils/fileHelper");
+const { saveImg } = require("../utils/fileHelper");
 
 exports.get = async function () {
     const supervisors = await Supervisor.find()
@@ -11,6 +11,7 @@ exports.get = async function () {
 }
 
 exports.add = async function (fio, department, position, phone, photo) {
+
     const photoName = await saveImg(photo)
 
     const supervisor = new Supervisor({ fio, department, position, phone, photo: photoName })
@@ -33,7 +34,7 @@ exports.update = async function (id, fio, department, position, phone, photo) {
 
     const supervisor = await Supervisor.findById(id)
 
-    if(!supervisor) {
+    if (!supervisor) {
         throw createError(404, 'Руководитель не найден')
     }
 

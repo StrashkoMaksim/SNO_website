@@ -9,6 +9,7 @@ import AboutPage from "../pages/AboutPage/AboutPage";
 import AdminNewsPage from "../pages/AdminNewsPage/AdminNewsPage";
 import AdminNewsAddPage from "../pages/AdminNewsPage/AdminNewsAddPage/AdminNewsAddPage";
 import Login from "../pages/Login/Login";
+import CouncilPage from "../pages/CouncilPage/CouncilPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -35,9 +36,10 @@ export const useRoutes = () => {
                 )
             }
             <Route path="/news" element={<NewsPage />} />
-            <Route path="/supervisors" element={<SupervisorsPage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/admin/*" element={<Login />}/>
+            <Route path="/supervisors" element={<SupervisorsPage />} />
+            <Route path="/council" element={<CouncilPage />} />
+            <Route path="/admin/*" element={<Login />} />
             <Route path="*" element={<MainPage />} />
         </Routes>
     )
