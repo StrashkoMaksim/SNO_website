@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, FC} from "react";
 import cn from "classnames"
 import http from "../../assets/http-config";
-import CondensedNews from "./CondensedNews";
+import NewsPreview from "./NewsPreview/NewsPreview";
 import mockImg from "../../assets/img/hdfhdhdfjhdf.jpeg"
 import styles from "./NewsBlock.module.scss"
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 
-const NewsBlock = () => {
+interface NewsBlockProps {
+    count: number
+    page: number
+}
+
+const NewsBlock: FC<NewsBlockProps> = ({ count, page }) => {
     const [news, setNews] = useState<any[]>([])
 
     useEffect(() => {
@@ -28,14 +33,14 @@ const NewsBlock = () => {
             <div className={cn('container')}>
                 <h1>Новости</h1>
                 <div className={styles.newsBlock}>
-                    {news.map(article => <CondensedNews
+                    {news.map(article => <NewsPreview
                         key={article._id}
                         imgSrc={mockImg}
                         title={article.title}
                         shortInfo={article.previewText}
                         tags={article.tags}
                         date={article.date}
-                    ></CondensedNews>)}
+                    ></NewsPreview>)}
                 </div>
                 <div className={styles.buttonWrapper}>
                     <DefaultButton
