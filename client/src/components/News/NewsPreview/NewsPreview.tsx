@@ -1,18 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
-import styles from "./CondensedNews.module.scss"
+import React, { FC } from 'react'
+import styles from "./NewsPreview.module.scss"
 import cn from "classnames"
-import InfoLabel from '../InfoLabel/InfoLabel'
+import InfoLabel from '../../InfoLabel/InfoLabel'
+import {Link} from "react-router-dom";
 
-interface CondensedNewsProps {
-    imgSrc: string,
-    title: string,
-    shortInfo: string,
-    tags: any[],
+interface NewsPreviewProps {
+    id: string
+    imgSrc: string
+    title: string
+    shortInfo: string
+    tags: any[]
     date: string
 }
 
 
-const CondensedNews: FC<CondensedNewsProps> = ({ imgSrc, title, shortInfo, tags, date }) => {
+const NewsPreview: FC<NewsPreviewProps> = ({ id, imgSrc, title, shortInfo, tags, date }) => {
 
     // Переводит дату из серверного timestamp в читаемый вид
     const convertDate = (date: string) => {
@@ -26,21 +28,21 @@ const CondensedNews: FC<CondensedNewsProps> = ({ imgSrc, title, shortInfo, tags,
     return (
         <article className={styles.newsArticle}>
             <div className={styles.imgContainer}>
-                <img className={styles.previewImg} src={imgSrc} alt="News picture" />
+                <img className={styles.previewImg} src={`${process.env.REACT_APP_SERVER_URL}/${imgSrc}`} alt="News picture" />
             </div>
             <InfoLabel text={convertDate(date)} />
             <div className={styles.newsArticle__Text}>
                 <h2>{title}</h2>
                 <p className={cn(styles.shortInfo, "Light")}>
                     {shortInfo}
-                    <a className={styles.readMoreLink}> Читать дальше</a>
+                    <Link to={'/news/' + id} className={styles.readMoreLink}>Читать дальше</Link>
                 </p>
                 <div className={styles.tagsWrapper}>
-                    {tags.map(tag => <div className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</div>)}
+                    {tags.map(tag => <Link to={`/news?tag=${tag._id}`} className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</Link>)}
                 </div>
             </div>
         </article>
     )
 }
 
-export default CondensedNews;
+export default NewsPreview

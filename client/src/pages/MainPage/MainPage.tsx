@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react"
-import NewsBlock from "../../components/News/NewsBlock"
+import NewsBlock from "../../components/News/NewsBlock/NewsBlock"
 import ActivitiesBlock from "../../components/Activities/ActivitiesBlock"
 import MainLayout from "../../components/MainLayout/MainLayout"
 import Slider from "../../components/CustomSlider/CustomSlider"
@@ -7,7 +7,7 @@ import Slider from "../../components/CustomSlider/CustomSlider"
 const MainPage = () => {
     return (
         <MainLayout>
-            <NewsBlock />
+            <NewsBlock count={4} page={1} />
             <ActivitiesBlock />
             <Slider />
         </MainLayout >
