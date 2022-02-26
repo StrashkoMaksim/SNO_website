@@ -23,10 +23,9 @@ router.post('/',
     AuthMiddleware,
     [
         check('title', 'Отсутствует название новости').exists(),
-        check('previewImg', 'Отсутствует изображение превью').exists(),
         check('previewText', 'Отсутствует текст превью').exists(),
         check('content', 'Некорректный контент новости').isJSON(),
-        check('tags', 'Некорректный теги').isArray()
+        check('tags', 'Некорректный теги').isJSON()
     ],
     NewsController.add
 )
@@ -36,10 +35,9 @@ router.put('/:id',
     [
         param('id', 'Отсутствует ID новости').exists(),
         check('title', 'Отсутствует название новости').exists(),
-        check('previewImg', 'Отсутствует изображение превью').exists(),
         check('previewText', 'Отсутствует текст превью').exists(),
-        check('content', 'Некорректный контент новости').isArray(),
-        check('tags', 'Некорректный теги').isArray()
+        check('content', 'Некорректный контент новости').isJSON(),
+        check('tags', 'Некорректный теги').isJSON()
     ],
     NewsController.update
 )

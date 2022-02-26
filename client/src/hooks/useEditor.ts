@@ -13,7 +13,7 @@ export const useEditor = () => {
         image: {
             class: Image,
             config: {
-                types: 'image/jpg',
+                types: '.jpg',
                 uploader: {
                     uploadByFile: async (file: Blob | MediaSource) => { // async because it expects a promise
                         const url = window.URL.createObjectURL(file) // generate a blob in memory

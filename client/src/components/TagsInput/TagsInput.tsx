@@ -10,8 +10,6 @@ interface TagsInputProps {
 }
 
 const TagsInput: FC<TagsInputProps> = ({ tags, selectedTags , onInput}) => {
-
-
     return (
         <div className={styles.TagsInput}>
             {tags.length > 0 ? tags.map(tag => {
@@ -25,7 +23,7 @@ const TagsInput: FC<TagsInputProps> = ({ tags, selectedTags , onInput}) => {
                 <p>Доступные теги отсутствуют</p>
             }
         </div>
-    );
-};
+    )
+}
 
 export default TagsInput;

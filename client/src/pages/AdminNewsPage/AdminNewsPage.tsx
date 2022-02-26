@@ -8,6 +8,7 @@ import searchIcon from '../../assets/img/search.svg'
 import plusIcon from '../../assets/img/plus.svg'
 import settingsIcon from '../../assets/img/settings.svg'
 import DefaultButton, { ButtonStyles, ButtonTypes } from '../../components/DefaultButton/DefaultButton'
+import NewsBlock from "../../components/News/NewsBlock";
 
 const AdminNewsPage = () => {
     const [isTagsModalVisible, setIsTagsModalVisible] = useState<boolean>(false)
@@ -34,6 +35,7 @@ const AdminNewsPage = () => {
                             to={'/admin/news/add'} />
                     </div>
                 </header>
+                <NewsBlock />
             </AdminLayout>
         </>
     )

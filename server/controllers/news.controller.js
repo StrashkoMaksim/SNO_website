@@ -55,9 +55,10 @@ exports.add = async function (req, res) {
             })
         }
 
-        const { previewImg, title, previewText, content, date, tags } = req.body
+        const { title, previewText, content, date, tags } = req.body
+        const { previewImg, ...contentImages } = req.files
 
-        if (!await NewsService.add(previewImg, title, previewText, content, date, tags)) {
+        if (!await NewsService.add(previewImg, title, previewText, content, contentImages, date, tags)) {
             throw Error()
         }
 
@@ -79,7 +80,8 @@ exports.update = async function (req, res) {
         }
 
         const { id } = req.params
-        const { previewImg, title, previewText, content, date, tags } = req.body
+        const { title, previewText, content, date, tags } = req.body
+        const { previewImg } = req.files
 
         if (!await NewsService.update(id, previewImg, title, previewText, content, date, tags)) {
             throw Error()

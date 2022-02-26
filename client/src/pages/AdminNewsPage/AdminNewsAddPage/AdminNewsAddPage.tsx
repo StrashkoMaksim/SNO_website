@@ -2,7 +2,7 @@ import React, {ComponentRef, FC, FormEvent, useEffect, useState} from 'react'
 import AdminLayout from "../../../components/AdminLayout/AdminLayout"
 import Editor from "../../../components/Editor/Editor";
 import LinkBack from "../../../components/LinkBack/LinkBack";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import deleteIcon from '../../../assets/img/red_trash.svg'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
 import axios from "axios";
@@ -12,8 +12,10 @@ import {useActions} from "../../../hooks/useActions";
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
-    const { tags, loading, error } = useTypedSelector(state => state.tag)
+    const { tags } = useTypedSelector(state => state.tag)
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set())
+    const [submitError, setSubmitError] = useState<string>('')
+    const navigate = useNavigate()
 
     const { fetchTags } = useActions()
 
@@ -23,23 +25,24 @@ const AdminNewsAddPage: FC = () => {
 
     const tagsInputHandler = (e: FormEvent<HTMLInputElement>) => {
         const value = e.currentTarget.value
+        const tmpSet = selectedTags
 
-        if (selectedTags.has(value)) {
-            selectedTags.delete(value)
+        if (tmpSet.has(value)) {
+            tmpSet.delete(value)
         } else {
-            selectedTags.add(value)
+            tmpSet.add(value)
         }
 
-        setSelectedTags(selectedTags)
+        setSelectedTags(new Set(Array.from(tmpSet)))
     }
 
     const editorCore = React.useRef<ComponentRef<any>>(null)
 
-    const handleInitialize = React.useCallback((instance) => {
+    const editorInitializeHandler = React.useCallback((instance) => {
         editorCore.current = instance
     }, [])
 
-    const handleSave = React.useCallback(async () => {
+    const getEditorContent = React.useCallback(async () => {
         // @ts-ignore
         return await editorCore.current.save();
     }, [])
@@ -47,13 +50,35 @@ const AdminNewsAddPage: FC = () => {
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
-        const editorContent = await handleSave()
+        const editorContent = await getEditorContent()
 
-        formData.set('content', JSON.stringify(editorContent))
-
-        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
-            headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+        // @ts-ignore
+        editorContent.blocks.forEach(block => {
+            if (block.type === 'image') {
+                formData.set(block.id, block.data.file.source)
+                block.data.file = undefined
+            }
         })
+        formData.set('content', JSON.stringify(editorContent.blocks))
+        formData.set('tags', JSON.stringify(Array.from(selectedTags)))
+
+        let response: { message: string, status: number }
+
+        if (newsId) {
+            response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
+                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+        } {
+            response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
+                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+        }
+
+        if (response.status === 201) {
+            navigate('/admin/news')
+        } else {
+            setSubmitError(response.message)
+        }
     }
 
     return (
@@ -86,23 +111,23 @@ const AdminNewsAddPage: FC = () => {
                     </div>
                     <div className="admin-add-form__field">
                         <span className="admin-add-form__field-name">Превью</span>
-                        <input type="file" placeholder="Введите описание" name="previewImg" accept="image/jpeg" required />
+                        <input type="file" placeholder="Введите описание" name="previewImg" accept=".jpg" required />
                     </div>
                     <div className="admin-add-form__field">
                         <span className="admin-add-form__field-name">Контент</span>
                         {/*// @ts-ignore*/}
-                        <Editor onInitialize={handleInitialize} />
+                        <Editor onInitialize={editorInitializeHandler} />
                     </div>
                     <div className="admin-add-form__field">
                         <span className="admin-add-form__field-name">Теги</span>
                         <TagsInput tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
                     </div>
                     <div className="admin-add-form__field">
-                        <span></span>
+                        <span className="admin-add-form__error">{submitError}</span>
                         <DefaultButton
                             text="Сохранить новость"
                             style={ButtonStyles.filled}
-                            type={ButtonTypes.button} />
+                            type={ButtonTypes.submit} />
                     </div>
                 </form>
             </AdminLayout>

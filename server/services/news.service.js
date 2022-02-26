@@ -2,6 +2,8 @@ const News = require("../models/News")
 const Tag = require('../models/Tag')
 const {Types} = require("mongoose");
 const createError = require("http-errors");
+const {saveImg} = require("../utils/fileHelper");
+const fs = require("fs");
 
 exports.get = async function (countStr, pageStr) {
     const { count, page } = validatePagination(countStr, pageStr)
@@ -34,14 +36,23 @@ exports.filterByTag = async function (tagId, countStr, pageStr) {
     return news
 }
 
-exports.add = async function (previewImg, title, previewText, content, date, tagsArr) {
+exports.add = async function (previewImg, title, previewText, content, contentImages, date, tagsArr) {
+    const previewImgName = await saveImg(previewImg, 565, 300)
     const tags = await getTags(tagsArr)
 
+    const contentArr = JSON.parse(content)
+
+    for (const block of contentArr) {
+        if (block.type === 'image') {
+            block.data.src = await saveImg(contentImages[block.id], 773)
+        }
+    }
+
     const news = new News({
-        previewImg,
+        previewImg: previewImgName,
         title,
         previewText,
-        content: JSON.stringify(content),
+        content: JSON.stringify(contentArr),
         date,
         tags
     })
@@ -55,7 +66,7 @@ exports.add = async function (previewImg, title, previewText, content, date, tag
     return true
 }
 
-exports.update = async function (id, previewImg, title, previewText, content, date, tagsArr) {
+exports.update = async function (id, previewImg, title, previewText, content, contentImages, date, tagsArr) {
     if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID новости')
     }
@@ -66,13 +77,24 @@ exports.update = async function (id, previewImg, title, previewText, content, da
         throw createError(404, 'Новость не найдена')
     }
 
+    fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewText')}`)
+
+    const previewImgName = await saveImg(previewImg, 565, 300)
     const tags = await getTags(tagsArr)
 
+    const contentArr = JSON.parse(content)
+
+    for (const block of contentArr) {
+        if (block.type === 'image') {
+            block.data.src = await saveImg(contentImages[block.id], 773)
+        }
+    }
+
     const savedNews = await News.replaceOne({ _id: id }, {
-        previewImg,
+        previewImg: previewImgName,
         title,
         previewText,
-        content: JSON.stringify(content),
+        content: JSON.stringify(contentArr),
         date,
         tags
     })
@@ -103,8 +125,9 @@ const validatePagination = (countStr, pageStr) => {
     return { count, page }
 }
 
-const getTags = async (tagsIdArr) => {
+const getTags = async (tagsIdJSON) => {
     const tagsPromises = []
+    const tagsIdArr = JSON.parse(tagsIdJSON)
 
     tagsIdArr.forEach(tagId => {
         if (!Types.ObjectId.isValid(tagId)) {
