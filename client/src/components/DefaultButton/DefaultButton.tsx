@@ -1,18 +1,40 @@
-import {MouseEventHandler} from "react";
 import styles from "./DefaultButton.module.scss"
+import { MouseEventHandler } from "react";
+import cn from "classnames";
 
-export interface ButtonProps {
-    text: string,
-    imgSrc?: string,
-    style?: {},
-    onClick?: MouseEventHandler<HTMLButtonElement>
+import React, { FC } from "react";
+
+export enum ButtonStyles {
+    filled = "filled",
+    outlined = "outlined"
 }
 
-const DefaultButton = ({ style, text, imgSrc, onClick }: ButtonProps) => {
-    return <button style={style} className={styles.DefaultButton} onClick={onClick}>
-        {imgSrc && <img src={imgSrc} alt={text}/>}
-        <span>{text}</span>
-    </button>
+export enum ButtonTypes {
+    button = 'button',
+    submit = 'submit'
+}
+
+interface ButtonProps {
+    text: string,
+    style: ButtonStyles,
+    type: ButtonTypes,
+    imgSrc?: string,
+    onClick?: MouseEventHandler<HTMLButtonElement>,
+    extraClass?: string;
+}
+
+const DefaultButton: FC<ButtonProps> = ({ text, style, type, imgSrc, onClick, extraClass }) => {
+    return (
+        <button
+            className={cn(styles.DefaultButton, extraClass, style === ButtonStyles.filled ? styles['DefaultButton-filled'] : styles['DefaultButton-outlined'])}
+            onClick={onClick}
+            type={type}
+
+        >
+            {imgSrc && <img src={imgSrc} alt={text} />}
+            <span>{text}</span>
+        </button>
+    )
 }
 
 export default DefaultButton;

@@ -1,6 +1,6 @@
-import {Dispatch} from "redux";
+import { Dispatch } from "redux";
 import axios from "axios";
-import {UserAction, UserActionTypes} from "../../types/user";
+import { UserAction, UserActionTypes } from "../../types/user";
 
 export const loginUser = (login: String, password: String) => {
     return async (dispatch: Dispatch<UserAction>) => {
@@ -9,14 +9,13 @@ export const loginUser = (login: String, password: String) => {
                 login,
                 password
             })
-            dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
             localStorage.setItem('token', response.data.token)
+            dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
         } catch (e) {
-            dispatch({
+            await dispatch({
                 type: UserActionTypes.LOGIN_USER_ERROR,
                 payload: 'Произошла ошибка при авторизации'
             })
-            console.log(e)
         }
     }
 }
@@ -25,7 +24,7 @@ export const checkAuthUser = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/auth/check-auth`, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
             dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
         } catch (e) {

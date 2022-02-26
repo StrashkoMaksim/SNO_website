@@ -1,24 +1,34 @@
 @import "../../assets/styles/variables.scss";
+@import "../../assets/styles/global.scss";
 
 .DefaultButton {
-    align-items: center;
-    background-color: $dark-green;
-    border: 1px solid $dark-green;
     color: white;
     cursor: pointer;
     border-radius: 30px;
-    display: flex;
-    padding: 10px 60px;
-    font-family: "Roboto", sans-serif;
+    padding: 15px 60px;
     font-size: 18px;
     transition: 0.4s;
+    display: flex;
+    align-items: center;
+    width: fit-content;
 
-    &:hover {
-        background-color: $salad-green;
-        border: 1px solid $salad-green;
+    &-filled {
+        background-color: $dark-green;
+        border: 1px solid $dark-green;
+
+        &:hover {
+            background-color: $salad-green;
+            border: 1px solid $salad-green;
+        }
     }
 
-    img {
-        margin-right: 10px;
+    &-outlined {
+        border: 1px solid white;
+        background-color: transparent;
+
+        &:hover {
+            background-color: white;
+            color: #3a7440;
+        }
     }
 }

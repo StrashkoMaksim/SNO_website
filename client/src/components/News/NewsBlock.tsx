@@ -4,7 +4,7 @@ import http from "../../assets/http-config";
 import CondensedNews from "./CondensedNews";
 import mockImg from "../../assets/img/hdfhdhdfjhdf.jpeg"
 import styles from "./NewsBlock.module.scss"
-import DefaultButton from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 
 const NewsBlock = () => {
     const [news, setNews] = useState<any[]>([])
@@ -38,7 +38,11 @@ const NewsBlock = () => {
                     ></CondensedNews>)}
                 </div>
                 <div className={styles.buttonWrapper}>
-                    <DefaultButton text="Все новости" onClick={function () { }}></DefaultButton>
+                    <DefaultButton
+                        text="Все новости"
+                        style={ButtonStyles.filled}
+                        type={ButtonTypes.button}
+                    ></DefaultButton>
                 </div>
             </div>
         </section >
