@@ -5,15 +5,45 @@ import axios from "axios";
 export const fetchNewsPreviews = (page = 1, count: Number) => {
     return async (dispatch: Dispatch<NewsAction>) => {
         try {
-            dispatch({ type: NewsActionTypes.FETCH_NEWS_PREVIEWS })
+            dispatch({ type: NewsActionTypes.FETCH_NEWS })
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/news`, {
                 params: {page, count}
             })
-            dispatch({ type: NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS, payload: response.data })
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: response.data })
         } catch (e) {
             dispatch({
-                type: NewsActionTypes.FETCH_NEWS_PREVIEWS_ERROR,
+                type: NewsActionTypes.FETCH_NEWS_ERROR,
                 payload: 'Произошла ошибка при загрузке новостей'
+            })
+        }
+    }
+}
+
+export const fetchNewsDetail = (id: string) => {
+    return async (dispatch: Dispatch<NewsAction>) => {
+        try {
+            dispatch({ type: NewsActionTypes.FETCH_NEWS })
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/news/${id}`)
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: response.data })
+        } catch (e) {
+            dispatch({
+                type: NewsActionTypes.FETCH_NEWS_ERROR,
+                payload: 'Произошла ошибка при загрузке новости'
+            })
+        }
+    }
+}
+
+export const fetchNewsFull = (id: string) => {
+    return async (dispatch: Dispatch<NewsAction>) => {
+        try {
+            dispatch({ type: NewsActionTypes.FETCH_NEWS })
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/news/full/${id}`)
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: response.data })
+        } catch (e) {
+            dispatch({
+                type: NewsActionTypes.FETCH_NEWS_ERROR,
+                payload: 'Произошла ошибка при загрузке новости'
             })
         }
     }

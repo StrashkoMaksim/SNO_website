@@ -8,11 +8,11 @@ const initialState: NewsPreviewsState = {
 
 export const newsReducer = (state = initialState, action: NewsAction) : NewsPreviewsState => {
     switch (action.type) {
-        case NewsActionTypes.FETCH_NEWS_PREVIEWS:
+        case NewsActionTypes.FETCH_NEWS:
             return { loading: true, error: null, news: []}
-        case NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS:
+        case NewsActionTypes.FETCH_NEWS_SUCCESS:
             return { loading: false, error: null, news: action.payload}
-        case NewsActionTypes.FETCH_NEWS_PREVIEWS_ERROR:
+        case NewsActionTypes.FETCH_NEWS_ERROR:
             return { loading: false, error: action.payload, news: []}
         default:
             return state

@@ -1,3 +1,5 @@
+import {Tag} from "./tag";
+
 export interface NewsPreviewsState {
     news: News[];
     loading: boolean;
@@ -5,22 +7,22 @@ export interface NewsPreviewsState {
 }
 
 export enum NewsActionTypes {
-    FETCH_NEWS_PREVIEWS = 'FETCH_NEWS_PREVIEWS',
-    FETCH_NEWS_PREVIEWS_ERROR = 'FETCH_NEWS_PREVIEWS_ERROR',
-    FETCH_NEWS_PREVIEWS_SUCCESS = 'FETCH_NEWS_PREVIEWS_SUCCESS'
+    FETCH_NEWS = 'FETCH_NEWS',
+    FETCH_NEWS_ERROR = 'FETCH_NEWS_ERROR',
+    FETCH_NEWS_SUCCESS = 'FETCH_NEWS_SUCCESS'
 }
 
 interface FetchNewsPreviewsAction {
-    type: NewsActionTypes.FETCH_NEWS_PREVIEWS
+    type: NewsActionTypes.FETCH_NEWS
 }
 
 interface FetchNewsPreviewsSuccessAction {
-    type: NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS
+    type: NewsActionTypes.FETCH_NEWS_SUCCESS
     payload: News[]
 }
 
 interface FetchNewsPreviewsErrorAction {
-    type: NewsActionTypes.FETCH_NEWS_PREVIEWS_ERROR
+    type: NewsActionTypes.FETCH_NEWS_ERROR
     payload: string
 }
 
@@ -34,9 +36,4 @@ type News = {
     content: string
     date: string
     tags: Tag[]
-}
-
-type Tag = {
-    _id: string
-    name: string
 }

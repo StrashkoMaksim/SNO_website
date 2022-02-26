@@ -25,7 +25,7 @@ router.post('/',
         check('title', 'Отсутствует название новости').exists(),
         check('previewImg', 'Отсутствует изображение превью').exists(),
         check('previewText', 'Отсутствует текст превью').exists(),
-        check('content', 'Некорректный контент новости').isArray(),
+        check('content', 'Некорректный контент новости').isJSON(),
         check('tags', 'Некорректный теги').isArray()
     ],
     NewsController.add
