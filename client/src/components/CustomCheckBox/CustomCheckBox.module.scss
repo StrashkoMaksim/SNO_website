@@ -1,0 +1,32 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.Label {
+    display: flex;
+    column-gap: 15px;
+    align-content: center;
+    width: fit-content;
+
+    &__Text {
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 20px;
+    }
+}
+
+.CustomCheckBox {
+    display: grid;
+    place-items: center;
+    background-color: $light-green;
+    height: 20px;
+    width: 20px;
+
+    .checkMark {
+        transition: all 0.2s;
+        opacity: 0;
+
+        &-active {
+            opacity: 1;
+        }
+    }
+}

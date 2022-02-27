@@ -49,7 +49,7 @@ const Header = () => {
                     <Link className={styles.Header__Link} to={'/about'}>О СНО</Link>
                     <Link className={styles.Header__Link} to={'/supervisors'}>Руководители</Link>
                     <Link className={styles.Header__Link} to={'/council'}>Совет СНО</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Регистрация участников</Link>
+                    <Link className={styles.Header__Link} to={'/registration'}>Регистрация участников</Link>
                     <Link className={styles.Header__Link} to={'/'}>Мероприятия</Link>
                     <Link className={styles.Header__Link} to={'/'}>Документы</Link>
                     <Link className={styles.Header__Link} to={'/'}>Студенческая конференция</Link>
