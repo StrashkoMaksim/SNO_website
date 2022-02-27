@@ -135,11 +135,20 @@ h3 {
     }
   }
 
-  &__field-name {
-    color: #565656;
+  &__error {
+    color: red;
     font-weight: 500;
     font-size: 16px;
     line-height: 100%;
     margin-top: 14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-add-form {
+    &__field {
+      grid-gap: 10px;
+      grid-template-columns: 1fr;
+    }
   }
 }
