@@ -1,6 +1,6 @@
-const {validationResult} = require("express-validator");
+const { validationResult } = require("express-validator");
 const EventService = require('../services/event.service')
-const {errorHandler} = require("../utils/errorHandler");
+const { errorHandler } = require("../utils/errorHandler");
 
 exports.get = async function (req, res) {
     try {
@@ -14,12 +14,14 @@ exports.get = async function (req, res) {
 exports.add = async function (req, res) {
     try {
         const errors = validationResult(req)
+        console.log(errors)
 
         if (!errors.isEmpty()) {
-            return res.status(400).json({
+            res.status(400).json({
                 errors: errors.array(),
                 message: 'Отсутствуют обязательные данные для добавления мероприятия'
             })
+            return;
         }
 
         const { name, date, organizerText, organizerLink } = req.body

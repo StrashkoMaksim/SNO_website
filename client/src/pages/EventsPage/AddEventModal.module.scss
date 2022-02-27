@@ -1,0 +1,77 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.FormContainer {
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+}
+
+.AddEvent {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    max-width: 1000px;
+    padding: 30px 50px;
+    row-gap: 30px;
+    border-radius: 20px;
+    font-size: 18px !important;
+
+    h2 {
+        align-self: center;
+    }
+
+    .Buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .Button {
+        border: none;
+        padding: 10px 25px;
+        border-radius: 40px;
+        transition: 0.2s;
+
+        &-Accept {
+            background-color: transparent;
+            border: 2px solid $salad-green;
+            color: $salad-green;
+
+            &:hover {
+                background-color: $salad-green;
+                color: white;
+            }
+        }
+
+        &-Deny {
+            background-color: transparent;
+            border: 2px solid rgb(238, 70, 70);
+            color: rgb(238, 70, 70);
+
+            &:hover {
+                background-color: rgb(238, 70, 70);
+                color: white;
+            }
+        }
+    }
+
+    .DeleteButton {
+        background-color: transparent;
+        border: none;
+        color: rgb(241, 185, 185);
+        font-size: 14px;
+        font-weight: 400;
+        border-bottom: 1px solid rgb(255, 255, 255);
+        transition: 0.2s;
+        display: none;
+
+        &-active {
+            display: block;
+        }
+
+        &:hover {
+            color: rgb(238, 70, 70);
+            border-bottom: 1px solid rgb(238, 70, 70);
+        }
+    }
+}

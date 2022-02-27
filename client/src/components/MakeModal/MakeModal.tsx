@@ -1,23 +1,23 @@
 import React, { FC } from "react";
-import CallForm from "./CallForm";
 import cn from "classnames"
-import styles from "./ModalCallForm.module.scss"
+import styles from "./MakeModal.module.scss"
 
 interface ModalCallFormProps {
-    modalOpened: boolean;
+    modalOpened: boolean
     closeModal: Function
+    children: React.ReactNode
 }
 
-const ModalCallForm: FC<ModalCallFormProps> = ({ modalOpened, closeModal }) => {
+const MakeModal: FC<ModalCallFormProps> = ({ modalOpened, closeModal, children }) => {
 
     return (
         <section className={cn(styles.CallFormWrapper, styles.ModalForm, { [styles['ModalForm-active']]: modalOpened })}>
             <div className={styles.modalInnerContainer} >
                 <div className={styles.aroundForm} onClick={() => closeModal()}></div>
-                <CallForm hasCloseBtn={true} closeModal={closeModal}></CallForm>
+                {children}
             </div>
         </section >
     )
 }
 
-export default ModalCallForm;
+export default MakeModal;

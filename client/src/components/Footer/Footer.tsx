@@ -5,7 +5,9 @@ import waLogo from "../../assets/img/whatsappLogo.svg"
 import instaLogo from "../../assets/img/instagramLogo.svg"
 import ytLogo from "../../assets/img/youtubeLogo.svg"
 import cn from "classnames";
-import ModalCallForm from "../CallForm/ModalCallForm";
+
+import CallForm from "../CallForm/CallForm";
+import MakeModal from "../MakeModal/MakeModal";
 
 const Footer = () => {
 
@@ -16,7 +18,9 @@ const Footer = () => {
     return (
         <footer className={cn('section', styles.Footer)}>
             <div className={cn('container', styles.Footer__Container)}>
-                <ModalCallForm modalOpened={modalOpened} closeModal={closeModalForm} />
+                <MakeModal modalOpened={modalOpened} closeModal={closeModalForm}>
+                    <CallForm hasCloseBtn={true} closeModal={closeModalForm}></CallForm>
+                </MakeModal>
 
                 <div className={styles.Footer__Block}>
                     <h3 className={styles.Footer__Block__Title}>Разделы сайта</h3>

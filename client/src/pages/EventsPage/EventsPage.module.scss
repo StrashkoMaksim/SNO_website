@@ -1,0 +1,56 @@
+.Events {
+    position: relative;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+
+    .addEventBtn {
+        position: absolute;
+        top: -45px;
+        right: 0;
+        border: none;
+        background-color: transparent;
+        display: none;
+
+        img {
+            transition: all 0.4s ease-in-out;
+        }
+
+        &-active {
+            display: block;
+        }
+
+        &:hover {
+            img {
+                transform: rotate(360deg);
+            }
+        }
+    }
+
+    .tableTitles {
+        display: grid;
+        grid-template-columns: 2fr 0.5fr 1.7fr;
+        column-gap: 30px;
+        font-size: 18px;
+        font-weight: 600;
+
+        &-admin {
+            grid-template-columns: 2fr 0.5fr 1.7fr 30px;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .Events {
+        padding: 0px;
+        background-color: transparent;
+        row-gap: 40px;
+
+        .tableTitles {
+            display: none;
+        }
+    }
+}
