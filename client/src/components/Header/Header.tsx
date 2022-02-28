@@ -6,7 +6,7 @@ import styles from "./Header.module.scss"
 import PhoneIcon from "../../assets/img/Phone.svg"
 import cn from "classnames";
 import CallForm from "../../components/CallForm/CallForm"
-import ModalCallForm from "../CallForm/ModalCallForm";
+import MakeModal from "../MakeModal/MakeModal";
 
 
 const Header = () => {
@@ -24,7 +24,9 @@ const Header = () => {
 
         <header className={cn('section', styles.Header)}>
             <div className={cn('container', styles.Header__Container)}>
-                <ModalCallForm modalOpened={modalOpened} closeModal={closeModalForm} />
+                <MakeModal modalOpened={modalOpened} closeModal={closeModalForm}>
+                    <CallForm hasCloseBtn={true} closeModal={closeModalForm}></CallForm>
+                </MakeModal>
                 <div className={styles.Header__Top}>
                     <Link to={'/'}>
                         <img src={headerLogo} alt="Логотип СНО ДВГУПС" id="headerLogo" />
@@ -49,8 +51,8 @@ const Header = () => {
                     <Link className={styles.Header__Link} to={'/about'}>О СНО</Link>
                     <Link className={styles.Header__Link} to={'/supervisors'}>Руководители</Link>
                     <Link className={styles.Header__Link} to={'/council'}>Совет СНО</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Регистрация участников</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Мероприятия</Link>
+                    <Link className={styles.Header__Link} to={'/registration'}>Регистрация участников</Link>
+                    <Link className={styles.Header__Link} to={'/events'}>Мероприятия</Link>
                     <Link className={styles.Header__Link} to={'/'}>Документы</Link>
                     <Link className={styles.Header__Link} to={'/'}>Студенческая конференция</Link>
                     <Link className={styles.Header__Link} to={'/'}>Повышенная стипендия</Link>

@@ -1,0 +1,75 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.Event {
+    border-top: 1px solid #d9d9d9;
+    border-bottom: #d9d9d9;
+    padding: 20px 0px;
+    font-size: 18px;
+    display: grid;
+    grid-template-columns: 2fr 0.5fr 1.7fr;
+    column-gap: 30px;
+
+    .Label {
+        display: none;
+    }
+    .InfoText {
+        max-width: 50ch;
+    }
+
+    &__Data {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    .editButton {
+        display: none;
+    }
+
+    .organizerLink {
+        text-decoration: none;
+        color: $salad-green;
+        transition: all 0.4s;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &-admin {
+        grid-template-columns: 2fr 0.5fr 1.7fr 30px;
+
+        .editButton {
+            display: block;
+            transition: 0.2s;
+
+            &:hover {
+                cursor: pointer;
+                filter: invert(62%) sepia(28%) saturate(757%) hue-rotate(60deg) brightness(91%) contrast(88%);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .Event {
+        background-color: white;
+        position: relative;
+        border: none;
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+        padding: 30px;
+        border-radius: 20px;
+
+        .Label {
+            display: block;
+        }
+
+        .editButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    }
+}

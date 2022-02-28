@@ -1,0 +1,236 @@
+@import "../../assets/styles/variables.scss";
+@import "../../assets/styles/global.scss";
+
+.RegistrationInfo {
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px 50px;
+    column-gap: 40px;
+    display: flex;
+    font-size: 18px;
+
+    img {
+        max-width: 80px;
+    }
+}
+
+.RegistrationForm {
+    margin: 40px 0px 60px 0px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .closeBtn {
+        display: none;
+    }
+
+    .formTitle {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .labeledInput {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+        span {
+            font-size: 18px;
+        }
+    }
+
+    &__Inputs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+
+    .input,
+    .textarea {
+        background-color: $light-green;
+        padding: 11px 20px;
+        font-size: 24px;
+        border: none;
+        transition: all 0.4s;
+        border: 1px solid white;
+
+        &::placeholder {
+            color: #999999;
+            font-weight: 200;
+        }
+
+        &:focus,
+        &:active {
+            outline: none;
+            border: 1px solid $salad-green;
+            border-radius: 20px;
+        }
+    }
+
+    .Hobbies {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 20px;
+        justify-content: space-between;
+        position: relative;
+        margin-top: 30px;
+        border: none;
+        padding: 0%;
+
+        .HobbiesLabel {
+            position: absolute;
+            left: 0;
+            top: -30px;
+            font-size: 18px;
+            padding: 0;
+        }
+    }
+
+    .textarea {
+        resize: none;
+        height: 130px;
+    }
+
+    #textAreaBlock {
+        grid-column: 1/-1;
+    }
+
+    button {
+        align-self: center;
+        background-color: $salad-green;
+        border: 1px solid $salad-green;
+
+        &:hover {
+            background-color: $dark-green;
+        }
+    }
+}
+
+.checkMark {
+    position: absolute;
+    top: 100px;
+    right: 0;
+    background-color: white;
+    display: flex;
+    padding: 15px;
+    border-radius: 20px 0px 20px 0px;
+    border: 1px solid #ececec;
+    opacity: 0;
+
+    span {
+        color: $salad-green;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    &-active {
+        animation: checkMarkAnimation 3s;
+    }
+}
+
+@keyframes checkMarkAnimation {
+    20% {
+        opacity: 1;
+        top: 0px;
+    }
+    100% {
+        opacity: 0;
+        top: 0px;
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .RegistrationForm__Inputs {
+        grid-template-columns: 1fr;
+    }
+
+    #HobbiesSecond {
+        margin-top: 0;
+    }
+
+    .RegistrationForm {
+        padding: 40px 30px;
+
+        .textarea {
+            height: 260px;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .RegistrationInfo {
+        flex-direction: column;
+        row-gap: 40px;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .RegistrationForm {
+        padding: 40px 20px;
+        .input,
+        .textarea {
+            padding: 11px 10px;
+            font-size: 20px;
+        }
+
+        .textarea {
+            height: 150px;
+        }
+
+        &__Inputs {
+            column-gap: 20px;
+        }
+
+        .Hobbies {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media screen and (max-height: 750px) {
+    .RegistrationForm {
+        padding: 15px 15px;
+
+        .formTitle {
+            font-size: 22px;
+        }
+
+        .input,
+        .textarea {
+            padding: 7px 7px;
+            font-size: 18px;
+        }
+
+        .textarea {
+            height: 150px;
+        }
+
+        &__Inputs {
+            row-gap: 10px;
+            margin: 20px 0px;
+        }
+    }
+}
+
+@media screen and (max-height: 600px) {
+    .RegistrationForm {
+        padding: 12px 12px;
+
+        .formTitle {
+            font-size: 18px;
+        }
+
+        .input,
+        .textarea {
+            padding: 7px 7px;
+            font-size: 16px;
+        }
+
+        .textarea {
+            height: 120px;
+        }
+    }
+}
