@@ -61,6 +61,7 @@ const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
                     <nav className={cn(styles.adminLayout__nav, {[styles.adminLayout__navActive]: isNavOpen})}>
                         {navLinks.map(link =>
                             <Link to={'/admin/' + link.link}
+                                  key={link.link}
                                   className={cn({[styles.navLinkActive]: currentPage === link.link})}
                                   onClick={() => {navLinkClickHandle(link.link)}}>
                                 <img src={link.imgSrc} alt={link.text}/>

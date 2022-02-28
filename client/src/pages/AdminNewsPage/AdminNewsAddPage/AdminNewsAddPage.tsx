@@ -5,7 +5,7 @@ import LinkBack from "../../../components/LinkBack/LinkBack";
 import {useNavigate, useParams} from "react-router-dom";
 import deleteIcon from '../../../assets/img/red_trash.svg'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
 import TagsInput from "../../../components/TagsInput/TagsInput";
 import {useActions} from "../../../hooks/useActions";
@@ -14,7 +14,7 @@ const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
     const { news } = useTypedSelector(state => state)
     const { tags } = useTypedSelector(state => state.tag)
-    const { fetchNewsAdmin, changeNewsState } = useActions()
+    const { fetchNewsAdmin, changeNewsState, deleteNews } = useActions()
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set())
     const [submitError, setSubmitError] = useState<string>('')
     const navigate = useNavigate()
@@ -96,22 +96,32 @@ const AdminNewsAddPage: FC = () => {
         formData.set('content', JSON.stringify(editorContent.blocks))
         formData.set('tags', JSON.stringify(Array.from(selectedTags)))
 
-        let response: { message: string, status: number }
-
-        if (newsId) {
-            response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
-                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
-        } else {
-            response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
-                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
-        }
-
-        if (response.status === 201) {
+        try {
+            if (newsId) {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
+                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                })
+            } else {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
+                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                })
+            }
             navigate('/admin/news')
-        } else {
-            setSubmitError(response.message)
+        } catch (e) {
+            const error = e as Error | AxiosError;
+            if(axios.isAxiosError(error)) {
+                setSubmitError(error.response?.data.message)
+            }
+        }
+    }
+
+    const onDeleteHandler = async () => {
+        if (newsId) {
+            await deleteNews(newsId)
+
+            if (!news.error) {
+                navigate('/admin/news')
+            }
         }
     }
 
@@ -149,6 +159,7 @@ const AdminNewsAddPage: FC = () => {
                                 imgSrc={deleteIcon}
                                 style={ButtonStyles.outlined}
                                 type={ButtonTypes.button}
+                                onClick={onDeleteHandler}
                             />
                         </div>
                     }

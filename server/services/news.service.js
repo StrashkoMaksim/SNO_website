@@ -64,11 +64,15 @@ exports.filterByTag = async function (tagId, countStr, pageStr) {
     return news
 }
 
-exports.add = async function (previewImg, title, previewText, content, contentImages, date, tagsArr) {
-    const previewImgName = await saveImg(previewImg, 565, 300)
+exports.add = async function (previewImg, title, previewText, content, contentImages, tagsArr) {
     const tags = await getTags(tagsArr)
-
     const contentArr = JSON.parse(content)
+
+    if (contentArr.length < 1) {
+        throw createError(400, 'Отсутствует контент')
+    }
+
+    const previewImgName = await saveImg(previewImg, 565, 300)
 
     for (const block of contentArr) {
         if (block.type === 'image') {
@@ -104,6 +108,13 @@ exports.update = async function (id, previewImg, title, previewText, content, co
         throw createError(404, 'Новость не найдена')
     }
 
+    const tags = await getTags(tagsArr)
+    const contentArr = JSON.parse(content)
+
+    if (contentArr.length === 0) {
+        throw createError(400, 'Отсутствует контент')
+    }
+
     // Если поступила новая картинка для превью, то заменяем
     let previewImgName
     if (previewImg.size) {
@@ -111,16 +122,12 @@ exports.update = async function (id, previewImg, title, previewText, content, co
         previewImgName = await saveImg(previewImg, 565, 300)
     }
 
-    const tags = await getTags(tagsArr)
-
     // Удаление старых контентных картинок
     JSON.parse(news.get('content')).forEach(block => {
         if (block.type === 'image') {
             fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
         }
     })
-
-    const contentArr = JSON.parse(content)
 
     // Сохранение новых контентных картинок
     for (const block of contentArr) {
@@ -150,7 +157,22 @@ exports.delete = async function (id) {
         throw createError(400, 'Некорректный ID новости')
     }
 
-    await News.findByIdAndDelete(id)
+    const news = await News.findById(id)
+
+    if(!news) {
+        throw createError(404, 'Новость не найдена')
+    }
+
+    // Удаление старых контентных картинок
+    JSON.parse(news.get('content')).forEach(block => {
+        if (block.type === 'image') {
+            fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+        }
+    })
+
+    fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
+
+    await news.delete()
 }
 
 const validatePagination = (countStr, pageStr) => {

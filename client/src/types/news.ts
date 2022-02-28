@@ -1,9 +1,9 @@
-import {Tag} from "./tag";
+import {Tag} from "./tag"
 
-export interface NewsPreviewsState {
-    news: News[];
-    loading: boolean;
-    error: null | string;
+export interface NewsState {
+    news: News[]
+    loading: boolean
+    error: null | string
 }
 
 export enum NewsActionTypes {
@@ -29,7 +29,7 @@ interface FetchNewsPreviewsErrorAction {
 
 interface ChangeNewsStateAction {
     type: NewsActionTypes.CHANGE_NEWS_STATE
-    payload: NewsPreviewsState
+    payload: NewsState
 }
 
 export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessAction | FetchNewsPreviewsErrorAction |
