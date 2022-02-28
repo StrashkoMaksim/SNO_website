@@ -1,3 +1,5 @@
+import {Tag} from "./tag";
+
 export interface NewsPreviewsState {
     news: News[];
     loading: boolean;
@@ -5,28 +7,35 @@ export interface NewsPreviewsState {
 }
 
 export enum NewsActionTypes {
-    FETCH_NEWS_PREVIEWS = 'FETCH_NEWS_PREVIEWS',
-    FETCH_NEWS_PREVIEWS_ERROR = 'FETCH_NEWS_PREVIEWS_ERROR',
-    FETCH_NEWS_PREVIEWS_SUCCESS = 'FETCH_NEWS_PREVIEWS_SUCCESS'
+    FETCH_NEWS = 'FETCH_NEWS',
+    FETCH_NEWS_ERROR = 'FETCH_NEWS_ERROR',
+    FETCH_NEWS_SUCCESS = 'FETCH_NEWS_SUCCESS',
+    CHANGE_NEWS_STATE = 'CHANGE_NEWS_STATE',
 }
 
 interface FetchNewsPreviewsAction {
-    type: NewsActionTypes.FETCH_NEWS_PREVIEWS
+    type: NewsActionTypes.FETCH_NEWS
 }
 
 interface FetchNewsPreviewsSuccessAction {
-    type: NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS
+    type: NewsActionTypes.FETCH_NEWS_SUCCESS
     payload: News[]
 }
 
 interface FetchNewsPreviewsErrorAction {
-    type: NewsActionTypes.FETCH_NEWS_PREVIEWS_ERROR
+    type: NewsActionTypes.FETCH_NEWS_ERROR
     payload: string
 }
 
-export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessAction | FetchNewsPreviewsErrorAction
+interface ChangeNewsStateAction {
+    type: NewsActionTypes.CHANGE_NEWS_STATE
+    payload: NewsPreviewsState
+}
 
-type News = {
+export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessAction | FetchNewsPreviewsErrorAction |
+    ChangeNewsStateAction
+
+export type News = {
     _id: string
     title: string
     previewImg: string
@@ -34,9 +43,4 @@ type News = {
     content: string
     date: string
     tags: Tag[]
-}
-
-type Tag = {
-    _id: string
-    name: string
 }
