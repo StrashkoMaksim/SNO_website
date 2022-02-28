@@ -3,23 +3,20 @@ import {createReactEditorJS} from "react-editor-js"
 import styles from './Editor.module.scss'
 import {useEditor} from "../../hooks/useEditor";
 
-const Editor: FC<{blocks?: any[]}> = ({ blocks = {
-    blocks: [
-        {
-            type: 'paragraph',
-            data: {
-                text: 'Начните свою историю...',
-            }
-        },
-    ]
-} }) => {
-    const ReactEditorJS = createReactEditorJS()
+interface EditorProps {
+    onInitialize: (instance: any) => void
+}
 
+const Editor: FC<EditorProps> = ({ onInitialize }) => {
+    const ReactEditorJS = createReactEditorJS()
     const { editorTools, localization } = useEditor()
 
     return (
         <div className={styles.editor}>
-            <ReactEditorJS defaultValue={blocks} tools={editorTools} i18n={localization}/>
+            <ReactEditorJS onInitialize={onInitialize}
+                           tools={editorTools}
+                           i18n={localization}
+                           placeholder={'Начните свою историю...'} />
         </div>
     )
 }

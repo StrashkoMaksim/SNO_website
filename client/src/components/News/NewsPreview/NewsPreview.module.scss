@@ -1,5 +1,5 @@
-@import "../../assets/styles/global.scss";
-@import "../../assets/styles/variables.scss";
+@import "../../../assets/styles/global";
+@import "../../../assets/styles/variables";
 
 .newsArticle {
     background-color: white;
@@ -60,6 +60,7 @@
     min-width: 70px;
     text-align: center;
     transition: 0.2s;
+    text-decoration: none;
 
     &:hover {
         background-color: $salad-green;

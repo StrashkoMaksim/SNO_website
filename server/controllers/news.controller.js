@@ -1,5 +1,4 @@
 const { validationResult } = require("express-validator");
-const News = require('../models/News')
 const NewsService = require('../services/news.service')
 const { errorHandler } = require("../utils/errorHandler");
 
@@ -17,7 +16,36 @@ exports.get = async function (req, res) {
 
 exports.getDetail = async function (req, res) {
     try {
-        const news = await News.findById(req.params.id).populate('tags').select('title content date tags')
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                message: errors[0].message
+            })
+        }
+
+        const { id } = req.params
+
+        const news = await NewsService.getDetail(id)
+        res.json(news)
+    } catch (e) {
+        errorHandler(e, res)
+    }
+}
+
+exports.getAdmin = async function (req, res) {
+    try {
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                message: errors[0].message
+            })
+        }
+
+        const { id } = req.params
+
+        const news = await NewsService.getAdmin(id)
         res.json(news)
     } catch (e) {
         errorHandler(e, res)
@@ -55,9 +83,10 @@ exports.add = async function (req, res) {
             })
         }
 
-        const { previewImg, title, previewText, content, date, tags } = req.body
+        const { title, previewText, content, tags } = req.body
+        const { previewImg, ...contentImages } = req.files
 
-        if (!await NewsService.add(previewImg, title, previewText, content, date, tags)) {
+        if (!await NewsService.add(previewImg, title, previewText, content, contentImages, tags)) {
             throw Error()
         }
 
@@ -79,9 +108,10 @@ exports.update = async function (req, res) {
         }
 
         const { id } = req.params
-        const { previewImg, title, previewText, content, date, tags } = req.body
+        const { title, previewText, content, tags } = req.body
+        const { previewImg, ...contentImages } = req.files
 
-        if (!await NewsService.update(id, previewImg, title, previewText, content, date, tags)) {
+        if (!await NewsService.update(id, previewImg, title, previewText, content, contentImages, tags)) {
             throw Error()
         }
 
