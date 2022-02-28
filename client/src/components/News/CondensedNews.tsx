@@ -17,7 +17,7 @@ const CondensedNews: FC<CondensedNewsProps> = ({ imgSrc, title, shortInfo, tags,
     // Переводит дату из серверного timestamp в читаемый вид
     const convertDate = (date: string) => {
         return date
-            .slice(0, 9)
+            .slice(0, 10)
             .split('-')
             .reverse()
             .join('/')

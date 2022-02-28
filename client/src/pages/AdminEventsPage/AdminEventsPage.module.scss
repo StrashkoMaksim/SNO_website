@@ -1,0 +1,25 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.Title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.addEventBtn {
+    border: none;
+    background-color: transparent;
+
+    img {
+        transition: all 0.4s ease-in-out;
+    }
+
+    &:hover {
+        img {
+            transform: rotate(360deg);
+        }
+    }
+}

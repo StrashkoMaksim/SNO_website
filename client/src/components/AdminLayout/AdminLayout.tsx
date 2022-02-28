@@ -1,8 +1,8 @@
-import React, {FC, ReactNode, useState} from 'react'
-import {Link} from "react-router-dom";
+import React, { FC, ReactNode, useState, useEffect } from 'react'
+import { Link } from "react-router-dom";
 import cn from "classnames";
 import styles from './AdminLayout.module.scss'
-import {useActions} from "../../hooks/useActions";
+import { useActions } from "../../hooks/useActions";
 
 import Logo from '../../assets/img/headerLogo.svg'
 import LogoutImg from '../../assets/img/logout.svg'
@@ -23,11 +23,12 @@ const navLinks = [
 ]
 
 interface AdminLayoutProps {
+    currPage: string
     children?: ReactNode
 }
 
-const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
-    const [currentPage, setCurrentPage] = useState<string>('news')
+const AdminLayout: FC<AdminLayoutProps> = ({ children, currPage }) => {
+    const [currentPage, setCurrentPage] = useState<string>(currPage)
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const { logoutUser } = useActions()
 
@@ -44,26 +45,26 @@ const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
             <div className={cn("container", styles.adminLayout__container)}>
                 <aside>
                     <Link to="/" className={styles.adminLayout__logo}>
-                        <img src={Logo} alt="Логотип СНО"/>
+                        <img src={Logo} alt="Логотип СНО" />
                     </Link>
                     <div className={styles.adminLayout__title}>
                         <h2>Админ-панель</h2>
                         <button onClick={logoutUser}>
-                            <img src={LogoutImg} alt="Выйти"/>
+                            <img src={LogoutImg} alt="Выйти" />
                         </button>
-                        <button className={cn(styles.adminLayout__burger, {[styles.adminLayout__burgerActive]: isNavOpen})}
-                                onClick={burgerClickHandler}>
+                        <button className={cn(styles.adminLayout__burger, { [styles.adminLayout__burgerActive]: isNavOpen })}
+                            onClick={burgerClickHandler}>
                             <div></div>
                             <div></div>
                             <div></div>
                         </button>
                     </div>
-                    <nav className={cn(styles.adminLayout__nav, {[styles.adminLayout__navActive]: isNavOpen})}>
+                    <nav className={cn(styles.adminLayout__nav, { [styles.adminLayout__navActive]: isNavOpen })}>
                         {navLinks.map(link =>
                             <Link to={'/admin/' + link.link}
-                                  className={cn({[styles.navLinkActive]: currentPage === link.link})}
-                                  onClick={() => {navLinkClickHandle(link.link)}}>
-                                <img src={link.imgSrc} alt={link.text}/>
+                                className={cn({ [styles.navLinkActive]: currentPage === link.link })}
+                                onClick={() => { navLinkClickHandle(link.link) }}>
+                                <img src={link.imgSrc} alt={link.text} />
                                 <span>{link.text}</span>
                             </Link>
                         )}

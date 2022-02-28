@@ -1,13 +1,9 @@
 @import "../../assets/styles/global.scss";
 @import "../../assets/styles/variables.scss";
 
-.FormContainer {
-    z-index: 20;
-    display: flex;
-    justify-content: center;
-}
-
 .AddEvent {
+    align-self: center;
+    justify-self: center;
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -16,6 +12,7 @@
     row-gap: 30px;
     border-radius: 20px;
     font-size: 18px !important;
+    position: relative;
 
     h2 {
         align-self: center;
@@ -45,11 +42,11 @@
 
         &-Deny {
             background-color: transparent;
-            border: 2px solid rgb(238, 70, 70);
-            color: rgb(238, 70, 70);
+            border: 2px solid $error-color;
+            color: $error-color;
 
             &:hover {
-                background-color: rgb(238, 70, 70);
+                background-color: $error-color;
                 color: white;
             }
         }
@@ -70,8 +67,50 @@
         }
 
         &:hover {
-            color: rgb(238, 70, 70);
-            border-bottom: 1px solid rgb(238, 70, 70);
+            color: $error-color;
+            border-bottom: 1px solid $error-color;
         }
+    }
+}
+
+.checkMark {
+    position: absolute;
+    top: 100px;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    padding: 15px;
+    border-radius: 20px 0px 20px 0px;
+    border: 1px solid #ececec;
+    opacity: 0;
+
+    span {
+        color: $salad-green;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    &-error {
+        span {
+            color: $error-color;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+    }
+
+    &-active {
+        animation: checkMarkAnimation 3s;
+    }
+}
+
+@keyframes checkMarkAnimation {
+    20% {
+        opacity: 1;
+        top: -100px;
+    }
+    100% {
+        opacity: 0;
+        top: -100px;
     }
 }

@@ -14,7 +14,7 @@ const AdminNewsPage = () => {
 
     return (
         <>
-            <AdminLayout>
+            <AdminLayout currPage='news'>
                 <header className={styles.header}>
                     <div className={styles.search}>
                         <img src={searchIcon} alt="Поиск" />
@@ -25,8 +25,8 @@ const AdminNewsPage = () => {
                             text={'Управление тегами'}
                             imgSrc={settingsIcon}
                             style={ButtonStyles.outlined}
-                            type={ButtonTypes.button} 
-                            extraClass={styles.AdminOutlinedButton}/>
+                            type={ButtonTypes.button}
+                            extraClass={styles.AdminOutlinedButton} />
 
                         <LinkButton
                             text={'Добавить новость'}

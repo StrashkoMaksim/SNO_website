@@ -11,7 +11,7 @@ const AdminNewsAddPage: FC = () => {
 
     return (
         <>
-            <AdminLayout>
+            <AdminLayout currPage='news'>
                 <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
                 <div className="adminHeader">
                     <h1 className="adminH1">
