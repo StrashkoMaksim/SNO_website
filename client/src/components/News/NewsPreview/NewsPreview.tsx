@@ -11,10 +11,12 @@ interface NewsPreviewProps {
     shortInfo: string
     tags: any[]
     date: string
+    isAdmin?: true
 }
 
 
-const NewsPreview: FC<NewsPreviewProps> = ({ id, imgSrc, title, shortInfo, tags, date }) => {
+const NewsPreview: FC<NewsPreviewProps> = (
+    { id, imgSrc, title, shortInfo, tags, date, isAdmin }) => {
 
     // Переводит дату из серверного timestamp в читаемый вид
     const convertDate = (date: string) => {
@@ -35,7 +37,11 @@ const NewsPreview: FC<NewsPreviewProps> = ({ id, imgSrc, title, shortInfo, tags,
                 <h2>{title}</h2>
                 <p className={cn(styles.shortInfo, "Light")}>
                     {shortInfo}
-                    <Link to={'/news/' + id} className={styles.readMoreLink}>Читать дальше</Link>
+                    {isAdmin ?
+                        <Link to={'/admin/news/' + id} className={styles.readMoreLink}>Редактировать</Link>
+                        :
+                        <Link to={'/news/' + id} className={styles.readMoreLink}>Читать дальше</Link>
+                    }
                 </p>
                 <div className={styles.tagsWrapper}>
                     {tags.map(tag => <Link to={`/news?tag=${tag._id}`} className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</Link>)}

@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const {check, param, query} = require("express-validator");
+const {check, param} = require("express-validator");
 const NewsController = require('../controllers/news.controller')
 const AuthMiddleware = require('../middlewares/auth.middleware')
 const router = Router()
@@ -9,7 +9,18 @@ router.get('/',
 )
 
 router.get('/:id',
+    [
+        param('id', 'Отсутствует ID новости').exists()
+    ],
     NewsController.getDetail
+)
+
+router.get('/admin/:id',
+    AuthMiddleware,
+    [
+        param('id', 'Отсутствует ID новости').exists()
+    ],
+    NewsController.getAdmin
 )
 
 router.get('/filter-by-tag/:tagId',

@@ -9,7 +9,8 @@ export interface NewsPreviewsState {
 export enum NewsActionTypes {
     FETCH_NEWS = 'FETCH_NEWS',
     FETCH_NEWS_ERROR = 'FETCH_NEWS_ERROR',
-    FETCH_NEWS_SUCCESS = 'FETCH_NEWS_SUCCESS'
+    FETCH_NEWS_SUCCESS = 'FETCH_NEWS_SUCCESS',
+    CHANGE_NEWS_STATE = 'CHANGE_NEWS_STATE',
 }
 
 interface FetchNewsPreviewsAction {
@@ -26,9 +27,15 @@ interface FetchNewsPreviewsErrorAction {
     payload: string
 }
 
-export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessAction | FetchNewsPreviewsErrorAction
+interface ChangeNewsStateAction {
+    type: NewsActionTypes.CHANGE_NEWS_STATE
+    payload: NewsPreviewsState
+}
 
-type News = {
+export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessAction | FetchNewsPreviewsErrorAction |
+    ChangeNewsStateAction
+
+export type News = {
     _id: string
     title: string
     previewImg: string

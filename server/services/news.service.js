@@ -19,6 +19,34 @@ exports.get = async function (countStr, pageStr) {
     return news
 }
 
+exports.getDetail = async function (id) {
+    if(!Types.ObjectId.isValid(id)) {
+        throw createError(400, 'Некорректный ID новости')
+    }
+
+    const news = await News.findById(id).populate('tags').select('title content date tags')
+
+    if (!news) {
+        createError(404, 'Новости не существует')
+    }
+
+    return news
+}
+
+exports.getAdmin = async function (id) {
+    if(!Types.ObjectId.isValid(id)) {
+        throw createError(400, 'Некорректный ID новости')
+    }
+
+    const news = await News.findById(id)
+
+    if (!news) {
+        createError(404, 'Новости не существует')
+    }
+
+    return news
+}
+
 exports.filterByTag = async function (tagId, countStr, pageStr) {
     const { count, page } = validatePagination(countStr, pageStr)
 
@@ -53,7 +81,6 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
         title,
         previewText,
         content: JSON.stringify(contentArr),
-        date,
         tags
     })
 
@@ -66,7 +93,7 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
     return true
 }
 
-exports.update = async function (id, previewImg, title, previewText, content, contentImages, date, tagsArr) {
+exports.update = async function (id, previewImg, title, previewText, content, contentImages, tagsArr) {
     if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID новости')
     }
@@ -77,13 +104,25 @@ exports.update = async function (id, previewImg, title, previewText, content, co
         throw createError(404, 'Новость не найдена')
     }
 
-    fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewText')}`)
+    // Если поступила новая картинка для превью, то заменяем
+    let previewImgName
+    if (previewImg.size) {
+        fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
+        previewImgName = await saveImg(previewImg, 565, 300)
+    }
 
-    const previewImgName = await saveImg(previewImg, 565, 300)
     const tags = await getTags(tagsArr)
+
+    // Удаление старых контентных картинок
+    JSON.parse(news.get('content')).forEach(block => {
+        if (block.type === 'image') {
+            fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+        }
+    })
 
     const contentArr = JSON.parse(content)
 
+    // Сохранение новых контентных картинок
     for (const block of contentArr) {
         if (block.type === 'image') {
             block.data.src = await saveImg(contentImages[block.id], 773)
@@ -91,11 +130,11 @@ exports.update = async function (id, previewImg, title, previewText, content, co
     }
 
     const savedNews = await News.replaceOne({ _id: id }, {
-        previewImg: previewImgName,
+        previewImg: previewImgName || news.get('previewImg'),
         title,
         previewText,
         content: JSON.stringify(contentArr),
-        date,
+        date: news.get('date'),
         tags
     })
 

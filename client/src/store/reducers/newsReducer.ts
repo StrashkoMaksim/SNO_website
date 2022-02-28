@@ -14,6 +14,8 @@ export const newsReducer = (state = initialState, action: NewsAction) : NewsPrev
             return { loading: false, error: null, news: action.payload}
         case NewsActionTypes.FETCH_NEWS_ERROR:
             return { loading: false, error: action.payload, news: []}
+        case NewsActionTypes.CHANGE_NEWS_STATE:
+            return { loading: action.payload.loading, error: action.payload.error, news: action.payload.news}
         default:
             return state
     }

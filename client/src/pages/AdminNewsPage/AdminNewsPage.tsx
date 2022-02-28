@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import AdminLayout from "../../components/AdminLayout/AdminLayout"
 import LinkButton from "../../components/LinkButton/LinkButton"
-
+import DefaultButton, { ButtonStyles, ButtonTypes } from '../../components/DefaultButton/DefaultButton'
+import NewsList from "../../components/News/NewsList/NewsList";
 import styles from './AdminNewsPage.module.scss'
-
 import searchIcon from '../../assets/img/search.svg'
 import plusIcon from '../../assets/img/plus.svg'
 import settingsIcon from '../../assets/img/settings.svg'
-import DefaultButton, { ButtonStyles, ButtonTypes } from '../../components/DefaultButton/DefaultButton'
-import NewsList from "../../components/News/NewsList/NewsList";
 
 const AdminNewsPage = () => {
     const [isTagsModalVisible, setIsTagsModalVisible] = useState<boolean>(false)
@@ -35,7 +33,7 @@ const AdminNewsPage = () => {
                             to={'/admin/news/add'} />
                     </div>
                 </header>
-                <NewsList count={10} page={1} />
+                <NewsList count={10} page={1} isAdmin={true} />
             </AdminLayout>
         </>
     )

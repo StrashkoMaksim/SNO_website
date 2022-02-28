@@ -7,9 +7,10 @@ import styles from "./NewsList.module.scss"
 interface NewsList {
     count: number
     page: number
+    isAdmin?: true
 }
 
-const NewsList: FC<NewsList> = ({ count, page }) => {
+const NewsList: FC<NewsList> = ({ count, page, isAdmin }) => {
     const { news } = useTypedSelector(state => state.news)
     const { fetchNewsPreviews } = useActions()
 
@@ -28,6 +29,7 @@ const NewsList: FC<NewsList> = ({ count, page }) => {
                     shortInfo={article.previewText}
                     tags={article.tags}
                     date={article.date}
+                    isAdmin={isAdmin}
                 />
             ) : <p>Новостей нет в базе</p>}
         </div>
