@@ -1,8 +1,6 @@
-
-import React, { ChangeEvent } from "react"
+import React from "react"
 import checkMark from "../../assets/img/checkMark.svg"
 import regIcon from "../../assets/img/RegistrationIcon.svg"
-import MainLayout from "../../components/MainLayout/MainLayout";
 import styles from "./RegistrationPage.module.scss"
 import cn from "classnames"
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../components/DefaultButton/DefaultButton";
@@ -53,98 +51,95 @@ const RegistrationPage = () => {
     }
 
     return (
-        <MainLayout>
-
-            <section className={cn('section')}>
-                <div className={cn('container')}>
-                    <h1>Регистрация участника</h1>
-                    <div className={styles.RegistrationInfo}>
-                        <img src={regIcon} alt="registration icon" />
-                        <p className={styles.Regular}>Регистрация участника позволяет нам получить информацию об актуальности наших кружков для
-                            студентов ДВГУПС, благодаря чему появляется возможность перераспределить расписание и
-                            рассмотреть возможность добавления новых кружков.</p>
-                    </div>
-                    <form className={styles.RegistrationForm} onSubmit={handleSumbit}>
-                        <div className={cn(styles.checkMark, { [styles['checkMark-active']]: formSubmitted })}>
-                            <img src={checkMark} alt="check mark icon" />
-                            <span>Отправлено!</span>
-                        </div>
-                        <div className={styles.RegistrationForm__Inputs}>
-                            <label htmlFor="fio" className={styles.labeledInput}>
-                                <span>ФИО</span>
-                                <input
-                                    className={styles.input}
-                                    type='text'
-                                    name="fio"
-                                    placeholder="Иван"
-                                    pattern="[А-Яа-я ]+"
-                                    required
-                                    onChange={onChangeInput}
-                                    maxLength={70}
-                                ></input>
-                            </label>
-
-                            <label htmlFor="group" className={styles.labeledInput}>
-                                <span>Группа</span>
-                                <input
-                                    className={styles.input}
-                                    type='text'
-                                    name="group"
-                                    placeholder="БО941ПРИ"
-                                    pattern="[А-Яа-я0-9 ]+"
-                                    required
-                                    onChange={onChangeInput}
-                                    maxLength={20}
-                                ></input>
-                            </label>
-                            <fieldset className={styles.Hobbies}>
-                                <legend className={styles.HobbiesLabel}>Интересы</legend>
-                                <CustomCheckBox label="VR технологии" name="VR" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="AR технологии" name="AR" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="WEB-разработка" name="WEB" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="Программирование" name="Programming" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="3D моделирование" name="3D-modeling" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="Дизайн" name="Design" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="3D печать" name="3D-printing" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="SMM" name="SMM" onChange={onCheckBoxChange} reset={formSubmitted} />
-                            </fieldset>
-                            <fieldset className={styles.Hobbies} id={styles.HobbiesSecond}>
-                                <CustomCheckBox label="Нейросети, ИИ" name="AI" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="AR технологии" name="AR" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="WEB-разработка" name="WEB" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="Программирование" name="Programming" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="3D моделирование" name="3D-modeling" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="Дизайн" name="Design" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="3D печать" name="3D-printing" onChange={onCheckBoxChange} reset={formSubmitted} />
-                                <CustomCheckBox label="SMM" name="SMM" onChange={onCheckBoxChange} reset={formSubmitted} />
-                            </fieldset>
-                            <label htmlFor="otherHobbies" className={styles.labeledInput} id={styles.textAreaBlock}>
-                                <span>Другие интересы</span>
-                                <textarea
-                                    className={styles.textarea}
-                                    name="otherHobbies"
-                                    placeholder="Ваших интересов нет выше? Напишите о них здесь..."
-                                    onChange={onChangeTextarea}
-                                    maxLength={140}
-                                ></textarea>
-                            </label>
-                            <label htmlFor="about" className={styles.labeledInput} id={styles.textAreaBlock}>
-                                <span>О себе</span>
-                                <textarea
-                                    className={styles.textarea}
-                                    name="about"
-                                    placeholder="Коротко расскажите о себе"
-                                    required
-                                    onChange={onChangeTextarea}
-                                    maxLength={140}
-                                ></textarea>
-                            </label>
-                        </div>
-                        <DefaultButton text="Отправить" style={ButtonStyles.filled} type={ButtonTypes.submit} />
-                    </form>
+        <section className={cn('section')}>
+            <div className={cn('container')}>
+                <h1>Регистрация участника</h1>
+                <div className={styles.RegistrationInfo}>
+                    <img src={regIcon} alt="registration icon" />
+                    <p className={styles.Regular}>Регистрация участника позволяет нам получить информацию об актуальности наших кружков для
+                        студентов ДВГУПС, благодаря чему появляется возможность перераспределить расписание и
+                        рассмотреть возможность добавления новых кружков.</p>
                 </div>
-            </section >
-        </MainLayout >
+                <form className={styles.RegistrationForm} onSubmit={handleSumbit}>
+                    <div className={cn(styles.checkMark, { [styles['checkMark-active']]: formSubmitted })}>
+                        <img src={checkMark} alt="check mark icon" />
+                        <span>Отправлено!</span>
+                    </div>
+                    <div className={styles.RegistrationForm__Inputs}>
+                        <label htmlFor="fio" className={styles.labeledInput}>
+                            <span>ФИО</span>
+                            <input
+                                className={styles.input}
+                                type='text'
+                                name="fio"
+                                placeholder="Иван"
+                                pattern="[А-Яа-я ]+"
+                                required
+                                onChange={onChangeInput}
+                                maxLength={70}
+                            ></input>
+                        </label>
+
+                        <label htmlFor="group" className={styles.labeledInput}>
+                            <span>Группа</span>
+                            <input
+                                className={styles.input}
+                                type='text'
+                                name="group"
+                                placeholder="БО941ПРИ"
+                                pattern="[А-Яа-я0-9 ]+"
+                                required
+                                onChange={onChangeInput}
+                                maxLength={20}
+                            ></input>
+                        </label>
+                        <fieldset className={styles.Hobbies}>
+                            <legend className={styles.HobbiesLabel}>Интересы</legend>
+                            <CustomCheckBox label="VR технологии" name="VR" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="AR технологии" name="AR" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="WEB-разработка" name="WEB" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="Программирование" name="Programming" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="3D моделирование" name="3D-modeling" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="Дизайн" name="Design" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="3D печать" name="3D-printing" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="SMM" name="SMM" onChange={onCheckBoxChange} reset={formSubmitted} />
+                        </fieldset>
+                        <fieldset className={styles.Hobbies} id={styles.HobbiesSecond}>
+                            <CustomCheckBox label="Нейросети, ИИ" name="AI" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="AR технологии" name="AR" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="WEB-разработка" name="WEB" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="Программирование" name="Programming" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="3D моделирование" name="3D-modeling" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="Дизайн" name="Design" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="3D печать" name="3D-printing" onChange={onCheckBoxChange} reset={formSubmitted} />
+                            <CustomCheckBox label="SMM" name="SMM" onChange={onCheckBoxChange} reset={formSubmitted} />
+                        </fieldset>
+                        <label htmlFor="otherHobbies" className={styles.labeledInput} id={styles.textAreaBlock}>
+                            <span>Другие интересы</span>
+                            <textarea
+                                className={styles.textarea}
+                                name="otherHobbies"
+                                placeholder="Ваших интересов нет выше? Напишите о них здесь..."
+                                onChange={onChangeTextarea}
+                                maxLength={140}
+                            ></textarea>
+                        </label>
+                        <label htmlFor="about" className={styles.labeledInput} id={styles.textAreaBlock}>
+                            <span>О себе</span>
+                            <textarea
+                                className={styles.textarea}
+                                name="about"
+                                placeholder="Коротко расскажите о себе"
+                                required
+                                onChange={onChangeTextarea}
+                                maxLength={140}
+                            ></textarea>
+                        </label>
+                    </div>
+                    <DefaultButton text="Отправить" style={ButtonStyles.filled} type={ButtonTypes.submit} />
+                </form>
+            </div>
+        </section>
     )
 }
 

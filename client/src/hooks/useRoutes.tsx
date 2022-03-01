@@ -12,6 +12,8 @@ import Login from "../pages/Login/Login";
 import CouncilPage from "../pages/CouncilPage/CouncilPage";
 import RegistrationPage from "../pages/RegistrationPage/RegistrationPage";
 import EventsPage from "../pages/EventsPage/EventsPage";
+import AdminLayout from "../components/AdminLayout/AdminLayout";
+import MainLayout from "../components/MainLayout/MainLayout";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -24,27 +26,31 @@ export const useRoutes = () => {
     return (
         <Routes>
             {
-                isAuth && (
+                isAuth ? (
                     <>
-                        <Route path="/admin/news" element={<AdminNewsPage />} />
-                        <Route path="/admin/news/add" element={<AdminNewsAddPage />} />
-                        <Route path="/admin/news/:id" element={<AdminNewsAddPage />} />
-                        <Route path="/admin/conf" element={<AdminNewsPage />} />
-                        <Route path="/admin/council" element={<AdminNewsPage />} />
-                        <Route path="/admin/supervisors" element={<AdminNewsPage />} />
-                        <Route path="/admin/documents" element={<AdminNewsPage />} />
-                        <Route path="/admin/sections" element={<AdminNewsPage />} />
+                        <Route path="/admin" element={<AdminLayout />}>
+                            <Route path="news" element={<AdminNewsPage />} />
+                            <Route path="news/add" element={<AdminNewsAddPage />} />
+                            <Route path="news/:id" element={<AdminNewsAddPage />} />
+                            <Route path="conf" element={<AdminNewsPage />} />
+                            <Route path="council" element={<AdminNewsPage />} />
+                            <Route path="supervisors" element={<AdminNewsPage />} />
+                            <Route path="documents" element={<AdminNewsPage />} />
+                            <Route path="sections" element={<AdminNewsPage />} />
+                        </Route>
                     </>
-                )
+                ) : <Route path="/admin/*" element={<Login />} />
             }
-            <Route path="/news" element={<NewsPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/supervisors" element={<SupervisorsPage />} />
-            <Route path="/council" element={<CouncilPage />} />
-            <Route path="/registration" element={<RegistrationPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/admin/*" element={<Login />} />
-            <Route path="*" element={<MainPage />} />
+            <Route path="/" element={<MainLayout />}>
+                <Route index element={<MainPage />} />
+                <Route path="news" element={<NewsPage />} />
+                <Route path="about" element={<AboutPage />} />
+                <Route path="supervisors" element={<SupervisorsPage />} />
+                <Route path="council" element={<CouncilPage />} />
+                <Route path="registration" element={<RegistrationPage />} />
+                <Route path="events" element={<EventsPage />} />
+                <Route path="*" element={<MainPage />} />
+            </Route>
         </Routes>
     )
 }

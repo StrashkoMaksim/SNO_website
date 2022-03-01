@@ -3,20 +3,17 @@ import { Link } from "react-router-dom";
 import headerLogo from "../../assets/img/headerLogo.svg"
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../components/DefaultButton/DefaultButton";
 import { loginUser } from "../../store/action-creators/user"
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import cn from "classnames";
-
+import {useActions} from "../../hooks/useActions";
 
 const Login = () => {
-
-    const dispatch = useDispatch()
+    const isAuth = useTypedSelector(state => state.user.isAuth)
+    const [wrongLogin, setWrongLogin] = useState<boolean>(false)
     const navigate = useNavigate()
-
-    const isAuth = useTypedSelector(state => state.user.isAuth);
-    const [wrongLogin, setWrongLogin] = useState<boolean>(false);
+    const { loginUser } = useActions()
 
     // Если Login отрендерился, то isAuth = false, значит при его изменении 
     // (изменение может быть только на true) переходим на страничку admin/news
@@ -26,9 +23,9 @@ const Login = () => {
 
     const handleLoginSubmit = async (event: any) => {
         event.preventDefault()
-        const { target } = event;
+        const { currentTarget } = event;
 
-        dispatch(loginUser(target.Login.value, target.Password.value))
+        loginUser(currentTarget.Login.value, currentTarget.Password.value)
         setWrongLogin(true)
         setTimeout(() => setWrongLogin(false), 3000)
 

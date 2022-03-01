@@ -11,6 +11,7 @@ export const loginUser = (login: String, password: String) => {
             })
             localStorage.setItem('token', response.data.token)
             dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
+            return response.status
         } catch (e) {
             await dispatch({
                 type: UserActionTypes.LOGIN_USER_ERROR,

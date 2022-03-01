@@ -3,18 +3,15 @@ import Header from "../Header/Header";
 import styles from "./MainLayout.module.scss"
 import CallForm from "../../components/CallForm/CallForm"
 import Footer from "../Footer/Footer";
+import { Outlet } from "react-router-dom";
 
-export interface Props {
-    children?: React.ReactNode;
-}
-
-const MainLayout = ({ children }: Props) => {
+const MainLayout = () => {
 
     return (
         <div className={styles.MainLayout}>
             <Header />
             <div className={styles.MainLayout__Content}>
-                {children}
+                <Outlet />
             </div>
             <CallForm />
             <Footer />

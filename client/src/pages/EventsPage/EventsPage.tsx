@@ -1,4 +1,3 @@
-import MainLayout from "../../components/MainLayout/MainLayout";
 import styles from "./EventsPage.module.scss"
 import cn from "classnames";
 import Event from "../../components/Event/Event";
@@ -25,7 +24,7 @@ const EventsPage = () => {
     const mockEventsArr = [0, 0, 0, 0, 0, 0, 0]
 
     return (
-        <MainLayout>
+        <>
             <AddEventModal modalOpened={modalOpened} closeModal={closeModalForm} requestType={RequestType.post} />
             <section className={cn('section')}>
                 <div className={cn('container')}>
@@ -51,7 +50,7 @@ const EventsPage = () => {
                     </div>
                 </div>
             </section>
-        </MainLayout >
+        </>
     )
 }
 

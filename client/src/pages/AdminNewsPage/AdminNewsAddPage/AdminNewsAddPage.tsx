@@ -146,63 +146,61 @@ const AdminNewsAddPage: FC = () => {
 
     return (
         <>
-            <AdminLayout>
-                <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
-                <div className="adminHeader">
-                    <h1 className="adminH1">
-                        {newsId ? 'Редактировать новость' : 'Добавить новость'}
-                    </h1>
-                    {newsId &&
-                        <div className="btns">
-                            <DefaultButton
-                                text="Удалить новость"
-                                imgSrc={deleteIcon}
-                                style={ButtonStyles.outlined}
-                                type={ButtonTypes.button}
-                                onClick={onDeleteHandler}
-                            />
-                        </div>
-                    }
-                </div>
-                <form className="admin-add-form" onSubmit={submitHandler}>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Заголовок</span>
-                        <input type="text" placeholder="Введите заголовок" name="title"
-                               value={news.news[0] ? news.news[0].title : ''}
-                               onChange={onChangeTextInputsHandle}
-                               required />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Описание</span>
-                        <input type="text" placeholder="Введите описание" name="previewText"
-                               value={news.news[0] ? news.news[0].previewText : ''}
-                               onChange={onChangeTextInputsHandle}
-                               required />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">
-                            {newsId ? 'Замена превью' : 'Превью'}
-                        </span>
-                        <input type="file" placeholder="Введите описание" name="previewImg" accept=".jpg"
-                               required={!newsId} />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Контент</span>
-                        <Editor onInitialize={editorInitializeHandler} />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Теги</span>
-                        <TagsInput tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__error">{submitError}</span>
+            <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
+            <div className="adminHeader">
+                <h1 className="adminH1">
+                    {newsId ? 'Редактировать новость' : 'Добавить новость'}
+                </h1>
+                {newsId &&
+                    <div className="btns">
                         <DefaultButton
-                            text="Сохранить новость"
-                            style={ButtonStyles.filled}
-                            type={ButtonTypes.submit} />
+                            text="Удалить новость"
+                            imgSrc={deleteIcon}
+                            style={ButtonStyles.outlined}
+                            type={ButtonTypes.button}
+                            onClick={onDeleteHandler}
+                        />
                     </div>
-                </form>
-            </AdminLayout>
+                }
+            </div>
+            <form className="admin-add-form" onSubmit={submitHandler}>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Заголовок</span>
+                    <input type="text" placeholder="Введите заголовок" name="title"
+                           value={news.news[0] ? news.news[0].title : ''}
+                           onChange={onChangeTextInputsHandle}
+                           required />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Описание</span>
+                    <input type="text" placeholder="Введите описание" name="previewText"
+                           value={news.news[0] ? news.news[0].previewText : ''}
+                           onChange={onChangeTextInputsHandle}
+                           required />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">
+                        {newsId ? 'Замена превью' : 'Превью'}
+                    </span>
+                    <input type="file" placeholder="Введите описание" name="previewImg" accept=".jpg"
+                           required={!newsId} />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Контент</span>
+                    <Editor onInitialize={editorInitializeHandler} />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Теги</span>
+                    <TagsInput tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__error">{submitError}</span>
+                    <DefaultButton
+                        text="Сохранить новость"
+                        style={ButtonStyles.filled}
+                        type={ButtonTypes.submit} />
+                </div>
+            </form>
         </>
     )
 }
