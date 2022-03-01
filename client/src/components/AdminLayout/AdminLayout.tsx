@@ -1,43 +1,23 @@
-import React, { FC, ReactNode, useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
+import React, {FC, ReactNode, useState} from 'react'
+import {Link, Outlet} from "react-router-dom";
 import cn from "classnames";
 import styles from './AdminLayout.module.scss'
-import { useActions } from "../../hooks/useActions";
-
+import {useActions} from "../../hooks/useActions";
 import Logo from '../../assets/img/headerLogo.svg'
 import LogoutImg from '../../assets/img/logout.svg'
-import NewsImg from '../../assets/img/admin_nav_news.svg'
-import DocumentsImg from '../../assets/img/admin_nav_documents.svg'
-import CouncilImg from '../../assets/img/admin_nav_council.svg'
-import SectionImg from '../../assets/img/admin_nav_section.svg'
-
-const navLinks = [
-    { link: 'news', text: 'Новости', imgSrc: NewsImg },
-    { link: 'sections', text: 'Кружки', imgSrc: SectionImg },
-    { link: 'conf', text: 'Конференция', imgSrc: NewsImg },
-    { link: 'documents', text: 'Документы', imgSrc: DocumentsImg },
-    { link: 'grants', text: 'Стипендия', imgSrc: NewsImg },
-    { link: 'supervisors', text: 'Руководители', imgSrc: NewsImg },
-    { link: 'council', text: 'Совет СНО', imgSrc: CouncilImg },
-    { link: 'events', text: 'Мероприятия', imgSrc: NewsImg },
-]
+import AdminNavigation from "../AdminNavigation/AdminNavigation";
 
 interface AdminLayoutProps {
     currPage: string
     children?: ReactNode
 }
 
-const AdminLayout: FC<AdminLayoutProps> = ({ children, currPage }) => {
-    const [currentPage, setCurrentPage] = useState<string>(currPage)
+const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const { logoutUser } = useActions()
 
     const burgerClickHandler = () => {
         setIsNavOpen(!isNavOpen)
-    }
-
-    const navLinkClickHandle = (link: string) => {
-        setCurrentPage(link)
     }
 
     return (
@@ -59,19 +39,10 @@ const AdminLayout: FC<AdminLayoutProps> = ({ children, currPage }) => {
                             <div></div>
                         </button>
                     </div>
-                    <nav className={cn(styles.adminLayout__nav, { [styles.adminLayout__navActive]: isNavOpen })}>
-                        {navLinks.map(link =>
-                            <Link to={'/admin/' + link.link}
-                                className={cn({ [styles.navLinkActive]: currentPage === link.link })}
-                                onClick={() => { navLinkClickHandle(link.link) }}>
-                                <img src={link.imgSrc} alt={link.text} />
-                                <span>{link.text}</span>
-                            </Link>
-                        )}
-                    </nav>
+                    <AdminNavigation isNavOpen={isNavOpen} />
                 </aside>
                 <main>
-                    {children}
+                    <Outlet />
                 </main>
             </div>
         </div>

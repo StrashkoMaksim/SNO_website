@@ -1,4 +1,3 @@
-import MainLayout from "../../components/MainLayout/MainLayout";
 import styles from "./EventsPage.module.scss"
 import cn from "classnames";
 import Event from "../../components/Event/Event";
@@ -31,14 +30,15 @@ const EventsPage: FC<EventsPageProps> = ({ admin, openModalForm }) => {
 
 
     return (
-        <MainLayout>
+        <>
+            <AddEventModal modalOpened={modalOpened} closeModal={closeModalForm} requestType={RequestType.post} />
             <section className={cn('section')}>
                 <div className={cn('container')}>
                     <h1>Ближайшие мероприятия</h1>
                     <Events events={events} admin={admin} />
                 </div>
             </section>
-        </MainLayout >
+        </>
     )
 }
 

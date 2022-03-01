@@ -1,4 +1,4 @@
-import {NewsAction, NewsActionTypes, NewsPreviewsState} from "../../types/news";
+import {NewsAction, NewsActionTypes, NewsState} from "../../types/news";
 import {Dispatch} from "redux";
 import axios from "axios";
 
@@ -52,8 +52,24 @@ export const fetchNewsAdmin = (id: string) => {
     }
 }
 
-export const changeNewsState = (newsState: NewsPreviewsState) => {
+export const changeNewsState = (newsState: NewsState) => {
     return async (dispatch: Dispatch<NewsAction>) => {
         dispatch({ type: NewsActionTypes.CHANGE_NEWS_STATE, payload: newsState })
+    }
+}
+
+export const deleteNews = (id: string) => {
+    return async (dispatch: Dispatch<NewsAction>) => {
+        try {
+            return await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/news/${id}`,
+                {
+                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                })
+        } catch (e) {
+            dispatch({
+                type: NewsActionTypes.FETCH_NEWS_ERROR,
+                payload: 'Произошла ошибка при удалении новости'
+            })
+        }
     }
 }

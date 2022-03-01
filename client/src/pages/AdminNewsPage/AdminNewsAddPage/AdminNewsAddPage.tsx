@@ -5,7 +5,7 @@ import LinkBack from "../../../components/LinkBack/LinkBack";
 import {useNavigate, useParams} from "react-router-dom";
 import deleteIcon from '../../../assets/img/red_trash.svg'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
 import TagsInput from "../../../components/TagsInput/TagsInput";
 import {useActions} from "../../../hooks/useActions";
@@ -14,7 +14,7 @@ const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
     const { news } = useTypedSelector(state => state)
     const { tags } = useTypedSelector(state => state.tag)
-    const { fetchNewsAdmin, changeNewsState } = useActions()
+    const { fetchNewsAdmin, changeNewsState, deleteNews } = useActions()
     const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set())
     const [submitError, setSubmitError] = useState<string>('')
     const navigate = useNavigate()
@@ -96,22 +96,32 @@ const AdminNewsAddPage: FC = () => {
         formData.set('content', JSON.stringify(editorContent.blocks))
         formData.set('tags', JSON.stringify(Array.from(selectedTags)))
 
-        let response: { message: string, status: number }
-
-        if (newsId) {
-            response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
-                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
-        } else {
-            response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
-                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
-        }
-
-        if (response.status === 201) {
+        try {
+            if (newsId) {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
+                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                })
+            } else {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
+                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                })
+            }
             navigate('/admin/news')
-        } else {
-            setSubmitError(response.message)
+        } catch (e) {
+            const error = e as Error | AxiosError;
+            if(axios.isAxiosError(error)) {
+                setSubmitError(error.response?.data.message)
+            }
+        }
+    }
+
+    const onDeleteHandler = async () => {
+        if (newsId) {
+            await deleteNews(newsId)
+
+            if (!news.error) {
+                navigate('/admin/news')
+            }
         }
     }
 
@@ -136,64 +146,63 @@ const AdminNewsAddPage: FC = () => {
 
     return (
         <>
-            <AdminLayout currPage='news'>
-                <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
-                <div className="adminHeader">
-                    <h1 className="adminH1">
-                        {newsId ? 'Редактировать новость' : 'Добавить новость'}
-                    </h1>
-                    {newsId &&
-                        <div className="btns">
-                            <DefaultButton
-                                text="Удалить новость"
-                                imgSrc={deleteIcon}
-                                style={ButtonStyles.outlined}
-                                type={ButtonTypes.button}
-                            />
-                        </div>
-                    }
-                </div>
-                <form className="admin-add-form" onSubmit={submitHandler}>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Заголовок</span>
-                        <input type="text" placeholder="Введите заголовок" name="title"
-                               value={news.news[0] ? news.news[0].title : ''}
-                               onChange={onChangeTextInputsHandle}
-                               required />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Описание</span>
-                        <input type="text" placeholder="Введите описание" name="previewText"
-                               value={news.news[0] ? news.news[0].previewText : ''}
-                               onChange={onChangeTextInputsHandle}
-                               required />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">
-                            {newsId ? 'Замена превью' : 'Превью'}
-                        </span>
-                        <input type="file" placeholder="Введите описание" name="previewImg" accept=".jpg"
-                               required={!newsId} />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Контент</span>
-                        <Editor onInitialize={editorInitializeHandler} />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__field-name">Теги</span>
-                        <TagsInput tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
-                    </div>
-                    <div className="admin-add-form__field">
-                        <span className="admin-add-form__error">{submitError}</span>
+            <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
+            <div className="adminHeader">
+                <h1 className="adminH1">
+                    {newsId ? 'Редактировать новость' : 'Добавить новость'}
+                </h1>
+                {newsId &&
+                    <div className="btns">
                         <DefaultButton
-                            text="Сохранить новость"
-                            style={ButtonStyles.filled}
-                            type={ButtonTypes.submit} />
+                            text="Удалить новость"
+                            imgSrc={deleteIcon}
+                            style={ButtonStyles.outlined}
+                            type={ButtonTypes.button}
+                            onClick={onDeleteHandler}
+                        />
                     </div>
-                </form>
-            </AdminLayout>
+                }
+            </div>
+            <form className="admin-add-form" onSubmit={submitHandler}>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Заголовок</span>
+                    <input type="text" placeholder="Введите заголовок" name="title"
+                           value={news.news[0] ? news.news[0].title : ''}
+                           onChange={onChangeTextInputsHandle}
+                           required />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Описание</span>
+                    <input type="text" placeholder="Введите описание" name="previewText"
+                           value={news.news[0] ? news.news[0].previewText : ''}
+                           onChange={onChangeTextInputsHandle}
+                           required />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">
+                        {newsId ? 'Замена превью' : 'Превью'}
+                    </span>
+                    <input type="file" placeholder="Введите описание" name="previewImg" accept=".jpg"
+                           required={!newsId} />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Контент</span>
+                    <Editor onInitialize={editorInitializeHandler} />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__field-name">Теги</span>
+                    <TagsInput tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
+                </div>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__error">{submitError}</span>
+                    <DefaultButton
+                        text="Сохранить новость"
+                        style={ButtonStyles.filled}
+                        type={ButtonTypes.submit} />
+                </div>
+            </form>
         </>
     )
 }
 
-export default AdminNewsAddPage;
+export default AdminNewsAddPage
