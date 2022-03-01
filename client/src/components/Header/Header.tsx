@@ -25,7 +25,7 @@ const Header = () => {
         <header className={cn('section', styles.Header)}>
             <div className={cn('container', styles.Header__Container)}>
                 <MakeModal modalOpened={modalOpened} closeModal={closeModalForm}>
-                    <CallForm hasCloseBtn={true} closeModal={closeModalForm}></CallForm>
+                    <CallForm modal closeModal={closeModalForm}></CallForm>
                 </MakeModal>
                 <div className={styles.Header__Top}>
                     <Link to={'/'}>

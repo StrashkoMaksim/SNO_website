@@ -16,7 +16,7 @@
     &__Block {
         display: flex;
         flex-direction: column;
-
+        align-items: center;
         &__Title {
             color: white;
         }
@@ -74,8 +74,7 @@
 }
 
 @media screen and (max-width: 538px) {
-
-    .Footer__Container{
+    .Footer__Container {
         align-items: center;
         justify-content: center;
     }

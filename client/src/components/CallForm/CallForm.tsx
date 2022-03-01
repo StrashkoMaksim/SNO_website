@@ -6,11 +6,11 @@ import checkMark from "../../assets/img/checkMark.svg"
 import xMark from "../../assets/img/xMark.svg"
 
 interface CallFormProps {
-    hasCloseBtn?: boolean
+    modal?: boolean
     closeModal?: Function
 }
 
-const CallForm: FC<CallFormProps> = ({ hasCloseBtn, closeModal }) => {
+const CallForm: FC<CallFormProps> = ({ modal, closeModal }) => {
 
     const [formSubmitted, setFormSubmitted] = React.useState<boolean>(false);
 
@@ -32,17 +32,10 @@ const CallForm: FC<CallFormProps> = ({ hasCloseBtn, closeModal }) => {
     }
 
     return (
-        <section className={cn('section', styles.CallFormWrapper)}>
+        <section className={cn('section', styles.CallFormWrapper, { [styles.modal]: modal })}>
             <div className={cn('container')}>
                 <h1>Возникли трудности?</h1>
                 <form className={styles.CallForm} onSubmit={handleSumbit}>
-
-                    <img
-                        className={styles.closeBtn}
-                        src={xMark}
-                        style={{ 'display': hasCloseBtn ? 'block' : 'none' }}
-                        onClick={() => { if (closeModal) closeModal() }}
-                    />
 
                     <div className={cn(styles.checkMark, { [styles['checkMark-active']]: formSubmitted })}>
                         <img src={checkMark} alt="check mark icon" />

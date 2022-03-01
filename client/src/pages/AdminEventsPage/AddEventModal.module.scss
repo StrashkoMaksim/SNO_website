@@ -7,8 +7,6 @@
     display: flex;
     flex-direction: column;
     background-color: white;
-    max-width: 1000px;
-    padding: 30px 50px;
     row-gap: 30px;
     border-radius: 20px;
     font-size: 18px !important;
@@ -20,12 +18,13 @@
 
     .Buttons {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        column-gap: 20px;
     }
 
     .Button {
         border: none;
-        padding: 10px 25px;
+        padding: 10px 50px;
         border-radius: 40px;
         transition: 0.2s;
 
