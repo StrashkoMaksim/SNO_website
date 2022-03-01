@@ -24,7 +24,6 @@ router.put('/:id',
     [
         param('id', 'Отсутствует ID мероприятия').exists(),
         check('name', 'Отсутствует название мероприятия').exists(),
-        check('date', 'Некорректная дата мероприятия').isDate(),
         check('organizerText', 'Отсутствует название организатора').exists(),
         check('organizerLink', 'Некорректная ссылка на организатора').isURL()
     ],

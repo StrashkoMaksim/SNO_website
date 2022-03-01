@@ -8,6 +8,7 @@ import LogoutImg from '../../assets/img/logout.svg'
 import AdminNavigation from "../AdminNavigation/AdminNavigation";
 
 interface AdminLayoutProps {
+    currPage: string
     children?: ReactNode
 }
 
@@ -24,15 +25,15 @@ const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
             <div className={cn("container", styles.adminLayout__container)}>
                 <aside>
                     <Link to="/" className={styles.adminLayout__logo}>
-                        <img src={Logo} alt="Логотип СНО"/>
+                        <img src={Logo} alt="Логотип СНО" />
                     </Link>
                     <div className={styles.adminLayout__title}>
                         <h2>Админ-панель</h2>
                         <button onClick={logoutUser}>
-                            <img src={LogoutImg} alt="Выйти"/>
+                            <img src={LogoutImg} alt="Выйти" />
                         </button>
-                        <button className={cn(styles.adminLayout__burger, {[styles.adminLayout__burgerActive]: isNavOpen})}
-                                onClick={burgerClickHandler}>
+                        <button className={cn(styles.adminLayout__burger, { [styles.adminLayout__burgerActive]: isNavOpen })}
+                            onClick={burgerClickHandler}>
                             <div></div>
                             <div></div>
                             <div></div>

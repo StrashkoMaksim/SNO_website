@@ -41,12 +41,20 @@
         grid-template-columns: 2fr 0.5fr 1.7fr 30px;
 
         .editButton {
-            display: block;
-            transition: 0.2s;
+            display: grid;
+            place-items: center;
+            border: none;
+            background-color: transparent;
+
+            img {
+                transition: 0.2s;
+            }
 
             &:hover {
                 cursor: pointer;
-                filter: invert(62%) sepia(28%) saturate(757%) hue-rotate(60deg) brightness(91%) contrast(88%);
+                img {
+                    filter: invert(62%) sepia(28%) saturate(757%) hue-rotate(60deg) brightness(91%) contrast(88%);
+                }
             }
         }
     }

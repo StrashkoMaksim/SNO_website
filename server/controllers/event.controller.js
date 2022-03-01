@@ -14,7 +14,6 @@ exports.get = async function (req, res) {
 exports.add = async function (req, res) {
     try {
         const errors = validationResult(req)
-        console.log(errors)
 
         if (!errors.isEmpty()) {
             res.status(400).json({
@@ -37,7 +36,7 @@ exports.add = async function (req, res) {
 exports.update = async function (req, res) {
     try {
         const errors = validationResult(req)
-
+        console.log(errors)
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
@@ -59,6 +58,7 @@ exports.update = async function (req, res) {
 exports.delete = async function (req, res) {
     try {
         const errors = validationResult(req)
+        console.log(errors)
 
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -71,7 +71,7 @@ exports.delete = async function (req, res) {
 
         const tags = await EventService.delete(id)
 
-        return res.json({ message: 'Мероприятие успешно удалено', tags })
+        return res.status(201).json({ message: 'Мероприятие успешно удалено', tags })
     } catch (e) {
         errorHandler(e, res)
     }

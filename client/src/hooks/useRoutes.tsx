@@ -12,6 +12,7 @@ import Login from "../pages/Login/Login";
 import CouncilPage from "../pages/CouncilPage/CouncilPage";
 import RegistrationPage from "../pages/RegistrationPage/RegistrationPage";
 import EventsPage from "../pages/EventsPage/EventsPage";
+import AdminEventsPage from "../pages/AdminEventsPage/AdminEventsPage";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import MainLayout from "../components/MainLayout/MainLayout";
 
@@ -37,6 +38,7 @@ export const useRoutes = () => {
                             <Route path="supervisors" element={<AdminNewsPage />} />
                             <Route path="documents" element={<AdminNewsPage />} />
                             <Route path="sections" element={<AdminNewsPage />} />
+                            <Route path="events" element={<AdminEventsPage />} />
                         </Route>
                     </>
                 ) : <Route path="/admin/*" element={<Login />} />

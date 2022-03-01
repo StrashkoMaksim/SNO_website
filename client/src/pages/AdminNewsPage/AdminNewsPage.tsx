@@ -24,7 +24,6 @@ const AdminNewsPage = () => {
                         style={ButtonStyles.outlined}
                         type={ButtonTypes.button}
                         extraClass={styles.AdminOutlinedButton}/>
-
                     <LinkButton
                         text={'Добавить новость'}
                         imgSrc={plusIcon}

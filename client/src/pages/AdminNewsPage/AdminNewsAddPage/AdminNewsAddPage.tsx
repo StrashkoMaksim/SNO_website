@@ -205,4 +205,4 @@ const AdminNewsAddPage: FC = () => {
     )
 }
 
-export default AdminNewsAddPage;
+export default AdminNewsAddPage

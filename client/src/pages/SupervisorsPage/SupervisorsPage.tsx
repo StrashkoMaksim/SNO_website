@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useActions } from "../../hooks/useActions";
-import cn from 'classnames';
 import styles from "./SupervisorsPage.module.scss"
 import photo from "../../assets/img/zhiltsov.jpg"
 import Supervisor from '../../components/Supervisor/Supervisor';
