@@ -12,6 +12,10 @@
     align-items: center;
     width: fit-content;
 
+    img {
+        margin-right: 10px;
+    }
+
     &-filled {
         background-color: $dark-green;
         border: 1px solid $dark-green;
@@ -36,6 +40,11 @@
         background-color: $dark-green;
         border: 1px solid $dark-green;
         padding: 10px 20px;
+
+        span {
+            font-weight: 600;
+            font-size: 14px;
+        }
 
         &:hover {
             background-color: $salad-green;

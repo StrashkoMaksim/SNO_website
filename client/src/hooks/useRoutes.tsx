@@ -15,6 +15,7 @@ import EventsPage from "../pages/EventsPage/EventsPage";
 import AdminEventsPage from "../pages/AdminEventsPage/AdminEventsPage";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import MainLayout from "../components/MainLayout/MainLayout";
+import AdminSectionsPage from "../pages/AdminSectionsPage/AdminSectionsPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -37,7 +38,7 @@ export const useRoutes = () => {
                             <Route path="council" element={<AdminNewsPage />} />
                             <Route path="supervisors" element={<AdminNewsPage />} />
                             <Route path="documents" element={<AdminNewsPage />} />
-                            <Route path="sections" element={<AdminNewsPage />} />
+                            <Route path="sections" element={<AdminSectionsPage />} />
                             <Route path="events" element={<AdminEventsPage />} />
                         </Route>
                     </>

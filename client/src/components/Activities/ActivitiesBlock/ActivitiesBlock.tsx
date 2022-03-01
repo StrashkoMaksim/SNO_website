@@ -1,11 +1,9 @@
 import styles from './ActivitiesBlock.module.scss'
 import React, { useState, useEffect } from 'react'
-import Activity from './Activity';
-import mockLogo from '../../assets/img/mockActivityLogo.png'
-import http from '../../assets/http-config';
-import { response } from 'express';
+import http from '../../../assets/http-config';
 import cn from 'classnames';
-import arrowSVG from "../../assets/img/arrow.svg"
+import arrowSVG from "../../../assets/img/arrow.svg"
+import ActivityList from "../ActivityList/ActivityList";
 
 const ActivitiesBlock = () => {
     const [activities, setActivities] = useState<any[]>([]);
@@ -38,17 +36,7 @@ const ActivitiesBlock = () => {
         <section className={cn('section')}>
             <div className={cn('container')}>
                 <h1>Кружки</h1>
-                <div className={cn(styles.activitiesBlock, { [styles.expandedBlock]: activitiesExpanded })}>
-                    {activities.map(activity => <Activity
-                        // imgSrc={activity.imgSrc} 
-                        // title={activity.title}
-                        // shortInfo={activity.shortInfo}
-
-                        imgSrc={mockLogo}
-                        title='Кружок n'
-                        shortInfo='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vehicula posuere ipsum'
-                    />)}
-                </div>
+                <ActivityList activities={activities} />
                 <div className={styles.expandActivitiesBtn} onClick={handleExpandActivitiesBtnClick}>
                     <p className={cn(styles.expandText, styles.Medium, { [styles.hideActivities]: activitiesExpanded })}>
                         {activitiesExpanded ? 'скрыть' : 'показать еще'}

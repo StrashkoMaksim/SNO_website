@@ -1,6 +1,6 @@
 import React from "react"
 import NewsBlock from "../../components/News/NewsBlock/NewsBlock"
-import ActivitiesBlock from "../../components/Activities/ActivitiesBlock"
+import ActivitiesBlock from "../../components/Activities/ActivitiesBlock/ActivitiesBlock"
 import Slider from "../../components/CustomSlider/CustomSlider"
 
 const MainPage = () => {
