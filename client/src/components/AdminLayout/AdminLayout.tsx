@@ -1,4 +1,4 @@
-import React, {FC, ReactNode, useState} from 'react'
+import React, {FC, useState} from 'react'
 import {Link, Outlet} from "react-router-dom";
 import cn from "classnames";
 import styles from './AdminLayout.module.scss'
@@ -7,12 +7,7 @@ import Logo from '../../assets/img/headerLogo.svg'
 import LogoutImg from '../../assets/img/logout.svg'
 import AdminNavigation from "../AdminNavigation/AdminNavigation";
 
-interface AdminLayoutProps {
-    currPage: string
-    children?: ReactNode
-}
-
-const AdminLayout: FC = ({ children }: AdminLayoutProps) => {
+const AdminLayout: FC = () => {
     const [isNavOpen, setIsNavOpen] = useState<boolean>(false)
     const { logoutUser } = useActions()
 

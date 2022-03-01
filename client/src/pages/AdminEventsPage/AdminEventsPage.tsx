@@ -4,7 +4,6 @@ import addIcon from "../../assets/img/addIcon.svg"
 import React, { useEffect } from "react";
 import http from "../../assets/http-config";
 import AddEventModal, { RequestType, eventData } from "./AddEventModal";
-import AdminLayout from "../../components/AdminLayout/AdminLayout";
 import Events from "../EventsPage/Events";
 
 const AdminEventsPage = () => {
@@ -54,7 +53,7 @@ const AdminEventsPage = () => {
 
 
     return (
-        <AdminLayout currPage={'events'}>
+        <>
             <AddEventModal
                 modalOpened={modalOpened}
                 closeModal={closeModalForm}
@@ -72,7 +71,7 @@ const AdminEventsPage = () => {
 
                 <Events events={events} admin={true} openModalForm={openModalForm} />
             </div>
-        </AdminLayout >
+        </>
     )
 }
 

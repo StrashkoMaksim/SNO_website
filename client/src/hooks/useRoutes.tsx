@@ -50,7 +50,7 @@ export const useRoutes = () => {
                 <Route path="supervisors" element={<SupervisorsPage />} />
                 <Route path="council" element={<CouncilPage />} />
                 <Route path="registration" element={<RegistrationPage />} />
-                <Route path="events" element={<EventsPage />} />
+                <Route path="events" element={<EventsPage admin={false} />} />
                 <Route path="*" element={<MainPage />} />
             </Route>
         </Routes>

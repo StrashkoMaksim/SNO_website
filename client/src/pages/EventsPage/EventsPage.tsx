@@ -4,6 +4,7 @@ import Event from "../../components/Event/Event";
 import React, { useEffect, FC } from "react";
 import http from "../../assets/http-config";
 import Events from "./Events";
+import AddEventModal from "../AdminEventsPage/AddEventModal";
 
 interface EventsPageProps {
     admin: boolean
@@ -30,15 +31,12 @@ const EventsPage: FC<EventsPageProps> = ({ admin, openModalForm }) => {
 
 
     return (
-        <>
-            <AddEventModal modalOpened={modalOpened} closeModal={closeModalForm} requestType={RequestType.post} />
-            <section className={cn('section')}>
-                <div className={cn('container')}>
-                    <h1>Ближайшие мероприятия</h1>
-                    <Events events={events} admin={admin} />
-                </div>
-            </section>
-        </>
+        <section className={cn('section')}>
+            <div className={cn('container')}>
+                <h1>Ближайшие мероприятия</h1>
+                <Events events={events} admin={admin} />
+            </div>
+        </section>
     )
 }
 
