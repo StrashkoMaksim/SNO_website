@@ -1,0 +1,41 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.Grant {
+    border-top: 1px solid #d9d9d9;
+    border-bottom: #d9d9d9;
+    padding: 20px 0px;
+    font-size: 18px;
+    display: grid;
+    grid-template-columns: 2.5fr 0.6fr 1.7fr;
+    column-gap: 30px;
+
+    .Label {
+        display: none;
+    }
+    .InfoText {
+        max-width: 50ch;
+    }
+
+    &__Data {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .Grant {
+        background-color: white;
+        position: relative;
+        border: none;
+        grid-template-columns: 1fr;
+        row-gap: 20px;
+        padding: 30px;
+        border-radius: 20px;
+
+        .Label {
+            display: block;
+        }
+    }
+}
