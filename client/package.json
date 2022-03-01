@@ -37,6 +37,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
     "react-slick": "^0.28.1",
+    "react-textarea-autosize": "^8.3.3",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
@@ -68,6 +69,7 @@
     ]
   },
   "devDependencies": {
+    "@types/autosize": "^4.0.1",
     "@types/react-slick": "^0.23.8"
   }
 }

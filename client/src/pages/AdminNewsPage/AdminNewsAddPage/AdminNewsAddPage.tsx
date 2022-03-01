@@ -1,14 +1,19 @@
-import React, {ComponentRef, FC, FormEvent, useEffect, useState} from 'react'
-import AdminLayout from "../../../components/AdminLayout/AdminLayout"
+import React, { ComponentRef, FC, FormEvent, useEffect, useState } from 'react'
 import Editor from "../../../components/Editor/Editor";
 import LinkBack from "../../../components/LinkBack/LinkBack";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import deleteIcon from '../../../assets/img/red_trash.svg'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
-import axios, {AxiosError} from "axios";
-import {useTypedSelector} from "../../../hooks/useTypedSelector";
+import axios, { AxiosError } from "axios";
+import { useTypedSelector } from "../../../hooks/useTypedSelector";
 import TagsInput from "../../../components/TagsInput/TagsInput";
-import {useActions} from "../../../hooks/useActions";
+import { useActions } from "../../../hooks/useActions";
+import styles from "./AdminNewsAddPage.module.scss"
+import cn from 'classnames';
+import InfoLabel from '../../../components/InfoLabel/InfoLabel';
+import placeholderImg from '../../../assets/img/placeholderImg.png'
+import TextareaAutosize from 'react-textarea-autosize';
+import TagsSelector from './TagsSelector/TagsSelector';
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
@@ -19,6 +24,9 @@ const AdminNewsAddPage: FC = () => {
     const [submitError, setSubmitError] = useState<string>('')
     const navigate = useNavigate()
     const { fetchTags } = useActions()
+
+    const [todayDate, setTodayDate] = useState<string>('')
+    const [newsImage, setNewsImage] = useState<string>(placeholderImg)
 
     useEffect(() => {
         changeNewsState({
@@ -69,6 +77,15 @@ const AdminNewsAddPage: FC = () => {
         }
     }, [news])
 
+    useEffect(() => {
+        const today = new Date()
+        const day = today.getDate()
+        const month = today.getMonth() + 1 //getMonth возвращает число от 0 до 11 (почему-то)
+        const year = today.getFullYear()
+
+        setTodayDate(`${day}/${month}/${year}`)
+    })
+
 
     const editorCore = React.useRef<ComponentRef<any>>(null)
 
@@ -104,17 +121,17 @@ const AdminNewsAddPage: FC = () => {
         try {
             if (newsId) {
                 await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
-                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             } else {
                 await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
-                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             }
             navigate('/admin/news')
         } catch (e) {
             const error = e as Error | AxiosError;
-            if(axios.isAxiosError(error)) {
+            if (axios.isAxiosError(error)) {
                 setSubmitError(error.response?.data.message)
             }
         }
@@ -130,34 +147,43 @@ const AdminNewsAddPage: FC = () => {
         }
     }
 
-    const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement>) => {
+    const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         // @ts-ignore
         news.news[0][e.currentTarget.name] = e.currentTarget.value
         changeNewsState(news)
     }
 
-    const tagsInputHandler = (e: FormEvent<HTMLInputElement>) => {
-        const value = e.currentTarget.value
-        const tmpSet = selectedTags
 
-        if (tmpSet.has(value)) {
-            tmpSet.delete(value)
+    const tagsInputHandler = (name: string) => {
+        const tmpSet = selectedTags
+        if (tmpSet.has(name)) {
+            tmpSet.delete(name)
         } else {
-            tmpSet.add(value)
+            tmpSet.add(name)
         }
 
         setSelectedTags(new Set(Array.from(tmpSet)))
     }
 
+    const onPreviewImgLoad = (event: any) => {
+
+        const img = event.target.files[0];
+
+        if (img) {
+            const imgURL = URL.createObjectURL(img)
+            setNewsImage(imgURL)
+        }
+    }
+
     return (
         <>
             <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
-            <div className="adminHeader">
-                <h1 className="adminH1">
+            <div className={styles.adminHeader}>
+                <h1 className={styles.adminH1}>
                     {newsId ? 'Редактировать новость' : 'Добавить новость'}
                 </h1>
                 {newsId &&
-                    <div className="btns">
+                    <div className={styles.btns}>
                         <DefaultButton
                             text="Удалить новость"
                             imgSrc={deleteIcon}
@@ -168,43 +194,77 @@ const AdminNewsAddPage: FC = () => {
                     </div>
                 }
             </div>
-            <form className="admin-add-form" onSubmit={submitHandler}>
-                <div className="admin-add-form__field">
-                    <span className="admin-add-form__field-name">Заголовок</span>
-                    <input type="text" placeholder="Введите заголовок" name="title"
-                           value={news.news[0] ? news.news[0].title : ''}
-                           onChange={onChangeTextInputsHandle}
-                           required />
+
+            <form className={styles.newsArticleForm}>
+                <InfoLabel text={todayDate} />
+
+                <input
+                    className={styles['visually-hidden']}
+                    type="file"
+                    placeholder="Введите описание"
+                    name="previewImg"
+                    accept=".jpg"
+                    required={!newsId}
+                    id='previewImg'
+                    onChange={onPreviewImgLoad} />
+
+                <label htmlFor='previewImg' className={styles.imgContainer}>
+                    <img className={styles.previewImg} src={newsId ? 'Тут должна быть картинка с новости' : newsImage} alt="News picture" />
+                </label>
+
+                <div className={styles.newsArticleForm__Content}>
+                    <div className={styles.newsArticle__Text}>
+                        <TextareaAutosize
+                            className={cn(styles['newsArticleForm__input'], styles['newsArticleForm__input-title'])}
+                            placeholder="Заголовок"
+                            name="title"
+                            value={news.news[0] ? news.news[0].title : ''}
+                            onChange={onChangeTextInputsHandle}
+                            required />
+
+                        <TextareaAutosize
+                            className={cn(styles['newsArticleForm__input'], styles['newsArticleForm__input-description'])}
+                            placeholder="Описание"
+                            name="previewText"
+                            value={news.news[0] ? news.news[0].previewText : ''}
+                            onChange={onChangeTextInputsHandle}
+                            required />
+
+                        <TagsSelector tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
+
+                    </div>
                 </div>
-                <div className="admin-add-form__field">
-                    <span className="admin-add-form__field-name">Описание</span>
-                    <input type="text" placeholder="Введите описание" name="previewText"
-                           value={news.news[0] ? news.news[0].previewText : ''}
-                           onChange={onChangeTextInputsHandle}
-                           required />
+
+            </form>
+
+            <form className={styles['admin-add-form']} onSubmit={submitHandler}>
+
+                <InfoLabel text={todayDate} />
+                <TextareaAutosize
+                    className={cn(styles['newsArticleForm__input'], styles['newsArticleForm__input-title'], styles['admin-add-form__input-title'])}
+                    placeholder="Заголовок"
+                    name="title"
+                    value={news.news[0] ? news.news[0].title : ''}
+                    onChange={onChangeTextInputsHandle}
+                    required />
+
+                <TextareaAutosize
+                    className={cn(styles['newsArticleForm__input'], styles['newsArticleForm__input-description'])}
+                    placeholder="Описание"
+                    name="previewText"
+                    value={news.news[0] ? news.news[0].previewText : ''}
+                    onChange={onChangeTextInputsHandle}
+                    required />
+
+                <Editor onInitialize={editorInitializeHandler} />
+
+                <div className={styles["admin-add-form__field"]}>
+                    <span className={styles["admin-add-form__error"]}>{submitError}</span>
                 </div>
-                <div className="admin-add-form__field">
-                    <span className="admin-add-form__field-name">
-                        {newsId ? 'Замена превью' : 'Превью'}
-                    </span>
-                    <input type="file" placeholder="Введите описание" name="previewImg" accept=".jpg"
-                           required={!newsId} />
-                </div>
-                <div className="admin-add-form__field">
-                    <span className="admin-add-form__field-name">Контент</span>
-                    <Editor onInitialize={editorInitializeHandler} />
-                </div>
-                <div className="admin-add-form__field">
-                    <span className="admin-add-form__field-name">Теги</span>
-                    <TagsInput tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
-                </div>
-                <div className="admin-add-form__field">
-                    <span className="admin-add-form__error">{submitError}</span>
-                    <DefaultButton
-                        text="Сохранить новость"
-                        style={ButtonStyles.filled}
-                        type={ButtonTypes.submit} />
-                </div>
+                <DefaultButton
+                    text="Сохранить новость"
+                    style={ButtonStyles.filled}
+                    type={ButtonTypes.submit} />
             </form>
         </>
     )
