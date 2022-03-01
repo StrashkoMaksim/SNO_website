@@ -87,12 +87,17 @@ const AdminNewsAddPage: FC = () => {
         const editorContent = await getEditorContent()
 
         // @ts-ignore
-        editorContent.blocks.forEach(block => {
+        for (const block of editorContent.blocks) {
             if (block.type === 'image') {
-                formData.set(block.id, block.data.file.source)
-                block.data.file = undefined
+                if (block.data.file.source) {
+                    formData.set(block.id, block.data.file.source)
+                    block.data.file = undefined
+                } else {
+                    const file = await fetch(block.data.file.url).then(r => r.blob())
+                    formData.set(block.id, file, block.id + '.jpg')
+                }
             }
-        })
+        }
         formData.set('content', JSON.stringify(editorContent.blocks))
         formData.set('tags', JSON.stringify(Array.from(selectedTags)))
 

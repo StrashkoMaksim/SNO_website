@@ -41,7 +41,9 @@ const AdminNewsPage = () => {
                 </div>
             </header>
             <NewsList count={10} page={1} isAdmin={true} />
-            <TagsModal isVisible={isTagsModalVisible} onClose={onCloseModalHandler} />
+            {isTagsModalVisible &&
+                <TagsModal isVisible={isTagsModalVisible} onClose={onCloseModalHandler}/>
+            }
         </>
     )
 }

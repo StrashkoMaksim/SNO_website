@@ -38,7 +38,7 @@ const TagsModal: FC<TagsModalProps> = ({ isVisible, onClose }) => {
             <hr className={styles.hr}/>
             <div className={styles.tags}>
                 {tags.length > 0 && tags.map(tag =>
-                    <DeletableTag id={tag._id} name={tag.name} />
+                    <DeletableTag id={tag._id} name={tag.name} key={tag._id} />
                 )}
             </div>
         </MakeModal>

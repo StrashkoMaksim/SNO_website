@@ -117,7 +117,7 @@ exports.update = async function (id, previewImg, title, previewText, content, co
 
     // Если поступила новая картинка для превью, то заменяем
     let previewImgName
-    if (previewImg.size) {
+    if (previewImg.size > 0) {
         fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
         previewImgName = await saveImg(previewImg, 565, 300)
     }
@@ -125,7 +125,11 @@ exports.update = async function (id, previewImg, title, previewText, content, co
     // Удаление старых контентных картинок
     JSON.parse(news.get('content')).forEach(block => {
         if (block.type === 'image') {
-            fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            try {
+                fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            } catch (e) {
+                console.log(e)
+            }
         }
     })
 
