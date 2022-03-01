@@ -3,8 +3,43 @@ import cn from "classnames";
 import Tkachenko from "../../assets/img/Tkachenko.svg"
 import wave from "../../assets/img/(About)Wave.svg"
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../components/DefaultButton/DefaultButton";
+import { useEffect, useState } from "react";
 
 const AboutPage = () => {
+
+    interface yearsObj {
+        years: number,
+        nounForm: string
+    }
+
+    const [currentYears, setCurrentYears] = useState<yearsObj>({ years: 0, nounForm: "" })
+
+    const getCurrentYears = () => {
+        const currentYear = new Date().getFullYear();
+        const yearsPassed = currentYear - 1966;
+        let nounForm: string;
+
+        switch (yearsPassed % 10) {
+            case 1: {
+                nounForm = 'год'
+                break;
+            }
+
+            case 2:
+            case 3:
+            case 4: {
+                nounForm = 'года'
+                break;
+            }
+            default: {
+                nounForm = 'лет'
+            }
+        }
+        setCurrentYears({ years: yearsPassed, nounForm: nounForm })
+    }
+
+    useEffect(() => getCurrentYears(), [])
+
     return (
         <section className={cn('section')}>
             <div className={cn('container')}>
@@ -21,8 +56,8 @@ const AboutPage = () => {
                                     <p className={cn(styles.AchievementInfo, styles.Light)}>научных кружков</p>
                                 </div>
                                 <div className={styles.Achievements__Single}>
-                                    <p className={cn(styles.BigNumber, styles.Regular)}>56</p>
-                                    <p className={cn(styles.AchievementInfo, styles.Light)}>лет истории</p>
+                                    <p className={cn(styles.BigNumber, styles.Regular)}>{currentYears.years}</p>
+                                    <p className={cn(styles.AchievementInfo, styles.Light)}>{currentYears.nounForm} истории</p>
                                 </div>
                                 <div className={styles.Achievements__Single}>
                                     <p className={cn(styles.BigNumber, styles.Regular)}>58</p>
