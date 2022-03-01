@@ -1,0 +1,43 @@
+.GrantsInfo {
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px 50px;
+    column-gap: 40px;
+    display: flex;
+    font-size: 18px;
+    margin-bottom: 40px;
+
+    img {
+        max-width: 80px;
+    }
+}
+
+.Grants {
+    position: relative;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+
+    .tableTitles {
+        display: grid;
+        grid-template-columns: 2.5fr 0.6fr 1.7fr;
+        column-gap: 30px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .Grants {
+        padding: 0px;
+        background-color: transparent;
+        row-gap: 40px;
+
+        .tableTitles {
+            display: none;
+        }
+    }
+}

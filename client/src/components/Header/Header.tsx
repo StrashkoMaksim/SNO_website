@@ -25,7 +25,7 @@ const Header = () => {
         <header className={cn('section', styles.Header)}>
             <div className={cn('container', styles.Header__Container)}>
                 <MakeModal modalOpened={modalOpened} closeModal={closeModalForm}>
-                    <CallForm hasCloseBtn={true} closeModal={closeModalForm}></CallForm>
+                    <CallForm modal closeModal={closeModalForm}></CallForm>
                 </MakeModal>
                 <div className={styles.Header__Top}>
                     <Link to={'/'}>
@@ -53,9 +53,9 @@ const Header = () => {
                     <Link className={styles.Header__Link} to={'/council'}>Совет СНО</Link>
                     <Link className={styles.Header__Link} to={'/registration'}>Регистрация участников</Link>
                     <Link className={styles.Header__Link} to={'/events'}>Мероприятия</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Документы</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Студенческая конференция</Link>
-                    <Link className={styles.Header__Link} to={'/'}>Повышенная стипендия</Link>
+                    <Link className={styles.Header__Link} to={'/documents'}>Документы</Link>
+                    <Link className={styles.Header__Link} to={'/conference'}>Студенческая конференция</Link>
+                    <Link className={styles.Header__Link} to={'/grants'}>Повышенная стипендия</Link>
                 </nav>
             </div>
         </header>);

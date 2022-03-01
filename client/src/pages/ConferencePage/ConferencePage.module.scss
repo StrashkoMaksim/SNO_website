@@ -1,0 +1,15 @@
+.Conference {
+    background-color: white;
+    margin-bottom: 40px;
+    border-radius: 20px;
+    overflow-x: hidden;
+
+    &__Banner {
+        border-radius: 20px 20px 0px 0px;
+        box-shadow: 0px 10px 25px rgb(238, 238, 238);
+    }
+
+    &__Content {
+        padding: 40px 50px;
+    }
+}
