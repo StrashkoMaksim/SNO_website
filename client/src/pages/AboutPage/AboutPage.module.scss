@@ -1,15 +1,15 @@
 @import "../../assets/styles/global.scss";
 @import "../../assets/styles/variables.scss";
 
-html {
-    font-size: 20px;
-}
-
 .About {
     background-color: white;
     border-radius: 100px;
     margin: 60px 0px;
+    font-size: 20px;
+
     &__Block {
+        font-size: inherit;
+
         display: grid;
         grid-template-columns: 1.2fr 1fr;
         align-items: center;
@@ -24,14 +24,13 @@ html {
 
     .Title {
         text-transform: uppercase;
+        font-size: inherit;
         p:first-child {
-            font-size: 3.25rem;
-            line-height: 3.25rem;
+            font-size: 3.25em;
             margin-bottom: 20px;
         }
         p:last-child {
-            font-size: 2.4rem;
-            line-height: 2.4rem;
+            font-size: 2.4em;
             min-width: 19ch;
         }
     }
@@ -48,11 +47,11 @@ html {
             column-gap: 10px;
 
             .BigNumber {
-                font-size: 2.5rem;
+                font-size: 2.5em;
             }
 
             .AchievementInfo {
-                font-size: 1.8rem;
+                font-size: 1.8em;
             }
         }
     }
@@ -75,17 +74,17 @@ html {
             margin-top: 10px;
             p:first-child {
                 text-transform: uppercase;
-                font-size: 2.15rem;
-                line-height: 2.15rem;
+                font-size: 2.15em;
+                line-height: 2.15em;
             }
             p:last-child {
-                font-size: 1.05rem;
-                line-height: 1.05rem;
+                font-size: 1.05em;
+                line-height: 1.05em;
             }
         }
 
         &__Position {
-            font-size: 1rem;
+            font-size: 1em;
             margin-top: 5px;
         }
     }
@@ -99,6 +98,7 @@ html {
     #waveWhite {
         filter: brightness(0) saturate(100%) invert(100%);
         transform: rotateY(180deg);
+        bottom: -1px;
     }
 
     .Stories {
@@ -133,7 +133,7 @@ html {
 }
 
 @media screen and (max-width: 1070px) {
-    html {
+    .About {
         font-size: 15px;
     }
     .About__BossBlock__Img {
@@ -142,7 +142,7 @@ html {
 }
 
 @media screen and (max-width: 900px) {
-    html {
+    .About {
         font-size: 20px;
     }
 
@@ -183,7 +183,7 @@ html {
 }
 
 @media screen and (max-width: 650px) {
-    html {
+    .About {
         font-size: 15px;
     }
 
@@ -205,7 +205,7 @@ html {
 }
 
 @media screen and (max-width: 500px) {
-    html {
+    .About {
         font-size: 11px;
     }
 
@@ -264,7 +264,7 @@ html {
 }
 
 @media screen and (max-width: 370px) {
-    html {
+    .About {
         font-size: 9px;
     }
 }
