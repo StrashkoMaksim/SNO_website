@@ -3,10 +3,9 @@ import cn from "classnames";
 import Event from "../../components/Event/Event";
 import { FC } from "react";
 
-
 interface EventsProps {
     events: any[],
-    admin: boolean,
+    admin?: boolean,
     openModalForm?: Function
 }
 

@@ -10,7 +10,7 @@ interface EventProps {
     date: string,
     organizerText: string,
     organizerLink: string,
-    isAuth: boolean,
+    isAuth?: boolean,
     openModalForm?: Function,
     extraClass?: string
 }
@@ -71,4 +71,4 @@ const Event: FC<EventProps> = ({ id, name, date, organizerText, organizerLink, i
     )
 }
 
-export default Event;
+export default Event

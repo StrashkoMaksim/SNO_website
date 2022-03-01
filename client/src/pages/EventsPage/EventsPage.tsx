@@ -1,17 +1,9 @@
-import styles from "./EventsPage.module.scss"
 import cn from "classnames";
-import Event from "../../components/Event/Event";
 import React, { useEffect, FC } from "react";
 import http from "../../assets/http-config";
 import Events from "./Events";
-import AddEventModal from "../AdminEventsPage/AddEventModal";
 
-interface EventsPageProps {
-    admin: boolean
-    openModalForm?: Function
-}
-
-const EventsPage: FC<EventsPageProps> = ({ admin, openModalForm }) => {
+const EventsPage: FC = () => {
 
     const [events, setEvents] = React.useState<any[]>([]);
 
@@ -34,7 +26,7 @@ const EventsPage: FC<EventsPageProps> = ({ admin, openModalForm }) => {
         <section className={cn('section')}>
             <div className={cn('container')}>
                 <h1>Ближайшие мероприятия</h1>
-                <Events events={events} admin={admin} />
+                <Events events={events} />
             </div>
         </section>
     )
