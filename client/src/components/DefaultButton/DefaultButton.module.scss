@@ -31,4 +31,15 @@
             color: #3a7440;
         }
     }
+
+    &-adminFilled {
+        background-color: $dark-green;
+        border: 1px solid $dark-green;
+        padding: 10px 20px;
+
+        &:hover {
+            background-color: $salad-green;
+            border: 1px solid $salad-green;
+        }
+    }
 }

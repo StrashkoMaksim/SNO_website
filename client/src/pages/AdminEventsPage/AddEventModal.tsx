@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import MakeModal from "../../components/MakeModal/MakeModal";
 import styles from "./AddEventModal.module.scss"
 import DateAdapter from '@mui/lab/AdapterDateFns';
@@ -10,7 +10,6 @@ import cn from "classnames";
 import http from "../../assets/http-config";
 import checkMark from "../../assets/img/checkMark.svg"
 import errorMark from "../../assets/img/errorIcon.svg"
-
 
 export enum RequestType {
     post = 'post',
@@ -28,30 +27,30 @@ export interface eventData {
 interface AddEventModalProps {
     requestType: RequestType
     modalOpened: boolean
-    closeModal: Function
+    closeModal: () => void
     eventData: eventData
     updateEvents: Function
 }
 
-const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
+const AddEventModal: FC<AddEventModalProps> = ({ closeModal, modalOpened, eventData, updateEvents, requestType }) => {
 
     const [date, setDate] = React.useState<Date | null>(null);
     const [name, setName] = React.useState<string | null>(null)
     const [organizerText, setOrganizerText] = React.useState<string | null>(null)
     const [organizerLink, setOrganizerLink] = React.useState<string | null>(null)
 
-    const [formData, setFormData] = React.useState<eventData>(props.eventData);
+    const [formData, setFormData] = React.useState<eventData>(eventData);
     const [requestSuccessful, setRequestSuccessful] = React.useState<boolean | null>(null);
     const [reqErrMessage, setReqErrMsg] = React.useState<string>("");
     const [reqSuccessMessage, setReqSuccessMsg] = React.useState<string>("");
 
     useEffect(() => {
-        setName(props.eventData.name)
-        setDate(props.eventData.date)
-        setOrganizerText(props.eventData.organizerText)
-        setOrganizerLink(props.eventData.organizerLink)
-        setFormData(props.eventData)
-    }, [props.eventData])
+        setName(eventData.name)
+        setDate(eventData.date)
+        setOrganizerText(eventData.organizerText)
+        setOrganizerLink(eventData.organizerLink)
+        setFormData(eventData)
+    }, [eventData])
 
     const inputRecolor = {
         width: '100%',
@@ -95,7 +94,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
         event.preventDefault()
         const { target } = event;
         try {
-            props.requestType === RequestType.post ? postEvent() : putEvent()
+            requestType === RequestType.post ? postEvent() : putEvent()
         }
         catch (err) {
             console.log(err)
@@ -117,7 +116,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
         console.log(formData.date)
         console.log(formData.date instanceof Date)
 
-        await http.put(`/event/${props.eventData.id}`, formData, {
+        await http.put(`/event/${eventData.id}`, formData, {
             headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
         })
             .then(response => handleResponse(response.status, 'изменено'))
@@ -127,7 +126,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
     }
 
     const deleteEvent = async () => {
-        await http.delete(`/event/${props.eventData.id}`, {
+        await http.delete(`/event/${eventData.id}`, {
             headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
         })
             .then(response => handleResponse(response.status, 'удалено'))
@@ -142,7 +141,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
             case 201: {
                 setRequestSuccessful(true);
                 if (successMsg) setReqSuccessMsg(successMsg)
-                props.updateEvents()
+                updateEvents()
                 break;
             }
             case '400': {
@@ -168,7 +167,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
     }
 
     return (
-        <MakeModal modalOpened={props.modalOpened} closeModal={props.closeModal}>
+        <MakeModal modalOpened={modalOpened} closeModal={closeModal}>
             <form className={styles.AddEvent} onSubmit={handleFormSubmit}>
                 <div className={cn(styles.checkMark, { [styles['checkMark-active']]: requestSuccessful })}>
                     <img src={checkMark} alt="check mark icon" />
@@ -178,7 +177,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
                     <img src={errorMark} alt="check mark icon" />
                     <span>{reqErrMessage}</span>
                 </div>
-                <h2>{(props.requestType === 'post' ? "Добавить" : "Изменить") + " мероприятие"}</h2>
+                <h2>{(requestType === 'post' ? "Добавить" : "Изменить") + " мероприятие"}</h2>
                 <label htmlFor="name">
                     <TextField
                         variant="outlined"
@@ -228,13 +227,13 @@ const AddEventModal: FC<AddEventModalProps> = ({ ...props }) => {
 
                 <div className={styles.Buttons}>
                     <button className={cn(styles.Button, styles['Button-Accept'])}>Принять</button>
-                    <button type="button" onClick={() => props.closeModal()} className={cn(styles.Button, styles['Button-Deny'])}>Отмена</button>
+                    <button type="button" onClick={closeModal} className={cn(styles.Button, styles['Button-Deny'])}>Отмена</button>
                 </div>
 
                 <button type='button'
                     onClick={deleteEvent}
                     className={cn(styles.DeleteButton,
-                        { [styles['DeleteButton-active']]: props.requestType === RequestType.put })}
+                        { [styles['DeleteButton-active']]: requestType === RequestType.put })}
                 > удалить</button>
             </form>
         </MakeModal >

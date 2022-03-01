@@ -16,3 +16,35 @@ export const fetchTags = () => {
         }
     }
 }
+
+export const deleteTag = (tagId: string) => {
+    return async (dispatch: Dispatch<TagAction>) => {
+        try {
+            const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/tag/${tagId}`, {
+                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+            dispatch({ type: TagActionTypes.FETCH_TAGS_SUCCESS, payload: response.data.tags })
+        } catch (e) {
+            dispatch({
+                type: TagActionTypes.FETCH_TAGS_ERROR,
+                payload: 'Произошла ошибка при удалении тега'
+            })
+        }
+    }
+}
+
+export const addTag = (formData: FormData) => {
+    return async (dispatch: Dispatch<TagAction>) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/tag`, formData,{
+                headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+            dispatch({ type: TagActionTypes.FETCH_TAGS_SUCCESS, payload: response.data.tags })
+        } catch (e) {
+            dispatch({
+                type: TagActionTypes.FETCH_TAGS_ERROR,
+                payload: 'Произошла ошибка при добавлении тега'
+            })
+        }
+    }
+}

@@ -6,6 +6,7 @@ import React, { FC } from "react";
 
 export enum ButtonStyles {
     filled = "filled",
+    adminFilled = "adminFilled",
     outlined = "outlined"
 }
 
@@ -26,7 +27,7 @@ interface ButtonProps {
 const DefaultButton: FC<ButtonProps> = ({ text, style, type, imgSrc, onClick, extraClass }) => {
     return (
         <button
-            className={cn(styles.DefaultButton, extraClass, style === ButtonStyles.filled ? styles['DefaultButton-filled'] : styles['DefaultButton-outlined'])}
+            className={cn(styles.DefaultButton, extraClass, styles['DefaultButton-' + style])}
             onClick={onClick}
             type={type}
 

@@ -6,9 +6,18 @@ import styles from './AdminNewsPage.module.scss'
 import searchIcon from '../../assets/img/search.svg'
 import plusIcon from '../../assets/img/plus.svg'
 import settingsIcon from '../../assets/img/settings.svg'
+import TagsModal from "../../components/TagsModal/TagsModal";
 
 const AdminNewsPage = () => {
     const [isTagsModalVisible, setIsTagsModalVisible] = useState<boolean>(false)
+
+    const onOpenModalHandler = () => {
+        setIsTagsModalVisible(true)
+    }
+
+    const onCloseModalHandler = () => {
+        setIsTagsModalVisible(false)
+    }
 
     return (
         <>
@@ -23,7 +32,8 @@ const AdminNewsPage = () => {
                         imgSrc={settingsIcon}
                         style={ButtonStyles.outlined}
                         type={ButtonTypes.button}
-                        extraClass={styles.AdminOutlinedButton}/>
+                        extraClass={styles.AdminOutlinedButton}
+                        onClick={onOpenModalHandler}/>
                     <LinkButton
                         text={'Добавить новость'}
                         imgSrc={plusIcon}
@@ -31,6 +41,7 @@ const AdminNewsPage = () => {
                 </div>
             </header>
             <NewsList count={10} page={1} isAdmin={true} />
+            <TagsModal isVisible={isTagsModalVisible} onClose={onCloseModalHandler} />
         </>
     )
 }

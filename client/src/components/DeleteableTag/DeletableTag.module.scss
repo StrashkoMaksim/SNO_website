@@ -1,0 +1,22 @@
+.tag {
+  align-items: center;
+  border: 1px solid rgba(#000000, .08);
+  border-radius: 20px;
+  display: flex;
+  padding: 7px 12px;
+}
+
+.name {
+  color: #959595;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 100%;
+  margin-right: 8px;
+}
+
+.delete {
+  background: none;
+  border: none;
+  height: 12px;
+  width: 12px;
+}
