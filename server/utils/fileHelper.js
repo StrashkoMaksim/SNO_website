@@ -21,6 +21,24 @@ exports.saveImg = async (photo, width, height) => {
     return photoName
 }
 
+exports.savePNG = async (photo, width, height) => {
+    if (!photo) {
+        throw createError(400, 'Отсутствует фотография')
+    }
+
+    if (photo.name.substring(photo.name.length - 4) !== '.png') {
+        throw createError(400, 'Некорректный формат картинки')
+    }
+
+    const photoName = `${uuid.v4()}.jpg`
+
+    await sharp(`${process.env.tempPath}\\${photo.path.split('\\')[2]}`)
+        .resize(width, height)
+        .toFile(`${process.env.staticPath}\\${photoName}`)
+
+    return photoName
+}
+
 exports.saveFile = async (file) => {
     const fileNameArr = file.name.split('.')
     const resultType = fileNameArr[fileNameArr.length - 1].toLowerCase()
