@@ -1,0 +1,62 @@
+@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
+
+.ce-block__content {
+    max-width: 100%;
+}
+
+.ce-toolbar__actions,
+.ce-toolbox {
+    bottom: 100%;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgb(202, 202, 202);
+}
+
+.ce-paragraph {
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+
+    a {
+        color: $salad-green;
+        cursor: pointer;
+        transition: 0.3s;
+        text-decoration: none;
+
+        &:hover {
+            color: $dark-green;
+        }
+    }
+}
+
+.cdx-marker {
+    padding: 2px 5px;
+    margin: 0px 2px;
+    border-radius: 3px;
+    background-color: #c7c7c7;
+    color: white;
+}
+
+.ce-header {
+    margin: 30px 0px 15px 0px;
+}
+
+.cdx-list {
+    list-style-position: inside !important;
+    padding-left: 30px !important;
+
+    &--ordered {
+        list-style-type: decimal !important;
+    }
+
+    &--unordered {
+        list-style-type: circle !important;
+    }
+}
+
+.image-tool__caption {
+    text-align: center;
+    font-size: 14px;
+    color: #999999;
+    border: none;
+}
