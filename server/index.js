@@ -17,6 +17,7 @@ app.use(formData.parse({
     uploadDir: '.\\server\\tmp',
     autoClean: true
 }))
+app.use(formData.union())
 
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/news', require('./routes/news.routes'))

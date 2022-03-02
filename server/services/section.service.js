@@ -31,15 +31,20 @@ exports.getDetail = async function (id) {
     return news
 }
 
-exports.add = async function (previewImg, title, previewText, content, contentImages, tagsArr) {
-    const tags = await getTags(tagsArr)
+exports.add = async function (name, previewText, content, supervisor, schedule, achievements, logo, supervisorPhoto,
+                              contentImages) {
+
     const contentArr = JSON.parse(content)
 
     if (contentArr.length < 1) {
         throw createError(400, 'Отсутствует контент')
     }
 
-    const previewImgName = await saveImg(previewImg, 565, 300)
+    const parsedSupervisor = JSON.stringify(supervisor)
+
+    // if (!parsedSupervisor.fio || !parsedSupervisor.department || !parsedSupervisor.position)
+
+    const savedLogo = await saveImg(logo, 221, 221)
 
     for (const block of contentArr) {
         if (block.type === 'image') {
@@ -47,7 +52,7 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
         }
     }
 
-    const news = new Section({
+    const section = new Section({
         previewImg: previewImgName,
         title,
         previewText,
@@ -64,10 +69,8 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
     return true
 }
 
-exports.update = async function (id, previewImg, title, previewText, content, contentImages, tagsArr) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
+exports.update = async function (id, name, previewText, content, supervisor, schedule, achievements, logo,
+                                 supervisorPhoto, contentImages) {
 
     const news = await Section.findById(id)
 
@@ -147,7 +150,7 @@ exports.delete = async function (id) {
 }
 
 const validatePagination = (countStr, pageStr) => {
-    const count = countStr ? Number(countStr) : 10
+    const count = countStr ? Number(countStr) : 8
     const page = pageStr ? Number(pageStr) : 1
 
     if (!Number.isInteger(count) || !Number.isInteger(page)) {

@@ -15,6 +15,7 @@ const schema = new Schema({
     schedule: [
         {
             day: { type: String, required: true },
+            week: { type: String, required: true },
             time: { type: String, required: true },
             classroom: { type: String, required: true }
         }

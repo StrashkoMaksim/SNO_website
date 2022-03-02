@@ -44,12 +44,14 @@ exports.add = async function (req, res) {
             })
         }
 
-        const { title, previewText, content, tags } = req.body
-        const { logo, ...contentImages } = req.files
+        const { name, previewText, content, supervisor, schedule, achievements, logo } = req.body
+        const {supervisorPhoto, ...contentImages } = req.files
 
-        if (!await SectionService.add(previewImg, title, previewText, content, contentImages, tags)) {
-            throw Error()
-        }
+        // if (!await SectionService.add(name, previewText, content, supervisor, schedule, achievements, logo,
+        //     supervisorPhoto, contentImages)) {
+        //
+        //     throw Error()
+        // }
 
         res.status(201).json({ message: 'Кружок успешно добавлен' })
     } catch (e) {
@@ -69,10 +71,11 @@ exports.update = async function (req, res) {
         }
 
         const { id } = req.params
-        const { title, previewText, content, tags } = req.body
-        const { previewImg, ...contentImages } = req.files
+        const { name, previewText, content, supervisor, schedule, achievements } = req.body
+        const { logo, supervisorPhoto, ...contentImages } = req.files
 
-        if (!await SectionService.update(id, previewImg, title, previewText, content, contentImages, tags)) {
+        if (!await SectionService.update(name, previewText, content, supervisor, schedule, achievements, logo,
+            supervisorPhoto, contentImages)) {
             throw Error()
         }
 
