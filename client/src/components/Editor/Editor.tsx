@@ -1,7 +1,8 @@
-import React, {FC} from 'react'
-import {createReactEditorJS} from "react-editor-js"
+import React, { FC } from 'react'
+import { createReactEditorJS } from "react-editor-js"
 import styles from './Editor.module.scss'
-import {useEditor} from "../../hooks/useEditor";
+import { useEditor } from "../../hooks/useEditor";
+import './EditorStylesReset.scss'
 
 interface EditorProps {
     onInitialize: (instance: any) => void
@@ -14,9 +15,9 @@ const Editor: FC<EditorProps> = ({ onInitialize }) => {
     return (
         <div className={styles.editor}>
             <ReactEditorJS onInitialize={onInitialize}
-                           tools={editorTools}
-                           i18n={localization}
-                           placeholder={'Начните свою историю...'} />
+                tools={editorTools}
+                i18n={localization}
+                placeholder={'Начните свою историю...'} />
         </div>
     )
 }

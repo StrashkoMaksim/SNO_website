@@ -6,29 +6,29 @@ import closeIcon from '../../../../assets/img/close.svg'
 
 interface TagsSelectorProps {
     tags: Tag[],
-    selectedTags: Set<string>
-    onInput: (name: string) => void
+    selectedTags: Set<Tag>
+    onInput: (tag: Tag) => void
 }
 
 
 const TagsSelector: FC<TagsSelectorProps> = ({ tags, selectedTags, onInput }) => {
 
     const [selectorOpened, setSelectorOpened] = useState(false);
-    const [autoTags, setAutoTags] = useState<string[]>([])
-    const tagNames = tags.map(tag => tag.name)
+    const [autoTags, setAutoTags] = useState<Tag[]>([])
 
-    const closeSelector = () => {
-        setSelectorOpened(false)
+    const onSelectorBlur = (value: boolean) => {
+        return (e: any) => {
+            e.target.value = ''
+            setTimeout(() => setSelectorOpened(value), 80)
+        }
     }
 
     const onTagSelectorChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!selectorOpened) setSelectorOpened(true)
 
-        let filteredTags: string[];
+        let filteredTags: Tag[];
 
-        // Если запрос пустой
-        event.target.value == "" ? filteredTags = [] :
-            filteredTags = tagNames.filter(tag => tag.toLowerCase().match(event.target.value.toLowerCase()))
+        filteredTags = tags.filter(tag => tag.name.toLowerCase().match(event.target.value.toLowerCase()))
 
         setAutoTags(filteredTags)
     }
@@ -36,27 +36,30 @@ const TagsSelector: FC<TagsSelectorProps> = ({ tags, selectedTags, onInput }) =>
     return (
         <div className={styles.TagsContainer}>
             {Array.from(selectedTags).map(tag =>
-                <div key={tag} className={styles.tag}>
-                    {tag}
+                <div key={tag._id} className={styles.tag}>
+                    {tag.name}
                     <img className={styles.tag__Remove} onClick={() => onInput(tag)} src={closeIcon} alt='remove tag' />
                 </div>)}
-            <div className={styles.Selector}>
+
+            <div className={styles.Selector} >
                 <input
                     type="text"
                     className={styles.addBtn}
                     placeholder="Добавить тег"
+                    onBlur={onSelectorBlur(false)}
                     onChange={onTagSelectorChange}
                 />
                 <div className={cn(styles.MenuItems, { [styles['MenuItems-active']]: selectorOpened })}
-                    onClick={closeSelector}>
+                    onClick={() => setSelectorOpened(false)}
+                >
                     {autoTags.map(tag =>
                         <button
                             type="button"
-                            key={tag}
+                            key={tag._id}
                             className={styles.MenuItems__Single}
                             onClick={() => onInput(tag)}
                         >
-                            {tag}</button>
+                            {tag.name}</button>
                     )}
                 </div>
             </div>

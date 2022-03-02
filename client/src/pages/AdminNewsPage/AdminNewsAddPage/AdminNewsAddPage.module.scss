@@ -1,7 +1,7 @@
 @import "../../../assets/styles/global.scss";
 @import "../../../assets/styles/variables";
 
-.newsArticleForm {
+.newsArticlePreview {
     margin-top: 40px;
     max-width: 565px;
     background-color: white;
@@ -10,8 +10,24 @@
 
     &__Content {
         padding: 30px;
-    }
 
+        &__Title {
+            margin-bottom: 15px;
+        }
+
+        .readMoreLink {
+            color: $salad-green;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                color: $dark-green;
+            }
+        }
+    }
+}
+
+.newsArticleForm {
     &__input {
         border: none;
         width: 100%;
@@ -25,7 +41,7 @@
         }
 
         &-description {
-            margin-top: 15px;
+            margin-top: 40px;
             font-weight: 400;
             font-size: 16px;
 
@@ -39,7 +55,6 @@
 .imgContainer {
     overflow: hidden;
     height: 300px;
-    display: inline-block;
     cursor: pointer;
 
     img {
