@@ -107,6 +107,7 @@ h3 {
   align-items: flex-end;
   display: grid;
   grid-template-columns: 1fr auto;
+  margin-bottom: 60px;
 
   .btns {
     align-items: center;
@@ -119,3 +120,34 @@ h3 {
   }
 }
 
+.admin-add-form {
+  margin-top: 30px;
+  background-color: white;
+  max-width: 873px;
+  padding: 50px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  &__input-title {
+    font-size: 36px;
+  }
+
+  &__error {
+    color: red;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 100%;
+    margin-top: 14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .admin-add-form {
+    &__field {
+      grid-gap: 10px;
+      grid-template-columns: 1fr;
+    }
+  }
+}

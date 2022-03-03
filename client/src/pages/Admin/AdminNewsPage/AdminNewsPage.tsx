@@ -21,7 +21,7 @@ const AdminNewsPage = () => {
 
     return (
         <>
-            <header className={styles.header}>
+            <header className={styles.adminHeader}>
                 <div className={styles.search}>
                     <img src={searchIcon} alt="Поиск" />
                     <input type="text" placeholder="Введите название новости" />
@@ -33,7 +33,7 @@ const AdminNewsPage = () => {
                         style={ButtonStyles.outlined}
                         type={ButtonTypes.button}
                         extraClass={styles.AdminOutlinedButton}
-                        onClick={onOpenModalHandler}/>
+                        onClick={onOpenModalHandler} />
                     <LinkButton
                         text={'Добавить новость'}
                         imgSrc={plusIcon}
@@ -42,7 +42,7 @@ const AdminNewsPage = () => {
             </header>
             <NewsList count={10} page={1} isAdmin={true} />
             {isTagsModalVisible &&
-                <TagsModal isVisible={isTagsModalVisible} onClose={onCloseModalHandler}/>
+                <TagsModal isVisible={isTagsModalVisible} onClose={onCloseModalHandler} />
             }
         </>
     )

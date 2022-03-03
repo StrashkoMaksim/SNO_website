@@ -1,2 +1,35 @@
 @import "../../../../assets/styles/global.scss";
 @import "../../../../assets/styles/variables.scss";
+
+.form {
+    border-radius: 20px;
+}
+
+.mainInputs {
+    display: flex;
+    column-gap: 40px;
+    &__TextInputs {
+    }
+}
+
+.input-name {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.input-previewText {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.logo {
+    border-radius: 100px;
+    height: 200px;
+    width: 200px;
+    display: grid;
+    place-items: center;
+}
+
+.alignSelfCenter {
+    align-self: center;
+}

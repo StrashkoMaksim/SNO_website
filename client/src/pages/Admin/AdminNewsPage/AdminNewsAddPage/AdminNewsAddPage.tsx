@@ -13,6 +13,7 @@ import TagsSelector from './TagsSelector/TagsSelector';
 import { Tag } from '../../../../types/tag';
 import AdminFormInputText, { AFITStyle } from '../../../../components/Admin/AdminFormInputText/AdminFormInputText';
 import AdminFormInputImg from '../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
+import placeholderImg from '../../../../assets/img/placeholderImg.png'
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
@@ -209,10 +210,12 @@ const AdminNewsAddPage: FC = () => {
                 <AdminFormInputImg
                     name="previewImg"
                     onChange={onPreviewImgLoad}
+                    extraClass={styles.imgContainer}
+                    defaultImg={placeholderImg}
                 />
 
                 <div className={styles.newsArticlePreview__Content}>
-                   
+
                     <h2 className={styles.newsArticlePreview__Content__Title}>
                         {news.news[0] ? news.news[0].title : 'Заголовок'}
                     </h2>
@@ -270,7 +273,9 @@ const AdminNewsAddPage: FC = () => {
                 <DefaultButton
                     text="Сохранить новость"
                     style={ButtonStyles.filled}
-                    type={ButtonTypes.submit} />
+                    type={ButtonTypes.submit} 
+                    extraClass={styles.alignSelfCenter}
+                    />
             </form>
         </>
     )

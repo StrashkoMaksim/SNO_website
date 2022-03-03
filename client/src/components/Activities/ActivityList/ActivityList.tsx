@@ -18,6 +18,7 @@ const ActivityList: FC<ActivityListProps> = ({ activities, activitiesExpanded })
                     // imgSrc={activity.imgSrc}
                     // title={activity.title}
                     // shortInfo={activity.shortInfo}
+                    key={activity.id}
                     id={'5235'}
                     imgSrc={mockLogo}
                     title='Математическое моделирование'

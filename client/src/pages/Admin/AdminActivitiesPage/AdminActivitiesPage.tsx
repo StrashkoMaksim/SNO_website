@@ -9,7 +9,7 @@ const AdminActivtiesPage: FC = () => {
 
     return (
         <>
-            <header className={styles.header}>
+            <header className={styles.adminHeader}>
                 <h1 className="adminH1">Кружки</h1>
                 <div className={styles.btns}>
                     <LinkButton

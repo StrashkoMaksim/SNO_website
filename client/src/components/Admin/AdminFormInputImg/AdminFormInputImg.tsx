@@ -1,12 +1,11 @@
 import styles from "./AdminFormInputImg.module.scss"
 import cn from "classnames"
 import { FC, useState } from 'react'
-import placeholderImg from '../../../assets/img/placeholderImg.png'
 
 interface AFIIProps {
     name: string,
     onChange: (e: any) => void,
-    defaultImg?: string,
+    defaultImg: string,
     extraClass?: string,
     required?: boolean
 }
@@ -14,7 +13,7 @@ interface AFIIProps {
 
 const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, extraClass, required = true }) => {
 
-    const [newsImage, setNewsImage] = useState<string>(defaultImg ? defaultImg : placeholderImg)
+    const [newsImage, setNewsImage] = useState<string>(defaultImg)
 
     const onChangeHandler = (event: any) => {
 
@@ -27,9 +26,9 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, extraCla
     }
 
     return (
-        <>
+        <div className={extraClass}>
             <input
-                className={cn(styles['visually-hidden'], extraClass)}
+                className={styles['visually-hidden']}
                 type="file"
                 name={name}
                 accept=".jpg"
@@ -40,7 +39,7 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, extraCla
             <label htmlFor='previewImg' className={styles.imgContainer}>
                 <img className={styles.previewImg} src={newsImage} alt="News picture" />
             </label>
-        </>
+        </div>
     )
 }
 

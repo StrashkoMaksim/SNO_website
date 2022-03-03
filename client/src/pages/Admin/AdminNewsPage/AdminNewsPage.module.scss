@@ -1,8 +1,6 @@
-.header {
-  align-items: flex-end;
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
+@import '../../../assets/styles/global.scss';
+
+
 
 .search {
   align-items: center;

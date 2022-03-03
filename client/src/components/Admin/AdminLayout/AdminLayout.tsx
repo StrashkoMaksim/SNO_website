@@ -1,8 +1,8 @@
-import React, {FC, useState} from 'react'
-import {Link, Outlet} from "react-router-dom";
+import React, { FC, useState } from 'react'
+import { Link, Outlet } from "react-router-dom";
 import cn from "classnames";
 import styles from './AdminLayout.module.scss'
-import {useActions} from "../../../hooks/useActions";
+import { useActions } from "../../../hooks/useActions";
 import Logo from '../../../assets/img/headerLogo.svg'
 import LogoutImg from '../../../assets/img/logout.svg'
 import AdminNavigation from "../AdminNavigation/AdminNavigation";
@@ -14,6 +14,7 @@ const AdminLayout: FC = () => {
     const burgerClickHandler = () => {
         setIsNavOpen(!isNavOpen)
     }
+
 
     return (
         <div className={cn("section", styles.adminLayout)}>
