@@ -85,7 +85,6 @@ exports.add = async function (req, res) {
 
         const { title, previewText, content, tags } = req.body
         const { previewImg, ...contentImages } = req.files
-
         if (!await NewsService.add(previewImg, title, previewText, content, contentImages, tags)) {
             throw Error()
         }

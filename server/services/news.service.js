@@ -1,8 +1,8 @@
 const News = require("../models/News")
 const Tag = require('../models/Tag')
-const {Types} = require("mongoose");
+const { Types } = require("mongoose");
 const createError = require("http-errors");
-const {saveImg} = require("../utils/fileHelper");
+const { saveImg } = require("../utils/fileHelper");
 const fs = require("fs");
 
 exports.get = async function (countStr, pageStr) {
@@ -20,7 +20,7 @@ exports.get = async function (countStr, pageStr) {
 }
 
 exports.getDetail = async function (id) {
-    if(!Types.ObjectId.isValid(id)) {
+    if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID новости')
     }
 
@@ -34,7 +34,7 @@ exports.getDetail = async function (id) {
 }
 
 exports.getAdmin = async function (id) {
-    if(!Types.ObjectId.isValid(id)) {
+    if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID новости')
     }
 
@@ -50,11 +50,11 @@ exports.getAdmin = async function (id) {
 exports.filterByTag = async function (tagId, countStr, pageStr) {
     const { count, page } = validatePagination(countStr, pageStr)
 
-    if(!Types.ObjectId.isValid(tagId)) {
+    if (!Types.ObjectId.isValid(tagId)) {
         throw createError(400, 'Некорректный ID тега')
     }
 
-    const news = await News.find({ tags: {_id: tagId} })
+    const news = await News.find({ tags: { _id: tagId } })
         .sort({ _id: -1 })
         .skip(count * (page - 1))
         .limit(10)
@@ -73,7 +73,6 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
     }
 
     const previewImgName = await saveImg(previewImg, 565, 300)
-
     for (const block of contentArr) {
         if (block.type === 'image') {
             block.data.src = await saveImg(contentImages[block.id], 773)
@@ -104,7 +103,7 @@ exports.update = async function (id, previewImg, title, previewText, content, co
 
     const news = await News.findById(id)
 
-    if(!news) {
+    if (!news) {
         throw createError(404, 'Новость не найдена')
     }
 
@@ -163,7 +162,7 @@ exports.delete = async function (id) {
 
     const news = await News.findById(id)
 
-    if(!news) {
+    if (!news) {
         throw createError(404, 'Новость не найдена')
     }
 

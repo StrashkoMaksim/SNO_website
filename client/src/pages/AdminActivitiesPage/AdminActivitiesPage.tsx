@@ -1,10 +1,10 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import styles from "../AdminNewsPage/AdminNewsPage.module.scss"
 import plusIcon from "../../assets/img/plus.svg"
 import ActivityList from "../../components/Activities/ActivityList/ActivityList"
 import LinkButton from "../../components/LinkButton/LinkButton";
 
-const AdminSectionsPage: FC = () => {
+const AdminActivtiesPage: FC = () => {
     const activities: any[] = ['5', '3']
 
     return (
@@ -15,12 +15,12 @@ const AdminSectionsPage: FC = () => {
                     <LinkButton
                         to="add"
                         text={'Добавить кружок'}
-                        imgSrc={plusIcon}/>
+                        imgSrc={plusIcon} />
                 </div>
             </header>
-            <ActivityList activities={activities} />
+            <ActivityList activities={activities} activitiesExpanded={true} />
         </>
     )
 }
 
-export default AdminSectionsPage
+export default AdminActivtiesPage

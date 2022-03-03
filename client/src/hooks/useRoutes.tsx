@@ -15,10 +15,11 @@ import EventsPage from "../pages/EventsPage/EventsPage";
 import AdminEventsPage from "../pages/AdminEventsPage/AdminEventsPage";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import MainLayout from "../components/MainLayout/MainLayout";
-import AdminSectionsPage from "../pages/AdminSectionsPage/AdminSectionsPage";
 import DocumentsPage from "../pages/DocumentsPage/DocumentsPage";
 import ConferencePage from "../pages/ConferencePage/ConferencePage";
 import GrantsPage from "../pages/GrantsPage/GrantsPage";
+import AdminActivtiesPage from "../pages/AdminActivitiesPage/AdminActivitiesPage";
+import AdminAddActivitiesPage from "../pages/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -41,7 +42,9 @@ export const useRoutes = () => {
                             <Route path="council" element={<AdminNewsPage />} />
                             <Route path="supervisors" element={<AdminNewsPage />} />
                             <Route path="documents" element={<AdminNewsPage />} />
-                            <Route path="sections" element={<AdminSectionsPage />} />
+                            <Route path="activities" element={<AdminActivtiesPage />} />
+                            <Route path="activities/add" element={<AdminAddActivitiesPage />} />
+                            <Route path="activities/:id" element={<AdminAddActivitiesPage />} />
                             <Route path="events" element={<AdminEventsPage />} />
                         </Route>
                     </>

@@ -1,16 +1,17 @@
-import React, {FC} from 'react'
+import React, { FC } from 'react'
 import cn from "classnames"
 import Activity from "../Activity/Activity"
-import mockLogo from "../../../assets/img/mockActivityLogo.png"
+import mockLogo from "../../../assets/img/mockActivityLogo.svg"
 import styles from './ActivityList.module.scss'
 
 interface ActivityListProps {
     activities: any[]
+    activitiesExpanded: boolean
 }
 
-const ActivityList: FC<ActivityListProps> = ({ activities }) => {
+const ActivityList: FC<ActivityListProps> = ({ activities, activitiesExpanded }) => {
     return (
-        <div className={cn(styles.activitiesBlock)}>
+        <div className={cn(styles.activitiesBlock, { [styles.expandedBlock]: activitiesExpanded })}>
             {activities.map(activity =>
                 <Activity
                     // id={activity._id}
@@ -19,8 +20,7 @@ const ActivityList: FC<ActivityListProps> = ({ activities }) => {
                     // shortInfo={activity.shortInfo}
                     id={'5235'}
                     imgSrc={mockLogo}
-                    title='Кружок n'
-                    shortInfo='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vehicula posuere ipsum'
+                    title='Математическое моделирование'
                 />
             )}
         </div>

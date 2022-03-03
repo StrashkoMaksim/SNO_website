@@ -4,4 +4,11 @@
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 40px;
   grid-row-gap: 40px;
+  justify-items: center;
+}
+
+@media screen and (max-width: 800px) {
+  .newsList {
+    grid-template-columns: 1fr;
+  }
 }

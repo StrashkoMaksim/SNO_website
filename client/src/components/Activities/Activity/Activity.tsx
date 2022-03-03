@@ -6,15 +6,13 @@ interface ActivityProps {
     id: string,
     imgSrc: string,
     title: string,
-    shortInfo: string
 }
 
-const Activity: FC<ActivityProps> = ({ id, imgSrc, title, shortInfo }) => {
+const Activity: FC<ActivityProps> = ({ id, imgSrc, title}) => {
     return (
         <Link to={id} className={styles.activity}>
             <img className={styles.activityLogo} src={imgSrc} alt="Activity logo" />
             <h2 className={styles.title}>{title}</h2>
-            <p className={styles.shortInfo}>{shortInfo}</p>
         </Link>
     )
 }

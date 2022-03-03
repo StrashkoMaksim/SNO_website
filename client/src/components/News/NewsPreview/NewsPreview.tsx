@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import styles from "./NewsPreview.module.scss"
 import cn from "classnames"
 import InfoLabel from '../../InfoLabel/InfoLabel'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface NewsPreviewProps {
     id: string
@@ -21,10 +21,15 @@ const NewsPreview: FC<NewsPreviewProps> = (
     // Переводит дату из серверного timestamp в читаемый вид
     const convertDate = (date: string) => {
         return date
-            .slice(0, 9)
+            .slice(0, 10)
             .split('-')
             .reverse()
             .join('/')
+    }
+
+    const trimDescriptionText = (text: string) => {
+        text = text.slice(0, 180) + '... '
+        return text;
     }
 
     return (
@@ -36,7 +41,7 @@ const NewsPreview: FC<NewsPreviewProps> = (
             <div className={styles.newsArticle__Text}>
                 <h2>{title}</h2>
                 <p className={cn(styles.shortInfo, "Light")}>
-                    {shortInfo}
+                    {trimDescriptionText(shortInfo)}
                     {isAdmin ?
                         <Link to={'/admin/news/' + id} className={styles.readMoreLink}>Редактировать</Link>
                         :
