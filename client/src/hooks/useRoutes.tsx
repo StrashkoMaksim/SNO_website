@@ -13,7 +13,7 @@ import CouncilPage from "../pages/User/CouncilPage/CouncilPage";
 import RegistrationPage from "../pages/User/RegistrationPage/RegistrationPage";
 import EventsPage from "../pages/User/EventsPage/EventsPage";
 import AdminEventsPage from "../pages/Admin/AdminEventsPage/AdminEventsPage";
-import AdminLayout from "../components/AdminLayout/AdminLayout";
+import AdminLayout from "../components/Admin/AdminLayout/AdminLayout";
 import MainLayout from "../components/MainLayout/MainLayout";
 import DocumentsPage from "../pages/User/DocumentsPage/DocumentsPage";
 import ConferencePage from "../pages/User/ConferencePage/ConferencePage";

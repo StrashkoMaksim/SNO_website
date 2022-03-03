@@ -8,12 +8,11 @@ import axios, { AxiosError } from "axios";
 import { useTypedSelector } from "../../../../hooks/useTypedSelector";
 import { useActions } from "../../../../hooks/useActions";
 import styles from "./AdminNewsAddPage.module.scss"
-import cn from 'classnames';
 import InfoLabel from '../../../../components/InfoLabel/InfoLabel';
-import placeholderImg from '../../../../assets/img/placeholderImg.png'
-import TextareaAutosize from 'react-textarea-autosize';
 import TagsSelector from './TagsSelector/TagsSelector';
 import { Tag } from '../../../../types/tag';
+import AdminFormInputText, { AFITStyle } from '../../../../components/Admin/AdminFormInputText/AdminFormInputText';
+import AdminFormInputImg from '../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
@@ -27,7 +26,6 @@ const AdminNewsAddPage: FC = () => {
     const { fetchTags } = useActions()
 
     const [todayDate, setTodayDate] = useState<string>('')
-    const [newsImage, setNewsImage] = useState<string>(placeholderImg)
 
     useEffect(() => {
         changeNewsState({
@@ -119,8 +117,6 @@ const AdminNewsAddPage: FC = () => {
         formData.set('previewImg', previewImg);
         formData.set('content', JSON.stringify(editorContent.blocks))
         formData.set('tags', JSON.stringify(Array.from(selectedTags).map(tag => tag._id)))
-        // @ts-ignore
-        console.log([...formData])
 
         try {
             if (newsId) {
@@ -152,6 +148,7 @@ const AdminNewsAddPage: FC = () => {
     }
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
         // @ts-ignore
         news.news[0][e.currentTarget.name] = e.currentTarget.value
         changeNewsState(news)
@@ -161,7 +158,7 @@ const AdminNewsAddPage: FC = () => {
     const tagsInputHandler = (tag: Tag) => {
 
         const filterSelected = Array.from(selectedTags)
-            .filter(selctd_tag => selctd_tag.name != tag.name)
+            .filter(selctd_tag => selctd_tag.name !== tag.name)
 
         let newSet: Set<Tag>;
 
@@ -174,19 +171,16 @@ const AdminNewsAddPage: FC = () => {
         setSelectedTags(newSet)
     }
 
-    const onPreviewImgLoad = (event: any) => {
-
-        const img = event.target.files[0];
-        setPreviewImg(img)
-        if (img) {
-            const imgURL = URL.createObjectURL(img)
-            setNewsImage(imgURL)
-        }
-    }
 
     const trimDescriptionText = (text: string) => {
         text = text.slice(0, 180) + '...'
         return text;
+    }
+
+
+    const onPreviewImgLoad = (event: any) => {
+        const img = event.target.files[0];
+        setPreviewImg(img)
     }
 
     return (
@@ -212,21 +206,13 @@ const AdminNewsAddPage: FC = () => {
             <div className={styles.newsArticlePreview}>
                 <InfoLabel text={todayDate} />
 
-                <input
-                    className={styles['visually-hidden']}
-                    type="file"
-                    placeholder="Введите описание"
+                <AdminFormInputImg
                     name="previewImg"
-                    accept=".jpg"
-                    required={!newsId}
-                    id='previewImg'
-                    onChange={onPreviewImgLoad} />
-
-                <label htmlFor='previewImg' className={styles.imgContainer}>
-                    <img className={styles.previewImg} src={newsId ? 'Тут должна быть картинка с новости' : newsImage} alt="News picture" />
-                </label>
+                    onChange={onPreviewImgLoad}
+                />
 
                 <div className={styles.newsArticlePreview__Content}>
+                   
                     <h2 className={styles.newsArticlePreview__Content__Title}>
                         {news.news[0] ? news.news[0].title : 'Заголовок'}
                     </h2>
@@ -253,23 +239,28 @@ const AdminNewsAddPage: FC = () => {
             <form className={styles['admin-add-form']} onSubmit={submitHandler}>
 
                 <InfoLabel text={todayDate} />
-                <TextareaAutosize
-                    className={cn(styles['newsArticleForm__input'], styles['newsArticleForm__input-title'], styles['admin-add-form__input-title'])}
+
+                <AdminFormInputText
+                    style={AFITStyle.textarea}
                     placeholder="Заголовок"
                     name="title"
                     value={news.news[0] ? news.news[0].title : ''}
                     onChange={onChangeTextInputsHandle}
-                    required />
+                    extraClass={styles['newsArticleForm-title']}
+                    required
+                />
 
                 <TagsSelector tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
 
-                <TextareaAutosize
-                    className={cn(styles['newsArticleForm__input'], styles['newsArticleForm__input-description'])}
+                <AdminFormInputText
+                    style={AFITStyle.textarea}
                     placeholder="Описание"
                     name="previewText"
                     value={news.news[0] ? news.news[0].previewText : ''}
                     onChange={onChangeTextInputsHandle}
-                    required />
+                    extraClass={styles['newsArticleForm-description']}
+                    required
+                />
 
                 <Editor onInitialize={editorInitializeHandler} />
 

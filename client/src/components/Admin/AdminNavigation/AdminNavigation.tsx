@@ -2,10 +2,10 @@ import React, { FC, useState } from 'react';
 import cn from "classnames";
 import styles from "./AdminNavigation.module.scss";
 import { Link } from "react-router-dom";
-import NewsImg from "../../assets/img/admin_nav_news.svg";
-import SectionImg from "../../assets/img/admin_nav_section.svg";
-import DocumentsImg from "../../assets/img/admin_nav_documents.svg";
-import CouncilImg from "../../assets/img/admin_nav_council.svg";
+import NewsImg from "../../../assets/img/admin_nav_news.svg";
+import SectionImg from "../../../assets/img/admin_nav_section.svg";
+import DocumentsImg from "../../../assets/img/admin_nav_documents.svg";
+import CouncilImg from "../../../assets/img/admin_nav_council.svg";
 
 const navLinks = [
     { link: 'news', text: 'Новости', imgSrc: NewsImg },
