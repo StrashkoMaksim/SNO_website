@@ -210,6 +210,7 @@ const AdminNewsAddPage: FC = () => {
                 <AdminFormInputImg
                     name="previewImg"
                     onChange={onPreviewImgLoad}
+                    id='newsPreviewInputImg'
                     extraClass={styles.imgContainer}
                     defaultImg={placeholderImg}
                 />
@@ -273,9 +274,9 @@ const AdminNewsAddPage: FC = () => {
                 <DefaultButton
                     text="Сохранить новость"
                     style={ButtonStyles.filled}
-                    type={ButtonTypes.submit} 
+                    type={ButtonTypes.submit}
                     extraClass={styles.alignSelfCenter}
-                    />
+                />
             </form>
         </>
     )

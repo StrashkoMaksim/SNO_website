@@ -1,6 +1,12 @@
 @import "../../../../assets/styles/global.scss";
 @import "../../../../assets/styles/variables.scss";
 
+.AddActivityForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
 .form {
     border-radius: 20px;
 }

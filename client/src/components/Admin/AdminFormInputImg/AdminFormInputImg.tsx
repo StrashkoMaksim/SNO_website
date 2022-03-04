@@ -6,21 +6,22 @@ interface AFIIProps {
     name: string,
     onChange: (e: any) => void,
     defaultImg: string,
+    id: string,
     extraClass?: string,
     required?: boolean
 }
 
 
-const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, extraClass, required = true }) => {
+const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, extraClass, required = true }) => {
 
-    const [newsImage, setNewsImage] = useState<string>(defaultImg)
+    const [inputImage, setInputImage] = useState<string>(defaultImg)
 
     const onChangeHandler = (event: any) => {
 
         const img = event.target.files[0];
         if (img) {
             const imgURL = URL.createObjectURL(img)
-            setNewsImage(imgURL)
+            setInputImage(imgURL)
         }
         onChange(event)
     }
@@ -33,11 +34,11 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, extraCla
                 name={name}
                 accept=".jpg"
                 required={required}
-                id='previewImg'
+                id={id}
                 onChange={onChangeHandler} />
 
-            <label htmlFor='previewImg' className={styles.imgContainer}>
-                <img className={styles.previewImg} src={newsImage} alt="News picture" />
+            <label htmlFor={id} className={styles.imgContainer}>
+                <img className={styles.previewImg} src={inputImage} alt="Image input" />
             </label>
         </div>
     )
