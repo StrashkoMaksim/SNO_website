@@ -1,8 +1,6 @@
 import React, { ComponentRef, FC, FormEvent, useEffect, useState } from 'react'
 import Editor from "../../../../components/Editor/Editor";
-import LinkBack from "../../../../components/LinkBack/LinkBack";
 import { useNavigate, useParams } from "react-router-dom";
-import deleteIcon from '../../../../assets/img/red_trash.svg'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../components/DefaultButton/DefaultButton";
 import axios, { AxiosError } from "axios";
 import { useTypedSelector } from "../../../../hooks/useTypedSelector";
@@ -14,6 +12,7 @@ import { Tag } from '../../../../types/tag';
 import AdminFormInputText, { AFITStyle } from '../../../../components/Admin/AdminFormInputText/AdminFormInputText';
 import AdminFormInputImg from '../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
 import placeholderImg from '../../../../assets/img/placeholderImg.png'
+import AdminEditPageHeader, { AEPHTypes } from '../../../../components/AdminEditPageHeader/AdminEditPageHeader';
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
@@ -186,23 +185,13 @@ const AdminNewsAddPage: FC = () => {
 
     return (
         <>
-            <LinkBack to="/admin/news" text="Вернуться к списку новостей" />
-            <div className={styles.adminHeader}>
-                <h1 className={styles.adminH1}>
-                    {newsId ? 'Редактировать новость' : 'Добавить новость'}
-                </h1>
-                {newsId &&
-                    <div className={styles.btns}>
-                        <DefaultButton
-                            text="Удалить новость"
-                            imgSrc={deleteIcon}
-                            style={ButtonStyles.outlined}
-                            type={ButtonTypes.button}
-                            onClick={onDeleteHandler}
-                        />
-                    </div>
-                }
-            </div>
+
+            <AdminEditPageHeader
+                linkTo='/admin/news'
+                headerForObj={newsId}
+                headerFor={AEPHTypes.news}
+                onDeleteBtnClick={onDeleteHandler} />
+
 
             <div className={styles.newsArticlePreview}>
                 <InfoLabel text={todayDate} />
