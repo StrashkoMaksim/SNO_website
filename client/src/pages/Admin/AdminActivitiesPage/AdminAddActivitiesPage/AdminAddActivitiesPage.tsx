@@ -1,7 +1,5 @@
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../components/DefaultButton/DefaultButton";
-import LinkBack from "../../../../components/LinkBack/LinkBack";
 import styles from './AdminAddActivitiesPage.module.scss'
-import deleteIcon from '../../../../assets/img/red_trash.svg'
 import { ComponentRef, FormEvent, useState } from "react";
 import AdminFormInputText, { AFITStyle } from "../../../../components/Admin/AdminFormInputText/AdminFormInputText";
 import AdminFormInputImg from "../../../../components/Admin/AdminFormInputImg/AdminFormInputImg";
@@ -11,7 +9,8 @@ import Editor, { getEditorContent } from "../../../../components/Editor/Editor";
 import React from "react";
 import AdminAddSupervisorForm from "../../../../components/Admin/AdminAddSupervisorForm/AdminAddSupervisorForm";
 import SchedulePicker from "./SchedulePicker/SchedulePicker";
-import {ScheduleIntefrace} from '../../../../types/schedule'
+import { ScheduleIntefrace } from '../../../../types/schedule'
+import AdminEditPageHeader, { AEPHTypes } from "../../../../components/AdminEditPageHeader/AdminEditPageHeader";
 
 interface Activity {
     name: string,
@@ -51,20 +50,10 @@ const AdminAddActivitiesPage = () => {
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        console.log(activity)
+        // const formData = new FormData(e.currentTarget)
 
-        const formData = new FormData(e.currentTarget)
+        // const editorData = await getEditorContent(editorCore);
 
-        const editorData = await getEditorContent(editorCore);
-
-        // @ts-ignore
-        for (var pair of editorData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-        // @ts-ignore
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
     }
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -89,30 +78,15 @@ const AdminAddActivitiesPage = () => {
     return (
         <>
 
-            {/* Это можно вынести в отдельный компонент */}
-
-            <LinkBack to="/admin/activities" text="Вернуться к списку кружков" />
-            <div className={styles.adminHeader}>
-                <h1 className={styles.adminH1}>
-                    {activityId ? 'Редактировать кружок' : 'Добавить кружок'}
-                </h1>
-                {activityId &&
-                    <div className={styles.btns}>
-                        <DefaultButton
-                            text="Удалить новость"
-                            imgSrc={deleteIcon}
-                            style={ButtonStyles.outlined}
-                            type={ButtonTypes.button}
-                        // onClick={onDeleteHandler}
-                        />
-                    </div>
-                }
-            </div>
-
+            <AdminEditPageHeader
+                linkTo='/admin/activities'
+                headerForObj={activityId}
+                headerFor={AEPHTypes.activity}
+                onDeleteBtnClick={() => { }} />
 
             <form className={styles.AddActivityForm} onSubmit={submitHandler}>
 
-                {/* По хорошему переименовать класс а еще лучше - вынести в другой компонент */}
+                {/* По хорошему переименовать класс */}
                 <div className={cn(styles['admin-add-form'], styles.form)}>
                     <div className={styles.mainInputs}>
                         <div className={styles.mainInputs__TextInputs}>
