@@ -1,0 +1,116 @@
+@import "../../../assets/styles/global.scss";
+@import "../../../assets/styles/variables.scss";
+
+
+.AddEvent {
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    row-gap: 30px;
+    border-radius: 20px;
+    font-size: 18px !important;
+    position: relative;
+
+    h2 {
+        align-self: center;
+    }
+
+    .Buttons {
+        display: flex;
+        justify-content: center;
+        column-gap: 20px;
+    }
+
+    .Button {
+        border: none;
+        padding: 10px 50px;
+        border-radius: 40px;
+        transition: 0.2s;
+
+        &-Accept {
+            background-color: transparent;
+            border: 2px solid $salad-green;
+            color: $salad-green;
+
+            &:hover {
+                background-color: $salad-green;
+                color: white;
+            }
+        }
+
+        &-Deny {
+            background-color: transparent;
+            border: 2px solid $error-color;
+            color: $error-color;
+
+            &:hover {
+                background-color: $error-color;
+                color: white;
+            }
+        }
+    }
+
+    .DeleteButton {
+        background-color: transparent;
+        border: none;
+        color: rgb(241, 185, 185);
+        font-size: 14px;
+        font-weight: 400;
+        border-bottom: 1px solid rgb(255, 255, 255);
+        transition: 0.2s;
+        display: none;
+
+        &-active {
+            display: block;
+        }
+
+        &:hover {
+            color: $error-color;
+            border-bottom: 1px solid $error-color;
+        }
+    }
+}
+
+.checkMark {
+    position: absolute;
+    top: 100px;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    padding: 15px;
+    border-radius: 20px 0px 20px 0px;
+    border: 1px solid #ececec;
+    opacity: 0;
+
+    span {
+        color: $salad-green;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    &-error {
+        span {
+            color: $error-color;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+    }
+
+    &-active {
+        animation: checkMarkAnimation 3s;
+    }
+}
+
+@keyframes checkMarkAnimation {
+    20% {
+        opacity: 1;
+        top: -100px;
+    }
+    100% {
+        opacity: 0;
+        top: -100px;
+    }
+}

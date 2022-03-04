@@ -1,7 +1,3 @@
-.expandedBlock {
-    transition: all linear 0.4s 0.5s;
-    max-height: fit-content !important;
-}
 
 .expandActivitiesBtn {
     margin-top: 40px;
@@ -39,22 +35,3 @@
     }
 }
 
-@media screen and (max-width: 1200px) {
-    .activitiesBlock {
-        grid-template-columns: repeat(3, 1fr);
-        max-height: calc(264px * 3 + 50px * 2 + 50px);
-    }
-}
-
-@media screen and (max-width: 800px) {
-    .activitiesBlock {
-        grid-template-columns: repeat(2, 1fr);
-        max-height: calc(264px * 4 + 50px * 3 + 50px);
-    }
-}
-
-@media screen and (max-width: 550px) {
-    .activitiesBlock {
-        grid-template-columns: 1fr;
-    }
-}

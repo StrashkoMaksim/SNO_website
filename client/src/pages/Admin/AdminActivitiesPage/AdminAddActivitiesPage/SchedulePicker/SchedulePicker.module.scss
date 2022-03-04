@@ -1,0 +1,84 @@
+@import "../../../../../assets/styles/variables.scss";
+@import "../../../../../assets/styles/global.scss";
+
+.SchedulePicker {
+    display: flex;
+    justify-content: space-between;
+
+    &__Picker {
+        background-color: white;
+        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+        height: fit-content;
+    }
+
+    .pickerElement {
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+    }
+
+    .toggleLabel {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+        font-size: 16px;
+        color: #4a4a4a;
+        font-weight: 300;
+    }
+
+    .Button {
+        border: none;
+        padding: 10px 50px;
+        border-radius: 40px;
+        transition: 0.2s;
+
+        &-Accept {
+            background-color: transparent;
+            border: 2px solid $salad-green;
+            color: $salad-green;
+
+            &:hover {
+                background-color: $salad-green;
+                color: white;
+            }
+        }
+    }
+}
+
+.schedulePreview {
+    position: relative;
+
+    &__Control {
+        position: absolute;
+        top: 50px;
+        display: flex;
+        right: 20px;
+        flex-direction: column;
+        row-gap: 86px;
+    }
+
+    .controlButtons {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    .controlButton {
+        border: none;
+        background-color: transparent;
+        height: 20px;
+        width: 20px;
+        display: grid;
+        place-items: center;
+
+        img {
+            height: 20px;
+            width: 20px;
+        }
+    }
+}

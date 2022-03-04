@@ -20,7 +20,6 @@ const ActivitiesBlock = () => {
 
 
     const handleExpandActivitiesBtnClick = () => {
-        setActivities([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
         setActivitiesExpanded(!activitiesExpanded);
     }
 
@@ -36,7 +35,7 @@ const ActivitiesBlock = () => {
         <section className={cn('section')}>
             <div className={cn('container')}>
                 <h1>Кружки</h1>
-                <ActivityList activities={activities} />
+                <ActivityList activities={activities} activitiesExpanded={activitiesExpanded} />
                 <div className={styles.expandActivitiesBtn} onClick={handleExpandActivitiesBtnClick}>
                     <p className={cn(styles.expandText, styles.Medium, { [styles.hideActivities]: activitiesExpanded })}>
                         {activitiesExpanded ? 'скрыть' : 'показать еще'}

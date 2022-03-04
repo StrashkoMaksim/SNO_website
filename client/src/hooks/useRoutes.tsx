@@ -2,23 +2,24 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useTypedSelector } from "./useTypedSelector";
 import { useActions } from "./useActions";
-import NewsPage from "../pages/NewsPage/NewsPage";
-import SupervisorsPage from "../pages/SupervisorsPage/SupervisorsPage";
-import MainPage from "../pages/MainPage/MainPage";
-import AboutPage from "../pages/AboutPage/AboutPage";
-import AdminNewsPage from "../pages/AdminNewsPage/AdminNewsPage";
-import AdminNewsAddPage from "../pages/AdminNewsPage/AdminNewsAddPage/AdminNewsAddPage";
-import Login from "../pages/Login/Login";
-import CouncilPage from "../pages/CouncilPage/CouncilPage";
-import RegistrationPage from "../pages/RegistrationPage/RegistrationPage";
-import EventsPage from "../pages/EventsPage/EventsPage";
-import AdminEventsPage from "../pages/AdminEventsPage/AdminEventsPage";
-import AdminLayout from "../components/AdminLayout/AdminLayout";
+import NewsPage from "..//pages/User/NewsPage/NewsPage";
+import SupervisorsPage from "../pages/User/SupervisorsPage/SupervisorsPage";
+import MainPage from "../pages/User/MainPage/MainPage";
+import AboutPage from "../pages/User/AboutPage/AboutPage";
+import AdminNewsPage from "../pages/Admin/AdminNewsPage/AdminNewsPage";
+import AdminNewsAddPage from "../pages/Admin/AdminNewsPage/AdminNewsAddPage/AdminNewsAddPage";
+import Login from "../pages/Admin/Login/Login";
+import CouncilPage from "../pages/User/CouncilPage/CouncilPage";
+import RegistrationPage from "../pages/User/RegistrationPage/RegistrationPage";
+import EventsPage from "../pages/User/EventsPage/EventsPage";
+import AdminEventsPage from "../pages/Admin/AdminEventsPage/AdminEventsPage";
+import AdminLayout from "../components/Admin/AdminLayout/AdminLayout";
 import MainLayout from "../components/MainLayout/MainLayout";
-import AdminSectionsPage from "../pages/AdminSectionsPage/AdminSectionsPage";
-import DocumentsPage from "../pages/DocumentsPage/DocumentsPage";
-import ConferencePage from "../pages/ConferencePage/ConferencePage";
-import GrantsPage from "../pages/GrantsPage/GrantsPage";
+import DocumentsPage from "../pages/User/DocumentsPage/DocumentsPage";
+import ConferencePage from "../pages/User/ConferencePage/ConferencePage";
+import GrantsPage from "../pages/User/GrantsPage/GrantsPage";
+import AdminActivtiesPage from "../pages/Admin/AdminActivitiesPage/AdminActivitiesPage";
+import AdminAddActivitiesPage from "../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -41,7 +42,9 @@ export const useRoutes = () => {
                             <Route path="council" element={<AdminNewsPage />} />
                             <Route path="supervisors" element={<AdminNewsPage />} />
                             <Route path="documents" element={<AdminNewsPage />} />
-                            <Route path="sections" element={<AdminSectionsPage />} />
+                            <Route path="activities" element={<AdminActivtiesPage />} />
+                            <Route path="activities/add" element={<AdminAddActivitiesPage />} />
+                            <Route path="activities/:id" element={<AdminAddActivitiesPage />} />
                             <Route path="events" element={<AdminEventsPage />} />
                         </Route>
                     </>

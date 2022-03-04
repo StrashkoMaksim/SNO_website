@@ -5,8 +5,32 @@
   grid-column-gap: 40px;
   grid-row-gap: 40px;
   place-items: center;
-  overflow: hidden;
-  max-height: calc(264px * 2 + 50px + 50px);
+  max-height: calc(264px * 2 + 50px);
+  overflow-y: hidden;
   transition: all 0.4s linear;
-  padding: 25px 0px 60px 0px;
+}
+
+.expandedBlock {
+  transition: all linear 0.4s 0.5s;
+  max-height: fit-content !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .activitiesBlock {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: calc(264px * 3 + 50px * 2);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .activitiesBlock {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: calc(264px * 4 + 50px * 3);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .activitiesBlock {
+    grid-template-columns: 1fr;
+  }
 }

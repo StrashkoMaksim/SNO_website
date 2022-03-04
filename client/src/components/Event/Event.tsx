@@ -2,7 +2,7 @@ import styles from "./Event.module.scss"
 import React, { FC } from "react"
 import editIcon from "../../assets/img/EditIcon.svg"
 import cn from "classnames"
-import { RequestType } from "../../pages/AdminEventsPage/AddEventModal"
+import { RequestType } from "../../pages/Admin/AdminEventsPage/AddEventModal"
 
 interface EventProps {
     id: string

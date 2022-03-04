@@ -1,0 +1,78 @@
+@import "../../../assets/styles/global.scss";
+@import "../../../assets/styles/variables.scss";
+
+.FormContainer {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    place-items: center;
+    background-color: #f8fff9;
+}
+
+.LoginForm {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 30px;
+    border: 1px solid rgb(241, 241, 241);
+    background-color: white;
+    border-radius: 20px;
+    padding: 50px 20px;
+
+    input {
+        background-color: #f8f8f8;
+        padding: 11px 20px;
+        font-size: 24px;
+        border: none;
+        transition: all 0.4s;
+        border: 1px solid white;
+
+        &::placeholder {
+            color: #999999;
+            font-weight: 200;
+        }
+
+        &:focus,
+        &:active {
+            outline: none;
+            border: 1px solid $salad-green;
+            border-radius: 20px;
+        }
+    }
+}
+
+.wrongLoginSign {
+    position: absolute;
+    top: 100px;
+    right: 0%;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+    display: none;
+    padding: 15px;
+    border: 1px solid #ececec;
+    opacity: 0;
+
+    span {
+        color: rgb(223, 76, 76);
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    &-active {
+        display: flex;
+        animation: wrongLoginSignAnimation 3s;
+    }
+}
+
+@keyframes wrongLoginSignAnimation {
+    10% {
+        opacity: 1;
+        top: -60px;
+    }
+    100% {
+        opacity: 0;
+        top: -60px;
+    }
+}

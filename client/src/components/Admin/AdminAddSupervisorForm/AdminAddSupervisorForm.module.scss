@@ -1,0 +1,60 @@
+@import "../../../assets/styles/variables.scss";
+@import "../../../assets/styles/global.scss";
+
+.Supervisor {
+    background-color: #ffff;
+    border-radius: 20px;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s;
+    position: relative;
+    max-width: 263px;
+
+    .Avatar {
+        max-width: 100%;
+        min-height: 173px;
+        background-color: #eff3eb;
+    }
+
+    .Data {
+        padding: 20px;
+
+        &__Block {
+            display: flex;
+            column-gap: 10px;
+            margin-top: 10px;
+
+            img {
+                transition: all 0.4s;
+            }
+
+            span {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .FIO {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        .lastName {
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+        .midAndFirstName {
+            font-size: 16px;
+        }
+    }
+
+
+
+    &:hover {
+        border-radius: 20px 0px 20px 0px;
+
+        .Data__Block > img {
+            filter: brightness(0) saturate(100%) invert(25%) sepia(88%) saturate(1491%) hue-rotate(130deg)
+                brightness(92%) contrast(101%);
+        }
+        color: $salad-green;
+    }
+}
