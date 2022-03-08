@@ -7,12 +7,13 @@ interface AFIIProps {
     onChange: (e: any) => void,
     defaultImg: string,
     id: string,
+    accept?: string,
     extraClass?: string,
     required?: boolean
 }
 
 
-const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, extraClass, required = true }) => {
+const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, accept = '.jpg', extraClass, required = true }) => {
 
     const [inputImage, setInputImage] = useState<string>(defaultImg)
 
@@ -32,7 +33,7 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, extr
                 className={styles['visually-hidden']}
                 type="file"
                 name={name}
-                accept=".jpg"
+                accept={accept}
                 required={required}
                 id={id}
                 onChange={onChangeHandler} />

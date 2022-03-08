@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useCallback, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import styles from './SchedulePicker.module.scss'
 import numerator from '../../../../../assets/img/numerator.svg'
 import denominator from '../../../../../assets/img/denominator.svg'
@@ -15,7 +15,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
 import ruLocale from 'date-fns/locale/ru';
-import { ScheduleIntefrace, WeekType } from '../../../../../types/schedule'
+import { ScheduleInterface, WeekType } from '../../../../../types/schedule'
 import Schedule from '../../../../../components/Schedule/Schedule'
 import editIcon from "../../../../../assets/img/EditIcon.svg"
 import trashIcon from "../../../../../assets/img/red_trash.svg"
@@ -27,30 +27,15 @@ const emptySchedule = {
     classroom: ''
 }
 
-const mockSchedule = [
-    {
-        day: 'Понедельник',
-        week: WeekType.numerator,
-        time: '14:00-15:30',
-        classroom: '3430'
-    },
-    {
-        day: 'Вторник',
-        week: WeekType.denominator,
-        time: '14:00-15:30',
-        classroom: '3430'
-    },
-    {
-        day: 'Суббота',
-        week: WeekType.every,
-        time: '14:00-15:30',
-        classroom: '3430'
-    },
-]
-const SchedulePicker = () => {
+interface SchedulePickerProps {
+    sectionSubmitted: boolean,
+    updateSchedule: (schedule: ScheduleInterface[]) => void
+}
 
-    const [schedule, setSchedule] = useState<ScheduleIntefrace[]>([])
-    const [singleSchedule, setSingleSchedule] = useState<ScheduleIntefrace>(emptySchedule)
+const SchedulePicker: FC<SchedulePickerProps> = ({ sectionSubmitted, updateSchedule }) => {
+
+    const [schedule, setSchedule] = useState<ScheduleInterface[]>([])
+    const [singleSchedule, setSingleSchedule] = useState<ScheduleInterface>(emptySchedule)
 
     const [weekType, setWeekType] = useState<WeekType>(WeekType.numerator)
 
@@ -60,6 +45,12 @@ const SchedulePicker = () => {
     const [submitError, setSubmitError] = useState<string>('')
 
     const [editingBlockIndex, setEditingBlockIndex] = useState<number | null>(null)
+
+    useEffect(() => {
+        console.log(sectionSubmitted)
+        updateSchedule(schedule)
+    }, [sectionSubmitted])
+
 
     // Парсинг Date в формат hh:mm
     const parseTime = (time: Date) => {
@@ -79,7 +70,7 @@ const SchedulePicker = () => {
 
         const time = parseTime(startTime) + '-' + parseTime(endTime)
 
-        const newSchedule: ScheduleIntefrace = { ...singleSchedule, time: time, week: weekType }
+        const newSchedule: ScheduleInterface = { ...singleSchedule, time: time, week: weekType }
         const updSchedule = schedule;
 
         // Если в этом стейте есть индекс элемента,

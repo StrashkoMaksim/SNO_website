@@ -4,6 +4,7 @@
 .SchedulePicker {
     display: flex;
     justify-content: space-between;
+    column-gap: 30px;
 
     &__Picker {
         background-color: white;
@@ -80,5 +81,12 @@
             height: 20px;
             width: 20px;
         }
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .SchedulePicker {
+        flex-direction: column;
+        row-gap: 40px;
     }
 }

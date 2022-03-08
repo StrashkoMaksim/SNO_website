@@ -1,0 +1,47 @@
+@import "../../assets/styles/variables.scss";
+@import "../../assets/styles/global.scss";
+
+.checkMark {
+    position: absolute;
+    visibility: hidden;
+    top: 0px;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    padding: 15px;
+    border-radius: 20px 0px 20px 0px;
+    border: 1px solid #ececec;
+    opacity: 0;
+    max-width: fit-content;
+
+    span {
+        color: $salad-green;
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    &-error {
+        span {
+            color: $error-color;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+    }
+
+    &-active {
+        visibility: visible;
+        animation: checkMarkAnimation 3s;
+    }
+}
+
+@keyframes checkMarkAnimation {
+    20% {
+        opacity: 1;
+        top: -50px;
+    }
+    100% {
+        opacity: 0;
+        top: -50px;
+    }
+}

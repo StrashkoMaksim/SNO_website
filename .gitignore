@@ -3,4 +3,4 @@ node_modules
 .idea
 client/build
 .env
-client/.env
+*/.env

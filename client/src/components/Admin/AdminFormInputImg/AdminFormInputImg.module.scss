@@ -1,1 +1,13 @@
 @import "../../../assets/styles/global.scss";
+
+.imgContainer {
+    cursor: pointer;
+
+    img {
+        transition: 0.2s;
+
+        &:hover {
+            filter: brightness(95%);
+        }
+    }
+}

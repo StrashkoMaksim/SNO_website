@@ -1,29 +1,37 @@
 import styles from './AddActivityMainInfo.module.scss'
-import { useRef, useCallback, FormEvent, ComponentRef, useState } from 'react'
+import { useRef, useCallback, FormEvent, ComponentRef, useState, FC } from 'react'
 import cn from 'classnames';
-import Activity from '../../../../../components/Activities/Activity/Activity';
 import AdminFormInputText, { AFITStyle } from '../../../../../components/Admin/AdminFormInputText/AdminFormInputText';
 import AdminFormInputImg from '../../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
-import Editor from '../../../../../components/Editor/Editor';
+import Editor, { getEditorContent } from '../../../../../components/Editor/Editor';
 import placeholderImg from '../../../../../assets/img/roundPlaceholderImg.png'
+import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../../../components/DefaultButton/DefaultButton';
+import { FormPages } from '../AdminAddActivitiesPage';
+import ErrorMessage from '../../../../../components/ErrorMessage/ErrorMessage';
 
 const emptyActivityMainInfo = {
     name: '',
     previewText: '',
     logo: '',
-    content: '',
+    content: null,
 }
 
-interface ActivityMainInfo {
+export interface ActivityMainInfo {
     name: string,
     previewText: string,
     logo: File | Blob | string,
-    content: string,
+    content: FormData | null,
 }
 
-const AddActivityMainInfo = () => {
+interface AAMIProps {
+    handleSubmit: (nextSectionName: FormPages, data: ActivityMainInfo) => void
+}
+
+
+const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
 
     const [activityMainInfo, setActivityMainInfo] = useState<ActivityMainInfo>(emptyActivityMainInfo)
+    const [errMessage, setErrMessage] = useState<string>('')
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
@@ -44,9 +52,59 @@ const AddActivityMainInfo = () => {
         editorCore.current = instance
     }, [])
 
+    const getMainInfoData = async () => {
+
+        await getEditorContent(editorCore)
+            .then(
+                editorData => setActivityMainInfo(prevState => ({ ...prevState, content: editorData }))
+            )
+            .then(() => {
+                for (let key in activityMainInfo) {
+                    if (!activityMainInfo[key as keyof ActivityMainInfo] && key !== 'content') {
+                        raiseSubmitErr(key)
+                        return false;
+                    }
+                }
+                return true;
+            })
+            .then((successfulInput) => {
+                if (successfulInput) handleSubmit(FormPages.supAndSchedule, activityMainInfo)
+            })
+
+    }
+
+    const raiseSubmitErr = (emptyField: string) => {
+        let errField = ''
+
+        switch (emptyField) {
+            case 'name': {
+                errField = 'заголовком'
+                break
+            }
+            case 'previewText': {
+                errField = 'описанием'
+                break
+            }
+            case 'logo': {
+                errField = 'логотипом'
+                break
+            }
+            case 'content': {
+                errField = 'общей информацией'
+            }
+        }
+
+        setErrMessage(`Поле с ${errField} не должно быть пустым!`)
+
+        setTimeout(() => {
+            setErrMessage('')
+        }, 3000)
+    }
+
 
     return (
         <div className={cn(styles['admin-add-form'], styles.form)}>
+
             <div className={styles.mainInputs}>
                 <div className={styles.mainInputs__TextInputs}>
                     <AdminFormInputText
@@ -75,10 +133,21 @@ const AddActivityMainInfo = () => {
                     onChange={onPreviewImgLoad}
                     defaultImg={placeholderImg}
                     id='activityLogoInputImg'
+                    accept='.png'
                     extraClass={styles.logo}
                 />
             </div>
             <Editor onInitialize={editorInitializeHandler} />
+
+            <div className={styles.controlButtons}>
+                <ErrorMessage errMessage={errMessage} />
+                <DefaultButton
+                    text="Далее"
+                    type={ButtonTypes.button}
+                    style={ButtonStyles.adminFilled}
+                    onClick={getMainInfoData}
+                />
+            </div>
         </div>
     )
 }

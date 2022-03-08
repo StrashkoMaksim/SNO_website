@@ -23,3 +23,21 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+.controlButtons {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    column-gap: 30px;
+}
+
+
+
+@media screen and (max-width: 900px) {
+    .mainInputs {
+        flex-direction: column;
+        row-gap: 40px;
+        flex-flow: column-reverse;
+        align-items: center;
+    }
+}

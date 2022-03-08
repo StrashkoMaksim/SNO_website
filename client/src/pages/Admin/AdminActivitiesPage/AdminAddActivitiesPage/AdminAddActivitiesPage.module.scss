@@ -5,6 +5,53 @@
     display: flex;
     flex-direction: column;
     row-gap: 40px;
+    align-items: center;
+
+    &-MainPage {
+        .MainInfo {
+            display: flex;
+        }
+        .supAndSchedule {
+            display: none;
+        }
+        .AchievementsBlock {
+            display: none;
+        }
+    }
+
+    &-supAndSchedule {
+        .MainInfo {
+            display: none;
+        }
+        .supAndSchedule {
+            display: flex;
+            justify-content: space-between;
+        }
+        .AchievementsBlock {
+            display: none;
+        }
+    }
+
+    &-Achievements {
+        .MainInfo {
+            display: none;
+        }
+        .supAndSchedule {
+            display: none;
+        }
+        .AchievementsBlock {
+            display: flex;
+        }
+    }
+}
+
+.MainInfo {
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+    button {
+        align-self: flex-end;
+    }
 }
 
 .form {
@@ -13,4 +60,82 @@
 
 .alignSelfCenter {
     align-self: center;
+}
+
+.FormNavigation {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+    margin-bottom: 60px;
+    &__Block {
+        cursor: pointer;
+        display: flex;
+        transition: 0.4s;
+        img {
+            transition: 0.4s;
+        }
+
+        &__Title {
+            position: relative;
+        }
+    }
+
+    &__Text {
+        position: absolute;
+        max-width: 12ch;
+        color: #959595;
+        font-weight: 600;
+        text-align: center;
+        left: -25px;
+    }
+
+    &-supAndSchedule {
+        #FormNavigation__MainInfo {
+            color: $salad-green;
+            img {
+                filter: brightness(0) saturate(100%) invert(57%) sepia(25%) saturate(827%) hue-rotate(60deg)
+                    brightness(100%) contrast(87%);
+            }
+        }
+    }
+
+    &-Achievements {
+        #FormNavigation__MainInfo,
+        #FormNavigation__supAndSchedule {
+            color: $salad-green;
+            img {
+                filter: brightness(0) saturate(100%) invert(57%) sepia(25%) saturate(827%) hue-rotate(60deg)
+                    brightness(100%) contrast(87%);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .FormNavigation {
+        &__Line {
+            display: none;
+        }
+
+        &-MainPage {
+            #FormNavigation__supAndSchedule,
+            #FormNavigation__Achievements {
+                display: none;
+            }
+        }
+
+        &-supAndSchedule {
+            #FormNavigation__MainInfo,
+            #FormNavigation__Achievements {
+                display: none;
+            }
+        }
+
+        &-Achievements {
+            #FormNavigation__MainInfo,
+            #FormNavigation__supAndSchedule {
+                display: none;
+            }
+        }
+    }
 }

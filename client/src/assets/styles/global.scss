@@ -121,7 +121,6 @@ h3 {
 }
 
 .admin-add-form {
-  margin-top: 30px;
   background-color: white;
   max-width: 873px;
   padding: 50px;
@@ -149,5 +148,19 @@ h3 {
       grid-gap: 10px;
       grid-template-columns: 1fr;
     }
+  }
+}
+
+.backButton {
+  background-color: transparent;
+  color: $salad-green;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid transparent;
+
+  &:hover {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid $salad-green;
   }
 }

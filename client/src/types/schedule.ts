@@ -5,7 +5,14 @@ export enum WeekType {
     every = 'numerator/denominator'
 }
 
-export interface ScheduleIntefrace {
+export const emptySchedule = {
+    day: '',
+    week: WeekType.denominator,
+    time: '',
+    classroom: ''
+}
+
+export interface ScheduleInterface {
     day: string,
     week: WeekType,
     time: string,

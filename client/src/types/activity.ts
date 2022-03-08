@@ -1,31 +1,23 @@
-import { ScheduleIntefrace } from "./schedule";
+import e from "express";
+import { ScheduleInterface } from "./schedule";
+import { emptySupervisor, Supervisor } from "./supervisor";
 
 export interface Activity {
     name: string,
     previewText: string,
     logo: string | Blob | File,
-    supervisor: {
-        fio: string,
-        department: string,
-        position: string,
-        phone: string
-    }
+    supervisor: Supervisor
     supervisorPhoto: string | Blob | File,
-    content: string,
-    schedule: ScheduleIntefrace[]
+    content: FormData | null,
+    schedule: ScheduleInterface[]
 }
 
 export const emptyActivity = {
     name: '',
     previewText: '',
     logo: '',
-    supervisor: {
-        fio: '',
-        department: '',
-        position: '',
-        phone: ''
-    },
+    supervisor: emptySupervisor,
     supervisorPhoto: '',
-    content: '',
+    content: null,
     schedule: []
 }

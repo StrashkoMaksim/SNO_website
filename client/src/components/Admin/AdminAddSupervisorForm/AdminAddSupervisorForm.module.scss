@@ -8,11 +8,14 @@
     transition: all 0.4s;
     position: relative;
     max-width: 263px;
+    height: fit-content;
 
     .Avatar {
         max-width: 100%;
         min-height: 173px;
         background-color: #eff3eb;
+        display: flex;
+        justify-content: center;
     }
 
     .Data {
@@ -45,8 +48,6 @@
             font-size: 16px;
         }
     }
-
-
 
     &:hover {
         border-radius: 20px 0px 20px 0px;

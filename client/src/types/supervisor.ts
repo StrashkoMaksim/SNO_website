@@ -10,6 +10,24 @@ export enum SupervisorActionTypes {
     FETCH_SUPERVISOR_ERROR = "FETCH_SUPERVISOR_ERROR"
 }
 
+export interface Supervisor {
+    photo: string | File,
+    lastName: string,
+    firstAndMiddleName: string,
+    department: string,
+    position: string,
+    phone: string
+}
+
+export const emptySupervisor = {
+    photo: '',
+    lastName: '',
+    firstAndMiddleName: '',
+    department: '',
+    position: '',
+    phone: ''
+}
+
 interface FetchSupervisorAction {
     type: SupervisorActionTypes.FETCH_SUPERVISOR
 }

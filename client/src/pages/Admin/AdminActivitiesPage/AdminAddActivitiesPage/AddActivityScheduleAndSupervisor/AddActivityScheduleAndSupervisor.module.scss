@@ -1,0 +1,21 @@
+@import '../../../../../assets/styles/global.scss';
+
+.supAndSchedule__Inputs {
+    display: flex;
+    column-gap: 40px;
+}
+
+.controlButtons {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    column-gap: 30px;
+}
+
+@media screen and (max-width: 930px) {
+    .supAndSchedule__Inputs {
+        flex-direction: column;
+        row-gap: 40px;
+        align-items: center;
+    }
+}

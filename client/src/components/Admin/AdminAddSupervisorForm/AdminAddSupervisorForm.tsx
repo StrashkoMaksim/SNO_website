@@ -1,40 +1,32 @@
 import styles from './AdminAddSupervisorForm.module.scss'
 import cn from 'classnames'
 import AdminFormInputImg from '../AdminFormInputImg/AdminFormInputImg'
-import placeholderAvatar from '../../../assets/img/placeholderImg.png'
+import placeHolderImg from '../../../assets/img/roundPlaceholderImg.png'
 import locationIcon from "../../../assets/img/locationIcon.svg"
 import phoneIcon from "../../../assets/img/phoneIcon.svg"
 import positionIcon from "../../../assets/img/positionIcon.svg"
 import InfoLabel from '../../InfoLabel/InfoLabel'
 import AdminFormInputText, { AFITStyle } from '../AdminFormInputText/AdminFormInputText'
-import { FormEvent, useState } from 'react'
+import { FC, FormEvent, useEffect, useState } from 'react'
+import { emptySupervisor, Supervisor } from '../../../types/supervisor'
 
-interface Supervisor {
-    photo: string | File,
-    lastName: string,
-    firstAndMiddleName: string,
-    department: string,
-    position: string,
-    phone: string
+interface AASFProps {
+    sectionSubmitted: boolean,
+    updateSupervisor: (supervisor: Supervisor) => void
 }
 
-const emptySupervisor = {
-    photo: '',
-    lastName: '',
-    firstAndMiddleName: '',
-    department: '',
-    position: '',
-    phone: ''
-}
+const AdminAddSupervisorForm: FC<AASFProps> = ({ sectionSubmitted, updateSupervisor }) => {
 
-// Требуется обертка в виде формы (родительский компонент)
-const AdminAddSupervisorForm = () => {
 
     const [supervisor, setSupervisor] = useState<Supervisor>(emptySupervisor)
 
+    useEffect(() => {
+        console.log(supervisor)
+        updateSupervisor(supervisor)
+    }, [sectionSubmitted])
+
     const handleAvatarChange = (event: any) => {
         const img = event.target.files[0];
-        console.log(img)
         setSupervisor(prevState => ({ ...prevState, photo: img }))
     }
 
@@ -53,7 +45,7 @@ const AdminAddSupervisorForm = () => {
             <AdminFormInputImg
                 name='avatar'
                 onChange={handleAvatarChange}
-                defaultImg={placeholderAvatar}
+                defaultImg={placeHolderImg}
                 extraClass={styles.Avatar}
                 id='supervisorImgInput'
             />

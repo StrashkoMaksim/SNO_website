@@ -1,5 +1,5 @@
 import styles from './Schedule.module.scss'
-import { ScheduleIntefrace, WeekType } from '../../types/schedule'
+import { ScheduleInterface, WeekType } from '../../types/schedule'
 import { FC } from 'react'
 import calendarIcon from '../../assets/img/calendarIcon.svg'
 import timeIcon from '../../assets/img/timeIcon.svg'
@@ -11,7 +11,7 @@ import InfoLabel from '../InfoLabel/InfoLabel'
 import cn from 'classnames'
 
 interface ScheduleProps {
-    schedule: ScheduleIntefrace[]
+    schedule: ScheduleInterface[]
 }
 
 const Schedule: FC<ScheduleProps> = ({ schedule }) => {
