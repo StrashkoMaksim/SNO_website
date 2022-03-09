@@ -11,16 +11,15 @@ import { FC, FormEvent, useEffect, useState } from 'react'
 import { emptySupervisor, Supervisor } from '../../../types/supervisor'
 
 interface AASFProps {
-    sectionSubmitted: boolean,
     updateSupervisor: (supervisor: Supervisor) => void
 }
 
-const AdminAddSupervisorForm: FC<AASFProps> = ({ sectionSubmitted, updateSupervisor }) => {
+const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor }) => {
     const [supervisor, setSupervisor] = useState<Supervisor>(emptySupervisor)
 
     useEffect(() => {
         updateSupervisor(supervisor)
-    }, [sectionSubmitted])
+    }, [supervisor])
 
     const handleAvatarChange = (event: any) => {
         const img = event.target.files[0];

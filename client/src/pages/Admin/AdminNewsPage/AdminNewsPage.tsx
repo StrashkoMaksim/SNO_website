@@ -21,12 +21,12 @@ const AdminNewsPage = () => {
 
     return (
         <>
-            <header className={styles.adminHeader}>
+            <header className="adminHeader">
                 <div className={styles.search}>
                     <img src={searchIcon} alt="Поиск" />
                     <input type="text" placeholder="Введите название новости" />
                 </div>
-                <div className={styles.btns}>
+                <div className="btns">
                     <DefaultButton
                         text={'Управление тегами'}
                         imgSrc={settingsIcon}

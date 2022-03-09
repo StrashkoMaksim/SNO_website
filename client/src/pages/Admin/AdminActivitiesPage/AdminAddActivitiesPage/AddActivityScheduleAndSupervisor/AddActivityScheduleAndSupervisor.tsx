@@ -90,7 +90,7 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
     return (
         <div className={styles.supAndSchedule}>
             <div className={styles.supAndSchedule__Inputs}>
-                <AdminAddSupervisorForm sectionSubmitted={sectionSubmitted} updateSupervisor={updateSupervisor} />
+                <AdminAddSupervisorForm updateSupervisor={updateSupervisor} />
                 <SchedulePicker sectionSubmitted={sectionSubmitted} updateSchedule={updateSchedule} />
             </div>
             <div className={styles.controlButtons}>

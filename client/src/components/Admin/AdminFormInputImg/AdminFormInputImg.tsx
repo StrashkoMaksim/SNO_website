@@ -30,7 +30,7 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, acce
     return (
         <div className={extraClass}>
             <input
-                className={'visually-hidden'}
+                className="visually-hidden"
                 type="file"
                 name={name}
                 accept={accept}
