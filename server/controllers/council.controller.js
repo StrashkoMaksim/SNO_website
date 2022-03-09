@@ -22,10 +22,10 @@ exports.add = async function (req, res) {
             })
         }
 
-        const { fio, department, position, phone} = req.body
+        const { lastName, firstAndMiddleName, department, position, phone} = req.body
         const { photo } = req.files
 
-        const council = await CouncilService.add(fio, department, position, phone, photo)
+        const council = await CouncilService.add(lastName, firstAndMiddleName, department, position, phone, photo)
 
         res.status(201).json({ message: 'Член совета успешно добавлен', council })
     } catch (e) {
@@ -45,10 +45,10 @@ exports.update = async function (req, res) {
         }
 
         const { id } = req.params
-        const { fio, department, position, phone} = req.body
+        const { lastName, firstAndMiddleName, department, position, phone} = req.body
         const { photo } = req.files
 
-        const council = await CouncilService.update(id, fio, department, position, phone, photo)
+        const council = await CouncilService.update(id, lastName, firstAndMiddleName, department, position, phone, photo)
 
         res.status(201).json({ message: 'Член совета успешно отредактирован', council })
     } catch (e) {

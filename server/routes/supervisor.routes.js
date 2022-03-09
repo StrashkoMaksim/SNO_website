@@ -11,7 +11,8 @@ router.get('/',
 router.post('/',
     AuthMiddleware,
     [
-        check('fio', 'Отсутствует ФИО руководителя').exists(),
+        check('lastName', 'Отсутствует фамилия руководителя').exists(),
+        check('firstAndMiddleName', 'Отсутствует имя и отчество руководителя').exists(),
         check('department', 'Отсутствует кафедра руководителя').exists(),
         check('position', 'Отсутствует должность руководителя').exists(),
         check('phone', 'Отсутствует номер телефона руководителя').exists()
@@ -23,7 +24,8 @@ router.put('/:id',
     AuthMiddleware,
     [
         param('id', 'Отсутствует ID руководителя').exists(),
-        check('fio', 'Отсутствует ФИО руководителя').exists(),
+        check('lastName', 'Отсутствует фамилия руководителя').exists(),
+        check('firstAndMiddleName', 'Отсутствует имя и отчество руководителя').exists(),
         check('department', 'Отсутствует кафедра руководителя').exists(),
         check('position', 'Отсутствует должность руководителя').exists(),
         check('phone', 'Отсутствует номер телефона руководителя').exists()

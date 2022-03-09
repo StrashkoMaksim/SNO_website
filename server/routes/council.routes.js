@@ -11,7 +11,8 @@ router.get('/',
 router.post('/',
     AuthMiddleware,
     [
-        check('fio', 'Отсутствует ФИО члена совета').exists(),
+        check('lastName', 'Отсутствует фамилия члена совета').exists(),
+        check('firstAndMiddleName', 'Отсутствует имя и отчество члена совета').exists(),
         check('department', 'Отсутствует кафедра члена совета').exists(),
         check('position', 'Отсутствует должность члена совета').exists(),
         check('phone', 'Отсутствует номер телефона члена совета').exists()
@@ -23,7 +24,8 @@ router.put('/:id',
     AuthMiddleware,
     [
         param('id', 'Отсутствует ID члена совета').exists(),
-        check('fio', 'Отсутствует ФИО члена совета').exists(),
+        check('lastName', 'Отсутствует фамилия члена совета').exists(),
+        check('firstAndMiddleName', 'Отсутствует имя и отчество члена совета').exists(),
         check('department', 'Отсутствует кафедра члена совета').exists(),
         check('position', 'Отсутствует должность члена совета').exists(),
         check('phone', 'Отсутствует номер телефона члена совета').exists()

@@ -6,7 +6,8 @@ const schema = new Schema({
     previewText: { type: String, require: true },
     content: { type: String, required: true },
     supervisor: {
-        fio: { type: String, required: true },
+        lastName: { type: String, required: true },
+        firstAndMiddleName: { type: String, required: true },
         department: { type: String, required: true },
         position: { type: String, required: true },
         phone: { type: String, required: true },

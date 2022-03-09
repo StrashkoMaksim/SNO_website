@@ -15,7 +15,8 @@ exports.parseJSON = (json) => {
 }
 
 exports.checkSupervisor = (supervisor) => {
-    if (!supervisor.fio || !supervisor.department || !supervisor.position || !supervisor.phone) {
+    if (!supervisor.lastName || !supervisor.firstAndMiddleName || !supervisor.department || !supervisor.position ||
+        !supervisor.phone) {
         return false
     }
     return true

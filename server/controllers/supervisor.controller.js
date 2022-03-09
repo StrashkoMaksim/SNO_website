@@ -22,10 +22,10 @@ exports.add = async function (req, res) {
             })
         }
 
-        const { fio, department, position, phone} = req.body
+        const { lastName, firstAndMiddleName, department, position, phone} = req.body
         const { photo } = req.files
 
-        const supervisors = await SupervisorService.add(fio, department, position, phone, photo)
+        const supervisors = await SupervisorService.add(lastName, firstAndMiddleName, department, position, phone, photo)
 
         res.status(201).json({ message: 'Руководитель успешно добавлен', supervisors })
     } catch (e) {
@@ -45,10 +45,10 @@ exports.update = async function (req, res) {
         }
 
         const { id } = req.params
-        const { fio, department, position, phone} = req.body
+        const { lastName, firstAndMiddleName, department, position, phone} = req.body
         const { photo } = req.files
 
-        const supervisors = await SupervisorService.update(id, fio, department, position, phone, photo)
+        const supervisors = await SupervisorService.update(id, lastName, firstAndMiddleName, department, position, phone, photo)
 
         res.status(201).json({ message: 'Руководитель успешно отредактирован', supervisors })
     } catch (e) {
