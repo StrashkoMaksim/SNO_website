@@ -1,6 +1,5 @@
 import LinkBack from "../LinkBack/LinkBack";
 import { FC } from 'react'
-import styles from './AdminEditPageHeader.module.scss'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 import deleteIcon from '../../assets/img/red_trash.svg'
 
@@ -32,12 +31,12 @@ const AdminEditPageHeader: FC<AEPHProps> = ({ linkTo, headerForObj, headerFor, o
     return (
         <>
             <LinkBack to={linkTo} text={`Вернуться к списку ${nouns[headerFor].plural}`} />
-            <div className={styles.adminHeader}>
-                <h1 className={styles.adminH1}>
+            <div className="adminHeader">
+                <h1 className="adminH1">
                     {(headerForObj ? 'Редактировать ' : 'Добавить ') + nouns[headerFor].single}
                 </h1>
                 {headerForObj &&
-                    <div className={styles.btns}>
+                    <div className="btns">
                         <DefaultButton
                             text="Удалить новость"
                             imgSrc={deleteIcon}

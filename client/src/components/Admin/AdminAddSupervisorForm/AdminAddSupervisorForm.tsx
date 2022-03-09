@@ -16,8 +16,6 @@ interface AASFProps {
 }
 
 const AdminAddSupervisorForm: FC<AASFProps> = ({ sectionSubmitted, updateSupervisor }) => {
-
-
     const [supervisor, setSupervisor] = useState<Supervisor>(emptySupervisor)
 
     useEffect(() => {
