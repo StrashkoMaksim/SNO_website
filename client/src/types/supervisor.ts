@@ -1,5 +1,5 @@
 export interface SupervisorState {
-    supervisors: any[]
+    supervisors: Supervisor[]
     loading: boolean
     error: null | string
 }
@@ -11,15 +11,17 @@ export enum SupervisorActionTypes {
 }
 
 export interface Supervisor {
-    photo: string | File,
-    lastName: string,
-    firstAndMiddleName: string,
+    _id: string
+    photo: string
+    lastName: string
+    firstAndMiddleName: string
     department: string,
     position: string,
     phone: string
 }
 
 export const emptySupervisor = {
+    _id: '',
     photo: '',
     lastName: '',
     firstAndMiddleName: '',

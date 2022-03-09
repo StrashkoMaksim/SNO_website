@@ -12,11 +12,11 @@ exports.get = async function () {
 
 exports.add = async function (lastName, firstAndMiddleName, department, position, phone, photo) {
 
-    const photoName = await saveImg(photo)
+    const photoName = await saveImg(photo, 263, 173)
 
     const supervisor = new Supervisor({ lastName, firstAndMiddleName, department, position, phone, photo: photoName })
 
-    const savedSupervisor = await saveImg(photo, 263, 173)
+    const savedSupervisor = await supervisor.save()
 
     if (savedSupervisor.__v !== 0) {
         throw Error()

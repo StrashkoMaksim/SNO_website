@@ -22,8 +22,7 @@ exports.add = async function (req, res) {
             })
         }
 
-        const { lastName, firstAndMiddleName, department, position, phone} = req.body
-        const { photo } = req.files
+        const { lastName, firstAndMiddleName, department, position, phone, photo} = req.body
 
         const supervisors = await SupervisorService.add(lastName, firstAndMiddleName, department, position, phone, photo)
 
