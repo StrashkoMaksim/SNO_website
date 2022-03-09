@@ -5,10 +5,12 @@ import DefaultButton, {ButtonStyles, ButtonTypes} from "../../../components/Defa
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
 import SupervisorsList from "../../../components/SupervisorsList/SupervisorsList";
 import {useActions} from "../../../hooks/useActions";
+import {Supervisor} from "../../../types/supervisor";
 
 const AdminSupervisorsPage: FC = () => {
     const { supervisors, loading, error } = useTypedSelector(state => state.supervisor)
     const { fetchSupervisors } = useActions()
+    const [currentSupervisor, setCurrentSupervisor] = useState<Supervisor>()
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
     useEffect(() => {
@@ -21,6 +23,13 @@ const AdminSupervisorsPage: FC = () => {
 
     const onCloseModalHandler = () => {
         setIsModalVisible(false)
+    }
+
+    const editSupervisorHandle = (supervisor: Supervisor) => {
+        return () => {
+            setCurrentSupervisor(supervisor)
+            onOpenModalHandler()
+        }
     }
 
     return (
@@ -37,8 +46,8 @@ const AdminSupervisorsPage: FC = () => {
                     />
                 </div>
             </header>
-            <SupervisorsList supervisors={supervisors} />
-            <SupervisorModal isVisible={isModalVisible} onClose={onCloseModalHandler} />
+            <SupervisorsList supervisors={supervisors} onClick={editSupervisorHandle} />
+            {isModalVisible && <SupervisorModal isVisible={isModalVisible} onClose={onCloseModalHandler} supervisor={currentSupervisor} />}
         </>
     )
 }

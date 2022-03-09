@@ -27,19 +27,22 @@ exports.add = async function (lastName, firstAndMiddleName, department, position
 }
 
 exports.update = async function (id, lastName, firstAndMiddleName, department, position, phone, photo) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID члена совета')
-    }
-
     const councilMember = await Council.findById(id)
 
     if(!councilMember) {
         throw createError(404, 'Член совета не найден')
     }
 
-    fs.unlinkSync(`${process.env.staticPath}\\${councilMember.get('photo')}`)
+    let photoName
+    if (photo) {
+        try {
+            fs.unlinkSync(`${process.env.staticPath}\\${supervisor.get('photo')}`)
+        } catch (e) {
+            console.log(e)
+        }
 
-    const photoName = await saveImg(photo, 263, 173)
+        photoName = await saveImg(photo, 263, 173)
+    }
 
     const savedCouncilMember = await Council.replaceOne({ _id: id }, {
         lastName,
@@ -47,7 +50,7 @@ exports.update = async function (id, lastName, firstAndMiddleName, department, p
         department,
         position,
         phone,
-        photo: photoName
+        photo: photoName || councilMember.get('photo')
     })
 
     if (savedCouncilMember.modifiedCount !== 1) {

@@ -4,20 +4,22 @@ import locationIcon from "../../assets/img/locationIcon.svg"
 import phoneIcon from "../../assets/img/phoneIcon.svg"
 import positionIcon from "../../assets/img/positionIcon.svg"
 import cn from "classnames"
+import {Supervisor} from "../../types/supervisor";
 
 interface SupervisorProps {
     _id: string
-    lastName: string,
-    firstAndMiddleName: string,
-    department: string,
-    position: string,
-    phone: string,
+    lastName: string
+    firstAndMiddleName: string
+    department: string
+    position: string
+    phone: string
     photo: string
+    onClick?: () => void
 }
 
-const SupervisorCard: FC<SupervisorProps> = ({ _id, lastName, firstAndMiddleName, department, position, phone, photo }) => {
+const SupervisorCard: FC<SupervisorProps> = ({ _id, lastName, firstAndMiddleName, department, position, phone, photo, onClick }) => {
     return (
-        <div className={styles.Supervisor}>
+        <div className={cn(styles.Supervisor, {[styles.clickable]: onClick})} onClick={onClick}>
             <img className={styles.Avatar} src={process.env.REACT_APP_SERVER_URL + '/' + photo} alt={`${lastName} ${firstAndMiddleName}`} />
             <div className={styles.Data}>
                 <div className={styles.FIO}>
