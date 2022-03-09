@@ -10,10 +10,10 @@ exports.get = async function () {
     return council
 }
 
-exports.add = async function (fio, department, position, phone, photo) {
+exports.add = async function (lastName, firstAndMiddleName, department, position, phone, photo) {
     const photoName = await saveImg(photo, 263, 173)
 
-    const councilMember = new Council({ fio, department, position, phone, photo: photoName })
+    const councilMember = new Council({ lastName, firstAndMiddleName, department, position, phone, photo: photoName })
 
     const savedCouncilMember = await councilMember.save()
 
@@ -26,7 +26,7 @@ exports.add = async function (fio, department, position, phone, photo) {
     return council
 }
 
-exports.update = async function (id, fio, department, position, phone, photo) {
+exports.update = async function (id, lastName, firstAndMiddleName, department, position, phone, photo) {
     if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID члена совета')
     }
@@ -42,7 +42,8 @@ exports.update = async function (id, fio, department, position, phone, photo) {
     const photoName = await saveImg(photo, 263, 173)
 
     const savedCouncilMember = await Council.replaceOne({ _id: id }, {
-        fio,
+        lastName,
+        firstAndMiddleName,
         department,
         position,
         phone,

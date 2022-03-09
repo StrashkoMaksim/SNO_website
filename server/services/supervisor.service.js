@@ -10,11 +10,11 @@ exports.get = async function () {
     return supervisors
 }
 
-exports.add = async function (fio, department, position, phone, photo) {
+exports.add = async function (lastName, firstAndMiddleName, department, position, phone, photo) {
 
     const photoName = await saveImg(photo)
 
-    const supervisor = new Supervisor({ fio, department, position, phone, photo: photoName })
+    const supervisor = new Supervisor({ lastName, firstAndMiddleName, department, position, phone, photo: photoName })
 
     const savedSupervisor = await saveImg(photo, 263, 173)
 
@@ -27,7 +27,7 @@ exports.add = async function (fio, department, position, phone, photo) {
     return supervisors
 }
 
-exports.update = async function (id, fio, department, position, phone, photo) {
+exports.update = async function (id, lastName, firstAndMiddleName, department, position, phone, photo) {
     if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID руководителя')
     }
@@ -43,7 +43,8 @@ exports.update = async function (id, fio, department, position, phone, photo) {
     const photoName = await saveImg(photo, 263, 173)
 
     const savedSupervisor = await Supervisor.replaceOne({ _id: id }, {
-        fio,
+        lastName,
+        firstAndMiddleName,
         department,
         position,
         phone,
