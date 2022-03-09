@@ -9,9 +9,9 @@ const AdminActivtiesPage: FC = () => {
 
     return (
         <>
-            <header className={styles.adminHeader}>
+            <header className="adminHeader">
                 <h1 className="adminH1">Кружки</h1>
-                <div className={styles.btns}>
+                <div className="btns">
                     <LinkButton
                         to="add"
                         text={'Добавить кружок'}
