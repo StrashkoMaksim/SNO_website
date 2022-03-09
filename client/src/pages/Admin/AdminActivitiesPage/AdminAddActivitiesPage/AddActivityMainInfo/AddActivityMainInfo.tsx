@@ -9,7 +9,7 @@ import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../../../compone
 import { FormPages } from '../AdminAddActivitiesPage';
 import ErrorMessage from '../../../../../components/ErrorMessage/ErrorMessage';
 
-const emptyActivityMainInfo = {
+export const emptyActivityMainInfo = {
     name: '',
     previewText: '',
     logo: '',
@@ -24,11 +24,11 @@ export interface ActivityMainInfo {
 }
 
 interface AAMIProps {
-    handleSubmit: (nextSectionName: FormPages, data: ActivityMainInfo) => void
+    handleSectionSubmit: (nextSectionName: FormPages, data: ActivityMainInfo) => void
 }
 
 
-const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
+const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit }) => {
 
     const [activityMainInfo, setActivityMainInfo] = useState<ActivityMainInfo>(emptyActivityMainInfo)
     const [errMessage, setErrMessage] = useState<string>('')
@@ -53,11 +53,10 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
     }, [])
 
     const getMainInfoData = async () => {
+        let eData: FormData;
 
         await getEditorContent(editorCore)
-            .then(
-                editorData => setActivityMainInfo(prevState => ({ ...prevState, content: editorData }))
-            )
+            .then(editorData => eData = editorData)
             .then(() => {
                 for (let key in activityMainInfo) {
                     if (!activityMainInfo[key as keyof ActivityMainInfo] && key !== 'content') {
@@ -65,10 +64,15 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
                         return false;
                     }
                 }
+                if (eData.get('content') === '[]') {
+                    raiseSubmitErr('content')
+                    return false
+                }
+
                 return true;
             })
             .then((successfulInput) => {
-                if (successfulInput) handleSubmit(FormPages.supAndSchedule, activityMainInfo)
+                if (successfulInput) handleSectionSubmit(FormPages.supAndSchedule, { ...activityMainInfo, content: eData })
             })
 
     }

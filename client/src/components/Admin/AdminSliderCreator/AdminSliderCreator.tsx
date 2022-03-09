@@ -4,10 +4,22 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from './AdminSliderCreator.module.scss'
 import "./AdminSliderRestyle.scss"
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { FormPages } from '../../../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage';
+import DefaultButton, { ButtonStyles, ButtonTypes } from '../../DefaultButton/DefaultButton';
 
+export interface Achievements {
+    achievements: File[]
+}
 
-const AdminSliderSelector = () => {
+// ахахахах
+interface ASSProps {
+    handleNavigation: (currPage: FormPages) => void
+    handleSectionSubmit: (nextSectionName: FormPages, m?: undefined, s?: undefined, data?: Achievements) => any
+    handleSubmit: () => void
+}
+
+const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSectionSubmit, handleSubmit }) => {
 
     const [slidesPreview, setSlidesPreview] = useState<string[]>([]);
     const [images, setImages] = useState<File[]>([])
@@ -28,7 +40,15 @@ const AdminSliderSelector = () => {
             setSlidesPreview([imgURL, ...slidesPreview])
         }
         setImages([img, ...images])
-        console.log(slidesPreview)
+    }
+
+    const handleAchievementsSubmit = async () => {
+        await handleSectionSubmit(FormPages.main, undefined, undefined, { achievements: images })
+            .then(() => handleSubmit())
+    }
+
+    const returnToPrevSection = () => {
+        handleNavigation(FormPages.supAndSchedule)
     }
 
 
@@ -56,6 +76,22 @@ const AdminSliderSelector = () => {
                         </a>
                     )}
                 </Slider>
+
+                <div className={styles.controlButtons}>
+                    <DefaultButton
+                        text="Назад"
+                        type={ButtonTypes.button}
+                        style={ButtonStyles.adminFilled}
+                        extraClass={styles.backButton}
+                        onClick={returnToPrevSection}
+                    />
+                    <DefaultButton
+                        text="Далее"
+                        type={ButtonTypes.button}
+                        style={ButtonStyles.adminFilled}
+                        onClick={handleAchievementsSubmit}
+                    />
+                </div>
             </div>
         </section >
     )

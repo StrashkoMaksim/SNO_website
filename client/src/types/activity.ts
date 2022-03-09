@@ -1,4 +1,3 @@
-import e from "express";
 import { ScheduleInterface } from "./schedule";
 import { emptySupervisor, Supervisor } from "./supervisor";
 
@@ -10,6 +9,7 @@ export interface Activity {
     supervisorPhoto: string | Blob | File,
     content: FormData | null,
     schedule: ScheduleInterface[]
+    achievements: File[]
 }
 
 export const emptyActivity = {
@@ -19,5 +19,6 @@ export const emptyActivity = {
     supervisor: emptySupervisor,
     supervisorPhoto: '',
     content: null,
-    schedule: []
+    schedule: [],
+    achievements: []
 }

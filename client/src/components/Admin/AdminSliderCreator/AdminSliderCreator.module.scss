@@ -3,6 +3,7 @@
 
 .sliderBlock {
     display: flex;
+    max-width: 893px !important;
     flex-direction: column;
     background-color: white;
     row-gap: 40px;
@@ -35,6 +36,7 @@
 
 .slider {
     background-color: white;
+    max-height: 416px;
 }
 
 .slide {
@@ -51,4 +53,12 @@
         max-height: 200px;
         width: auto;
     }
+}
+
+.controlButtons {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    column-gap: 30px;
+    margin-top: 40px;
 }
