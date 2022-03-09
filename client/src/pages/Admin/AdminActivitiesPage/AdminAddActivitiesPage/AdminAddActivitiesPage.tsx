@@ -10,6 +10,8 @@ import line from '../../../../assets/img/ActivitiesForm/line.svg'
 import cn from "classnames";
 import AdminSliderCreator, { Achievements } from "../../../../components/Admin/AdminSliderCreator/AdminSliderCreator";
 import AddActivityScheduleAndSupervisor, { ActivitySupervisorAndSchedule } from './AddActivityScheduleAndSupervisor/AddActivityScheduleAndSupervisor';
+import axios, { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 export enum FormPages {
@@ -24,14 +26,54 @@ const AdminAddActivitiesPage = () => {
     const [activity, setActivity] = useState<Activity>(emptyActivity)
     const [currentPage, setCurrentPage] = useState<FormPages>(FormPages.main)
     const [formFilled, setFormFilled] = useState<boolean>(false);
-
+    const navigate = useNavigate()
     const handleFormSubmit = async () => {
         setFormFilled(true)
     }
 
     useEffect(() => {
-        if (formFilled) console.log(activity)
+        if (formFilled) sendActivityToServer()
     }, [activity, formFilled])
+
+    const sendActivityToServer = async () => {
+        try {
+            if (activityId) {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, createFormData(), {
+                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+                })
+            } else {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, createFormData(), {
+                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+                })
+            }
+            navigate('/admin/activities')
+        } catch (e) {
+            const error = e as Error | AxiosError;
+            if (axios.isAxiosError(error)) {
+                console.log(error.response?.data.message)
+                console.log(error.response?.data.errors)
+            }
+        }
+    }
+
+    const createFormData = () => {
+        const formData = new FormData()
+
+        console.log(activity)
+
+        formData.append('name', activity.name)
+        formData.append('previewText', activity.previewText)
+        formData.append('logo', activity.logo)
+        formData.append('content', JSON.stringify(activity.content))
+        formData.append('contentImages', JSON.stringify(activity.contentImages))
+        formData.append('supervisor', JSON.stringify(activity.supervisor))
+        formData.append('supervisorPhoto', activity.supervisorPhoto)
+        formData.append('schedule', JSON.stringify(activity.schedule))
+        formData.append('achievements', JSON.stringify(activity.achievements))
+
+
+        return formData
+    }
 
     const handleSectionSubmit = async (nextSectionName: FormPages,
         mainInfo?: ActivityMainInfo,
@@ -41,6 +83,7 @@ const AdminAddActivitiesPage = () => {
             if (supervisorAndSchedule) {
                 prevState = { ...prevState, ...supervisorAndSchedule }
                 prevState.supervisor = { ...supervisorAndSchedule.supervisor }
+                prevState.supervisorPhoto = supervisorAndSchedule.supervisor.photo
                 prevState.schedule = { ...supervisorAndSchedule.schedule }
             }
             else if (achievements) {

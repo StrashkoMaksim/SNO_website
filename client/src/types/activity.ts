@@ -5,10 +5,11 @@ export interface Activity {
     name: string,
     previewText: string,
     logo: string | Blob | File,
-    supervisor: Supervisor
+    supervisor: Supervisor,
     supervisorPhoto: string | Blob | File,
-    content: FormData | null,
-    schedule: ScheduleInterface[]
+    content: FormDataEntryValue | null,
+    contentImages: FormDataEntryValue[] | null,
+    schedule: ScheduleInterface[],
     achievements: File[]
 }
 
@@ -19,6 +20,7 @@ export const emptyActivity = {
     supervisor: emptySupervisor,
     supervisorPhoto: '',
     content: null,
+    contentImages: null,
     schedule: [],
     achievements: []
 }
