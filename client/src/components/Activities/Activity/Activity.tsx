@@ -10,8 +10,8 @@ interface ActivityProps {
 
 const Activity: FC<ActivityProps> = ({ id, imgSrc, title}) => {
     return (
-        <Link to={id} className={styles.activity}>
-            <img className={styles.activityLogo} src={imgSrc} alt="Activity logo" />
+        <Link key={id} to={id} className={styles.activity}>
+            <img className={styles.activityLogo} src={`${process.env.REACT_APP_SERVER_URL}/${imgSrc}`} alt="Activity logo" />
             <h2 className={styles.title}>{title}</h2>
         </Link>
     )

@@ -4,18 +4,17 @@ import http from '../../../assets/http-config';
 import cn from 'classnames';
 import arrowSVG from "../../../assets/img/arrow.svg"
 import ActivityList from "../ActivityList/ActivityList";
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { useActions } from '../../../hooks/useActions';
 
 const ActivitiesBlock = () => {
-    const [activities, setActivities] = useState<any[]>([]);
     const [activitiesExpanded, setActivitiesExpanded] = useState<boolean>(false);
 
+    const { activities } = useTypedSelector(state => state.activity)
+    const { fetchActivityPreviews } = useActions()
+
     useEffect(() => {
-
-        // Изначально обрезаем до 8 кружков
-        // fetchActivites()
-
-        //Пока просто мок-объект
-        setActivities([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+        fetchActivityPreviews()
     }, [])
 
 
@@ -23,13 +22,6 @@ const ActivitiesBlock = () => {
         setActivitiesExpanded(!activitiesExpanded);
     }
 
-    const fetchActivities = async () => {
-        await http.get('/activities').then(response => {
-            if (response.status === 200) {
-                setActivities(response.data)
-            }
-        })
-    }
 
     return (
         <section className={cn('section')}>

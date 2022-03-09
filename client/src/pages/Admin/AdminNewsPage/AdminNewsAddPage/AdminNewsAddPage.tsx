@@ -16,7 +16,7 @@ import AdminEditPageHeader, { AEPHTypes } from '../../../../components/AdminEdit
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
-    const { news } = useTypedSelector(state => state)
+    const news = useTypedSelector(state => state.news)
     const { tags } = useTypedSelector(state => state.tag)
     const { fetchNewsAdmin, changeNewsState, deleteNews } = useActions()
     const [selectedTags, setSelectedTags] = useState<Set<Tag>>(new Set())

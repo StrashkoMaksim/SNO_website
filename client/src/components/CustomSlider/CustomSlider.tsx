@@ -66,7 +66,7 @@ const CustomSlider = () => {
                 <h1>Партнеры</h1>
                 <Slider {...sliderOptions} className={styles.slider}>
                     {partners.map(partner =>
-                        <a href="#" target="_blank" className={styles.slide}>
+                        <a key={partner.name} href="#" target="_blank" className={styles.slide}>
                             <img src={partner.imgSrc} alt="" />
                         </a>
                     )}

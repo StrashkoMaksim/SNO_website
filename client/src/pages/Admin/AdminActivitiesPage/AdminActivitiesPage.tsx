@@ -1,11 +1,18 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import styles from "../AdminNewsPage/AdminNewsPage.module.scss"
 import plusIcon from "../../../assets/img/plus.svg"
 import ActivityList from "../../../components/Activities/ActivityList/ActivityList"
 import LinkButton from "../../../components/LinkButton/LinkButton";
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { useActions } from '../../../hooks/useActions';
 
 const AdminActivtiesPage: FC = () => {
-    const activities: any[] = ['5', '3']
+    const { activities } = useTypedSelector(state => state.activity)
+    const { fetchActivityPreviews } = useActions()
+
+    useEffect(() => {
+        fetchActivityPreviews()
+    }, [])
 
     return (
         <>

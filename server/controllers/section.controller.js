@@ -6,9 +6,9 @@ exports.get = async function (req, res) {
     try {
         const { page, count } = req.query
 
-        const news = await SectionService.get(count, page)
+        const sections = await SectionService.get(count, page)
 
-        res.json(news)
+        res.json(sections)
     } catch (e) {
         errorHandler(e, res)
     }
@@ -46,8 +46,6 @@ exports.add = async function (req, res) {
 
         const { name, previewText, content, supervisor, supervisorPhoto, schedule, achievements, logo,
             contentImages } = req.body
-
-        console.log(schedule)
 
         if (!await SectionService.add(name, previewText, content, supervisor, schedule, achievements, logo,
             supervisorPhoto, contentImages)) {
