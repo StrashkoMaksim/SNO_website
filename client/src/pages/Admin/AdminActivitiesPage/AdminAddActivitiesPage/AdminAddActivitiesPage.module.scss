@@ -40,6 +40,7 @@
         }
         .AchievementsBlock {
             display: flex;
+            width: 100vmin;
         }
     }
 }
@@ -81,11 +82,11 @@
 
     &__Text {
         position: absolute;
-        max-width: 12ch;
+        max-width: 20ch;
         color: #959595;
         font-weight: 600;
         text-align: center;
-        left: -25px;
+        left: -22px;
     }
 
     &-supAndSchedule {

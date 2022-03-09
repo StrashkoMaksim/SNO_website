@@ -9,30 +9,31 @@ import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../../../compone
 import { FormPages } from '../AdminAddActivitiesPage';
 import ErrorMessage from '../../../../../components/ErrorMessage/ErrorMessage';
 
-const emptyActivityMainInfo = {
+export const emptyActivityMainInfo = {
     name: '',
     previewText: '',
     logo: '',
     content: null,
+    contentImages: null
 }
 
 export interface ActivityMainInfo {
     name: string,
     previewText: string,
     logo: File | Blob | string,
-    content: FormData | null,
+    content: FormDataEntryValue | null,
+    contentImages: FormDataEntryValue[] | null
 }
 
 interface AAMIProps {
-    handleSubmit: (nextSectionName: FormPages, data: ActivityMainInfo) => void
+    handleSectionSubmit: (nextSectionName: FormPages, data: ActivityMainInfo) => void
 }
 
 
-const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
+const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit }) => {
 
     const [activityMainInfo, setActivityMainInfo] = useState<ActivityMainInfo>(emptyActivityMainInfo)
     const [errMessage, setErrMessage] = useState<string>('')
-
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
         const inputName = e.currentTarget.name;
@@ -53,22 +54,32 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
     }, [])
 
     const getMainInfoData = async () => {
-
+        let eContent: FormDataEntryValue | null
+        let eContentImages: FormDataEntryValue[]
+        console.log(activityMainInfo)
         await getEditorContent(editorCore)
-            .then(
-                editorData => setActivityMainInfo(prevState => ({ ...prevState, content: editorData }))
-            )
+            .then(editorData => {
+                eContent = editorData.get('content')
+                eContentImages = editorData.getAll('contentImages')
+            })
             .then(() => {
                 for (let key in activityMainInfo) {
-                    if (!activityMainInfo[key as keyof ActivityMainInfo] && key !== 'content') {
+                    if (!activityMainInfo[key as keyof ActivityMainInfo] && key !== 'content' && key !== 'contentImages') {
                         raiseSubmitErr(key)
                         return false;
                     }
                 }
+                if (eContent === '[]') {
+                    raiseSubmitErr('content')
+                    return false
+                }
+
                 return true;
             })
             .then((successfulInput) => {
-                if (successfulInput) handleSubmit(FormPages.supAndSchedule, activityMainInfo)
+                if (successfulInput)
+                    handleSectionSubmit(FormPages.supAndSchedule,
+                        { ...activityMainInfo, content: eContent, contentImages: eContentImages })
             })
 
     }
@@ -103,7 +114,7 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSubmit }) => {
 
 
     return (
-        <div className={cn(styles['admin-add-form'], styles.form)}>
+        <div className={cn('admin-add-form', styles.form)}>
 
             <div className={styles.mainInputs}>
                 <div className={styles.mainInputs__TextInputs}>

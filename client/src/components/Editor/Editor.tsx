@@ -24,11 +24,11 @@ export const getEditorContent = async (editorRef: any) => {
                 if (block.type === 'image') {
 
                     if (block.data.file.source) {
-                        editorData.set(block.id, block.data.file.source)
+                        editorData.set('contentImages', block.data.file.source)
                         block.data.file = undefined
                     } else {
                         const file = await fetch(block.data.file.url).then(r => r.blob())
-                        editorData.set(block.id, file, block.id + '.jpg')
+                        editorData.set('contentImages', file, block.id + '.jpg')
                     }
 
                 }
@@ -38,8 +38,8 @@ export const getEditorContent = async (editorRef: any) => {
         )
         .then((content: any) => { editorData.set('content', JSON.stringify(content.blocks)) })
 
-    return editorData;
-}
+    return editorData
+};
 
 
 

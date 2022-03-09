@@ -20,7 +20,7 @@ export interface ActivitySupervisorAndSchedule {
 
 interface AASASProps {
     handleNavigation: (currPage: FormPages) => void
-    handleSectionSubmit: (nextSectionName: FormPages, data: ActivitySupervisorAndSchedule) => void
+    handleSectionSubmit: (nextSectionName: FormPages, m?: undefined, supervisorAndSchedule?: ActivitySupervisorAndSchedule) => void
 }
 
 const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, handleSectionSubmit }) => {
@@ -28,6 +28,7 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
     const [scheduleAndSupervisor, setScheduleAndSupervisor] = useState<ActivitySupervisorAndSchedule>(emptyActivitySAS)
     const [sectionSubmitted, setSectionSubmitted] = useState<boolean>(false)
     const [errMessage, setErrMessage] = useState<string>('')
+    const [changedData, setChangedData] = useState<boolean>(false)
 
     const [supervisorFilled, setSupervisorFilled] = useState<boolean>(false)
     const [scheduleFilled, setScheduleFilled] = useState<boolean>(false)
@@ -38,8 +39,8 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
 
     useEffect(() => {
         if (supervisorFilled && scheduleFilled)
-            handleSectionSubmit(FormPages.achievemnets, scheduleAndSupervisor)
-    }, [supervisorFilled, scheduleFilled, sectionSubmitted, scheduleAndSupervisor])
+            handleSectionSubmit(FormPages.achievemnets, undefined, scheduleAndSupervisor)
+    }, [changedData])
 
     const updateSupervisor = (supervisor: Supervisor) => {
         for (let key in supervisor) {
@@ -49,13 +50,12 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
             }
         }
 
-        setSupervisorFilled(true)
         setScheduleAndSupervisor(prevState => {
             prevState.supervisor = { ...supervisor }
-            console.log(prevState)
             return prevState
         })
-
+        setSupervisorFilled(true)
+        setChangedData(!changedData)
     }
 
     const updateSchedule = (schedule: ScheduleInterface[]) => {
@@ -64,11 +64,13 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
             return;
         }
 
-        setScheduleFilled(true)
         setScheduleAndSupervisor(prevState => {
             prevState.schedule = [...schedule]
             return prevState
         })
+        setScheduleFilled(true)
+        setChangedData(!changedData)
+
     }
 
 

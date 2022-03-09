@@ -47,7 +47,6 @@ const SchedulePicker: FC<SchedulePickerProps> = ({ sectionSubmitted, updateSched
     const [editingBlockIndex, setEditingBlockIndex] = useState<number | null>(null)
 
     useEffect(() => {
-        console.log(sectionSubmitted)
         updateSchedule(schedule)
     }, [sectionSubmitted])
 
