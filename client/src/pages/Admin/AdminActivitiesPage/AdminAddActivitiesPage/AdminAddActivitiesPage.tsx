@@ -1,7 +1,7 @@
 import styles from './AdminAddActivitiesPage.module.scss'
-import { FormEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import AdminEditPageHeader, { AEPHTypes } from "../../../../components/AdminEditPageHeader/AdminEditPageHeader";
-import AddActivityMainInfo, { ActivityMainInfo, emptyActivityMainInfo } from "./AddActivityMainInfo/AddActivityMainInfo";
+import AddActivityMainInfo, { ActivityMainInfo } from "./AddActivityMainInfo/AddActivityMainInfo";
 import { Activity, emptyActivity } from "../../../../types/activity";
 import circle1 from '../../../../assets/img/ActivitiesForm/1.svg'
 import circle2 from '../../../../assets/img/ActivitiesForm/2.svg'
@@ -13,7 +13,6 @@ import AddActivityScheduleAndSupervisor, { ActivitySupervisorAndSchedule } from 
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 export enum FormPages {
     main = '-MainPage',
     supAndSchedule = '-supAndSchedule',
@@ -21,21 +20,12 @@ export enum FormPages {
 }
 
 const AdminAddActivitiesPage = () => {
-
     const activityId = undefined;
     const [activity, setActivity] = useState<Activity>(emptyActivity)
     const [currentPage, setCurrentPage] = useState<FormPages>(FormPages.main)
-    const [formFilled, setFormFilled] = useState<boolean>(false);
     const navigate = useNavigate()
+
     const handleFormSubmit = async () => {
-        setFormFilled(true)
-    }
-
-    useEffect(() => {
-        if (formFilled) sendActivityToServer()
-    }, [activity, formFilled])
-
-    const sendActivityToServer = async () => {
         try {
             if (activityId) {
                 await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, createFormData(), {
@@ -61,16 +51,28 @@ const AdminAddActivitiesPage = () => {
 
         console.log(activity)
 
+        // @ts-ignore
+        formData.append('content', activity.content)
         formData.append('name', activity.name)
         formData.append('previewText', activity.previewText)
         formData.append('logo', activity.logo)
-        formData.append('content', JSON.stringify(activity.content))
-        formData.append('contentImages', JSON.stringify(activity.contentImages))
         formData.append('supervisor', JSON.stringify(activity.supervisor))
         formData.append('supervisorPhoto', activity.supervisorPhoto)
-        formData.append('schedule', JSON.stringify(activity.schedule))
-        formData.append('achievements', JSON.stringify(activity.achievements))
 
+        // @ts-ignore
+        activity.contentImages.forEach(image => {
+            formData.append('contentImages', image)
+        })
+
+        activity.achievements.forEach(achievement => {
+            console.log(4)
+            formData.append('achievements', achievement)
+        })
+
+        activity.schedule.forEach(item => {
+            console.log(item)
+            formData.append('schedule', JSON.stringify(item))
+        })
 
         return formData
     }
@@ -84,7 +86,7 @@ const AdminAddActivitiesPage = () => {
                 prevState = { ...prevState, ...supervisorAndSchedule }
                 prevState.supervisor = { ...supervisorAndSchedule.supervisor }
                 prevState.supervisorPhoto = supervisorAndSchedule.supervisor.photo
-                prevState.schedule = { ...supervisorAndSchedule.schedule }
+                prevState.schedule = [ ...supervisorAndSchedule.schedule ]
             }
             else if (achievements) {
                 prevState = { ...prevState, ...achievements }
@@ -120,7 +122,6 @@ const AdminAddActivitiesPage = () => {
             <div className={cn(styles.FormNavigation, styles[`FormNavigation${currentPage}`])}>
                 <div className={styles.FormNavigation__Block}
                     id={styles.FormNavigation__MainInfo}
-                    onClick={handleNavigation(FormPages.main)}
                 >
                     <div className={styles.FormNavigation__Block__Title}>
                         <img src={circle1} alt="" />
@@ -133,7 +134,6 @@ const AdminAddActivitiesPage = () => {
                 <div
                     className={styles.FormNavigation__Block}
                     id={styles.FormNavigation__supAndSchedule}
-                    onClick={handleNavigation(FormPages.supAndSchedule)}
                 >
                     <div className={styles.FormNavigation__Block__Title}>
                         <img src={circle2} alt="" />
@@ -145,7 +145,6 @@ const AdminAddActivitiesPage = () => {
                 <div
                     className={styles.FormNavigation__Block}
                     id={styles.FormNavigation__Achievements}
-                    onClick={handleNavigation(FormPages.achievemnets)}
                 >
                     <div className={styles.FormNavigation__Block__Title}>
                         <img src={circle3} alt="" />
@@ -171,7 +170,6 @@ const AdminAddActivitiesPage = () => {
                 <div className={styles.AchievementsBlock}>
                     <AdminSliderCreator
                         handleNavigation={handleBackBtnClick}
-                        handleSectionSubmit={handleSectionSubmit}
                         handleSubmit={handleFormSubmit} />
                 </div>
 

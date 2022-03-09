@@ -20,8 +20,10 @@ export interface Supervisor {
     phone: string
 }
 
+export type AddSupervisor = Omit<Supervisor, "_id">
+
 export const emptySupervisor = {
-    _id: '',
+    _id: '0',
     photo: '',
     lastName: '',
     firstAndMiddleName: '',

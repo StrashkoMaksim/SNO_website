@@ -28,11 +28,10 @@ const emptySchedule = {
 }
 
 interface SchedulePickerProps {
-    sectionSubmitted: boolean,
     updateSchedule: (schedule: ScheduleInterface[]) => void
 }
 
-const SchedulePicker: FC<SchedulePickerProps> = ({ sectionSubmitted, updateSchedule }) => {
+const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule }) => {
 
     const [schedule, setSchedule] = useState<ScheduleInterface[]>([])
     const [singleSchedule, setSingleSchedule] = useState<ScheduleInterface>(emptySchedule)
@@ -48,7 +47,7 @@ const SchedulePicker: FC<SchedulePickerProps> = ({ sectionSubmitted, updateSched
 
     useEffect(() => {
         updateSchedule(schedule)
-    }, [sectionSubmitted])
+    }, [schedule])
 
 
     // Парсинг Date в формат hh:mm

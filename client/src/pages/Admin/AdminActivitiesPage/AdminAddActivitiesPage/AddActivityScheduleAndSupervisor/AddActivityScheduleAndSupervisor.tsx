@@ -3,14 +3,14 @@ import AdminAddSupervisorForm from "../../../../../components/Admin/AdminAddSupe
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../../components/DefaultButton/DefaultButton"
 import ErrorMessage from "../../../../../components/ErrorMessage/ErrorMessage"
 import { emptySchedule, ScheduleInterface } from "../../../../../types/schedule"
-import { emptySupervisor, Supervisor } from "../../../../../types/supervisor"
+import {AddSupervisor, emptySupervisor, Supervisor} from "../../../../../types/supervisor"
 import { FormPages } from "../AdminAddActivitiesPage"
 import SchedulePicker from "../SchedulePicker/SchedulePicker"
 import styles from './AddActivityScheduleAndSupervisor.module.scss'
 
 const emptyActivitySAS = {
     supervisor: emptySupervisor,
-    schedule: [emptySchedule]
+    schedule: []
 }
 
 export interface ActivitySupervisorAndSchedule {
@@ -24,38 +24,14 @@ interface AASASProps {
 }
 
 const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, handleSectionSubmit }) => {
-
     const [scheduleAndSupervisor, setScheduleAndSupervisor] = useState<ActivitySupervisorAndSchedule>(emptyActivitySAS)
-    const [sectionSubmitted, setSectionSubmitted] = useState<boolean>(false)
     const [errMessage, setErrMessage] = useState<string>('')
-    const [changedData, setChangedData] = useState<boolean>(false)
-
-    const [supervisorFilled, setSupervisorFilled] = useState<boolean>(false)
-    const [scheduleFilled, setScheduleFilled] = useState<boolean>(false)
-
-    const getActivityAndScheduleData = () => {
-        setSectionSubmitted(!sectionSubmitted)
-    }
-
-    useEffect(() => {
-        if (supervisorFilled && scheduleFilled)
-            handleSectionSubmit(FormPages.achievemnets, undefined, scheduleAndSupervisor)
-    }, [changedData])
 
     const updateSupervisor = (supervisor: Supervisor) => {
-        for (let key in supervisor) {
-            if (!supervisor[key as keyof Supervisor]) {
-                raiseSubmitErr('Заполните информацию о руководителе!')
-                return;
-            }
-        }
-
         setScheduleAndSupervisor(prevState => {
             prevState.supervisor = { ...supervisor }
             return prevState
         })
-        setSupervisorFilled(true)
-        setChangedData(!changedData)
     }
 
     const updateSchedule = (schedule: ScheduleInterface[]) => {
@@ -68,14 +44,9 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
             prevState.schedule = [...schedule]
             return prevState
         })
-        setScheduleFilled(true)
-        setChangedData(!changedData)
-
     }
 
-
     const raiseSubmitErr = (errMsg: string) => {
-
         setErrMessage(errMsg)
 
         setTimeout(() => {
@@ -87,11 +58,26 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
         handleNavigation(FormPages.main)
     }
 
+    const nextClickHandle = () => {
+        if (scheduleAndSupervisor.schedule.length === 0) {
+            raiseSubmitErr('Заполните расписание!')
+            return;
+        }
+
+        for (let key in scheduleAndSupervisor.supervisor) {
+            if (!scheduleAndSupervisor.supervisor[key as keyof Supervisor]) {
+                raiseSubmitErr('Заполните информацию о руководителе!')
+                return;
+            }
+        }
+        handleSectionSubmit(FormPages.achievemnets, undefined, scheduleAndSupervisor)
+    }
+
     return (
         <div className={styles.supAndSchedule}>
             <div className={styles.supAndSchedule__Inputs}>
                 <AdminAddSupervisorForm updateSupervisor={updateSupervisor} />
-                <SchedulePicker sectionSubmitted={sectionSubmitted} updateSchedule={updateSchedule} />
+                <SchedulePicker updateSchedule={updateSchedule} />
             </div>
             <div className={styles.controlButtons}>
                 <ErrorMessage errMessage={errMessage} />
@@ -106,7 +92,7 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
                     text="Далее"
                     type={ButtonTypes.button}
                     style={ButtonStyles.adminFilled}
-                    onClick={getActivityAndScheduleData}
+                    onClick={nextClickHandle}
                 />
             </div>
         </div>

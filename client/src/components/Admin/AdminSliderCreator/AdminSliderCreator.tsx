@@ -12,14 +12,12 @@ export interface Achievements {
     achievements: File[]
 }
 
-// ахахахах
 interface ASSProps {
     handleNavigation: (currPage: FormPages) => void
-    handleSectionSubmit: (nextSectionName: FormPages, m?: undefined, s?: undefined, data?: Achievements) => any
     handleSubmit: () => void
 }
 
-const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSectionSubmit, handleSubmit }) => {
+const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) => {
 
     const [slidesPreview, setSlidesPreview] = useState<string[]>([]);
     const [images, setImages] = useState<File[]>([])
@@ -40,11 +38,6 @@ const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSectionSubm
             setSlidesPreview([imgURL, ...slidesPreview])
         }
         setImages([img, ...images])
-    }
-
-    const handleAchievementsSubmit = async () => {
-        await handleSectionSubmit(FormPages.main, undefined, undefined, { achievements: images })
-            .then(() => handleSubmit())
     }
 
     const returnToPrevSection = () => {
@@ -86,10 +79,10 @@ const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSectionSubm
                         onClick={returnToPrevSection}
                     />
                     <DefaultButton
-                        text="Далее"
+                        text="Сохранить"
                         type={ButtonTypes.button}
                         style={ButtonStyles.adminFilled}
-                        onClick={handleAchievementsSubmit}
+                        onClick={handleSubmit}
                     />
                 </div>
             </div>

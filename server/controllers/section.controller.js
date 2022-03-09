@@ -47,6 +47,8 @@ exports.add = async function (req, res) {
         const { name, previewText, content, supervisor, supervisorPhoto, schedule, achievements, logo,
             contentImages } = req.body
 
+        console.log(schedule)
+
         if (!await SectionService.add(name, previewText, content, supervisor, schedule, achievements, logo,
             supervisorPhoto, contentImages)) {
 

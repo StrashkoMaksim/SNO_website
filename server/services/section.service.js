@@ -60,13 +60,18 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
         }
     }
 
+    const scheduleArr = []
+    schedule.forEach(lesson => {
+        scheduleArr.push(JSON.parse(lesson))
+    })
+
     const section = new Section({
         name,
         previewText,
         logo: savedLogo,
         content: JSON.stringify(content),
         supervisor,
-        schedule,
+        schedule: scheduleArr,
         achievements: achievementsArr.reverse()
     })
 
@@ -147,13 +152,20 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
         }
     }
 
+    const scheduleArr = []
+    if (schedule) {
+        schedule.forEach(lesson => {
+            scheduleArr.push(JSON.parse(lesson))
+        })
+    }
+
     const savedSection = await Section.replaceOne({ _id: id }, {
         name: name || section.get('name'),
         previewText: previewText || section.get('previewText'),
         logo: logoName || section.get('logo'),
         content: content ? JSON.stringify(content) : section.get('content'),
         supervisor: supervisor || section.get('supervisor'),
-        schedule: schedule || section.get('schedule'),
+        schedule: schedule.length > 0 ? scheduleArr : section.get('schedule'),
         achievements: achievements ? achievementsArr : section.get('achievements')
     })
 
