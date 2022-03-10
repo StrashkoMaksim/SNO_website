@@ -7,7 +7,6 @@ export interface Activity {
     logo: string | Blob | File,
     supervisor: Supervisor,
     supervisorPhoto: string | Blob | File,
-
     content: any[],
     schedule: ScheduleInterface[],
     achievements: File[]
