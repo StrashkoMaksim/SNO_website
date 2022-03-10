@@ -1,0 +1,16 @@
+@import "../../assets/styles/variables.scss";
+
+.EditorData {
+    margin-top: 50px;
+}
+
+a {
+    color: $salad-green;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+
+    &:hover {
+        color: $dark-green;
+    }
+}

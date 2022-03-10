@@ -8,7 +8,7 @@ import circle2 from '../../../../assets/img/ActivitiesForm/2.svg'
 import circle3 from '../../../../assets/img/ActivitiesForm/3.svg'
 import line from '../../../../assets/img/ActivitiesForm/line.svg'
 import cn from "classnames";
-import AdminSliderCreator, { Achievements } from "../../../../components/Admin/AdminSliderCreator/AdminSliderCreator";
+import AdminSliderCreator from "../../../../components/Admin/AdminSliderCreator/AdminSliderCreator";
 import AddActivityScheduleAndSupervisor, { ActivitySupervisorAndSchedule } from './AddActivityScheduleAndSupervisor/AddActivityScheduleAndSupervisor';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -25,14 +25,21 @@ const AdminAddActivitiesPage = () => {
     const [currentPage, setCurrentPage] = useState<FormPages>(FormPages.main)
     const navigate = useNavigate()
 
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (achievements: File[]) => {
+        console.log('doing')
+
         try {
             if (activityId) {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, createFormData(achievements), {
+                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+                })
+            } else {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
                 await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             } else {
-                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(), {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             }
@@ -46,7 +53,8 @@ const AdminAddActivitiesPage = () => {
         }
     }
 
-    const createFormData = async () => {
+    const createFormData = async (achievements: File[]) => {
+
         const formData = new FormData()
 
         console.log(activity)
@@ -70,8 +78,9 @@ const AdminAddActivitiesPage = () => {
         formData.append('supervisor', JSON.stringify(activity.supervisor))
         formData.append('supervisorPhoto', activity.supervisorPhoto)
 
-        activity.achievements.forEach(achievement => {
-            console.log(4)
+
+
+        achievements.forEach(achievement => {
             formData.append('achievements', achievement)
         })
 
@@ -84,18 +93,13 @@ const AdminAddActivitiesPage = () => {
 
     const handleSectionSubmit = async (nextSectionName: FormPages,
         mainInfo?: ActivityMainInfo,
-        supervisorAndSchedule?: ActivitySupervisorAndSchedule,
-        achievements?: Achievements) => {
+        supervisorAndSchedule?: ActivitySupervisorAndSchedule) => {
         setActivity(prevState => {
             if (supervisorAndSchedule) {
                 prevState = { ...prevState, ...supervisorAndSchedule }
                 prevState.supervisor = { ...supervisorAndSchedule.supervisor }
                 prevState.supervisorPhoto = supervisorAndSchedule.supervisor.photo
-                prevState.schedule = [ ...supervisorAndSchedule.schedule ]
-            }
-            else if (achievements) {
-                prevState = { ...prevState, ...achievements }
-                prevState.achievements = [...achievements.achievements]
+                prevState.schedule = [...supervisorAndSchedule.schedule]
             }
             else if (mainInfo) {
                 prevState = { ...prevState, ...mainInfo }
@@ -109,10 +113,6 @@ const AdminAddActivitiesPage = () => {
     // Передается в секции формы
     const handleBackBtnClick = (currPage: FormPages) => {
         setCurrentPage(currPage)
-    }
-
-    const handleNavigation = (currPage: FormPages) => {
-        return (e: any) => setCurrentPage(currPage)
     }
 
     return (

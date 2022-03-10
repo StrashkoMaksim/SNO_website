@@ -109,19 +109,11 @@ const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule }) => {
     }
 
     const deleteDay = (arrayPosition: number) => {
-
-        // Если в расписании только 1 день - заполняем расписание пустым массивом
-        if (schedule.length === 1) {
-            setSchedule([])
-            return;
+        return () => {
+            const tmpSchedule = schedule;
+            tmpSchedule.splice(arrayPosition, 1)
+            setSchedule([...tmpSchedule])
         }
-
-        const updSchedule = schedule.map((day, index) => {
-            if (index !== arrayPosition) return day
-        });
-
-        // @ts-ignore
-        setSchedule([...updSchedule])
     }
 
     const handleSelectChange = (event: SelectChangeEvent) => {
@@ -250,7 +242,7 @@ const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule }) => {
                             <button type="button" className={styles.controlButton} onClick={() => moveScheduleToEditor(index)}>
                                 <img src={editIcon} alt="" />
                             </button>
-                            <button type="button" className={styles.controlButton} onClick={() => deleteDay(index)}>
+                            <button type="button" className={styles.controlButton} onClick={deleteDay(index)}>
                                 <img src={trashIcon} alt="" />
                             </button>
                         </div>

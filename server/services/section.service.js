@@ -11,7 +11,7 @@ exports.get = async function (countStr, pageStr) {
         .sort({ _id: -1 })
         .skip(count * (page - 1))
         .limit(count)
-        .select('title logo previewText')
+        .select('name logo previewText')
 
 
     return sections

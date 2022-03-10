@@ -12,7 +12,6 @@ interface EditorProps {
 export const getEditorContent = async (editorRef: any) => {
     // const editorData = new FormData()
 
-    // @ts-ignore
     return await editorRef.current.save()
     //     .then(async (content: any) => {
     //         for (const block of content.blocks) {
@@ -32,6 +31,7 @@ export const getEditorContent = async (editorRef: any) => {
     //
     // return editorData
 }
+
 
 const Editor: FC<EditorProps> = ({ onInitialize }) => {
 

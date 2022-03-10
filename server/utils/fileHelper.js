@@ -33,6 +33,8 @@ exports.savePNG = async (photo, width, height) => {
     const photoName = `${uuid.v4()}.jpg`
 
     await sharp(`${process.env.tempPath}\\${photo.path.split('\\')[2]}`)
+        .flatten(true)
+        .flatten({ background: { r: 255, g: 255, b: 255 } })
         .resize(width, height)
         .toFile(`${process.env.staticPath}\\${photoName}`)
 
@@ -51,10 +53,10 @@ exports.saveFile = async (file) => {
 
     await fs.readFile(`${process.env.tempPath}\\${file.path.split('\\')[2]}`,
         async (err, data) => {
-            if(err) throw err
+            if (err) throw err
 
             await fs.writeFile(`${process.env.staticPath}\\${resultLink}`, data, (err) => {
-                if(err) throw err
+                if (err) throw err
             })
         }
     )

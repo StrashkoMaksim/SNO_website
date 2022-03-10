@@ -21,6 +21,7 @@ import GrantsPage from "../pages/User/GrantsPage/GrantsPage";
 import AdminActivtiesPage from "../pages/Admin/AdminActivitiesPage/AdminActivitiesPage";
 import AdminAddActivitiesPage from "../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage";
 import AdminSupervisorsPage from "../pages/Admin/AdminSupervisorsPage/AdminSupervisorsPage";
+import ActivityFull from "../components/Activities/ActivityFull/ActivityFull";
 import AdminCouncilPage from "../pages/Admin/AdminCouncilPage/AdminCouncilPage";
 
 export const useRoutes = () => {
@@ -63,6 +64,7 @@ export const useRoutes = () => {
                 <Route path="documents" element={<DocumentsPage />} />
                 <Route path="conference" element={<ConferencePage />} />
                 <Route path="grants" element={<GrantsPage />} />
+                <Route path="activities/:id" element={<ActivityFull />} />
                 <Route path="*" element={<MainPage />} />
             </Route>
         </Routes>
