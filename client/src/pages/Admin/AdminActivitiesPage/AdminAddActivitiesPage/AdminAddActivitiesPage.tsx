@@ -26,24 +26,19 @@ const AdminAddActivitiesPage = () => {
     const navigate = useNavigate()
 
     const handleFormSubmit = async (achievements: File[]) => {
-        console.log('doing')
 
         try {
             if (activityId) {
-                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, createFormData(achievements), {
-                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-                })
-            } else {
-                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
-                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(), {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             } else {
                 await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
+
+                navigate('/admin/activities')
             }
-            navigate('/admin/activities')
         } catch (e) {
             const error = e as Error | AxiosError;
             if (axios.isAxiosError(error)) {

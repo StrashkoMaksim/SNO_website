@@ -15,6 +15,7 @@ const ActivityFull = () => {
 
     useEffect(() => {
         if (activityId) fetchActivityDetail(activityId)
+        console.log(activities[0])
     }, [])
 
     return (
@@ -36,13 +37,13 @@ const ActivityFull = () => {
                 </section>
                 <aside className={styles.Activity__ScheduleAndSupervisor}>
                     <SupervisorCard
-                        _id={activities[0]?.supervisor._id}
-                        lastName={activities[0]?.supervisor.lastName}
-                        firstAndMiddleName={activities[0]?.supervisor.firstAndMiddleName}
-                        department={activities[0]?.supervisor.department}
-                        position={activities[0]?.supervisor.position}
-                        phone={activities[0]?.supervisor.phone}
-                        photo={activities[0]?.supervisor.photo}
+                        _id={activities[0]?.supervisor?._id}
+                        lastName={activities[0]?.supervisor?.lastName}
+                        firstAndMiddleName={activities[0]?.supervisor?.firstAndMiddleName}
+                        department={activities[0]?.supervisor?.department}
+                        position={activities[0]?.supervisor?.position}
+                        phone={activities[0]?.supervisor?.phone}
+                        photo={activities[0]?.supervisor?.photo}
                         hasLabel
                     />
                     <Schedule schedule={activities[0]?.schedule} />
