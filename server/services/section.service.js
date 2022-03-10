@@ -46,7 +46,7 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
 
     for (const block of content) {
         if (block.type === 'image') {
-            block.data.src = await saveImg(contentImagesMap[block.id], 773)
+            block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
         }
     }
 
@@ -120,7 +120,7 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
         }
         for (const block of content) {
             if (block.type === 'image') {
-                block.data.src = await saveImg(contentImagesMap[block.id], 773)
+                block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
             }
         }
     }

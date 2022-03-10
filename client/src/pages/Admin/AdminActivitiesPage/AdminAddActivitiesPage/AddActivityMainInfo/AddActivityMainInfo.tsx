@@ -13,16 +13,14 @@ export const emptyActivityMainInfo = {
     name: '',
     previewText: '',
     logo: '',
-    content: null,
-    contentImages: null
+    content: [],
 }
 
 export interface ActivityMainInfo {
     name: string,
     previewText: string,
     logo: File | Blob | string,
-    content: FormDataEntryValue | null,
-    contentImages: FormDataEntryValue[] | null
+    content: any[],
 }
 
 interface AAMIProps {
@@ -54,34 +52,14 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit }) => {
     }, [])
 
     const getMainInfoData = async () => {
-        let eContent: FormDataEntryValue | null
-        let eContentImages: FormDataEntryValue[]
-        console.log(activityMainInfo)
-        await getEditorContent(editorCore)
-            .then(editorData => {
-                eContent = editorData.get('content')
-                eContentImages = editorData.getAll('contentImages')
-            })
-            .then(() => {
-                for (let key in activityMainInfo) {
-                    if (!activityMainInfo[key as keyof ActivityMainInfo] && key !== 'content' && key !== 'contentImages') {
-                        raiseSubmitErr(key)
-                        return false;
-                    }
-                }
-                if (eContent === '[]') {
-                    raiseSubmitErr('content')
-                    return false
-                }
+        const editorContent = await getEditorContent(editorCore)
 
-                return true;
-            })
-            .then((successfulInput) => {
-                if (successfulInput)
-                    handleSectionSubmit(FormPages.supAndSchedule,
-                        { ...activityMainInfo, content: eContent, contentImages: eContentImages })
-            })
+        if (editorContent.blocks.length === 0) {
+            raiseSubmitErr('content')
+            return false
+        }
 
+        handleSectionSubmit(FormPages.supAndSchedule, { ...activityMainInfo, content: editorContent.blocks })
     }
 
     const raiseSubmitErr = (emptyField: string) => {

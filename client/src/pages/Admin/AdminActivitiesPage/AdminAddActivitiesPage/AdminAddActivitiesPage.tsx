@@ -28,11 +28,11 @@ const AdminAddActivitiesPage = () => {
     const handleFormSubmit = async () => {
         try {
             if (activityId) {
-                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, createFormData(), {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             } else {
-                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, createFormData(), {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             }
@@ -46,23 +46,29 @@ const AdminAddActivitiesPage = () => {
         }
     }
 
-    const createFormData = () => {
+    const createFormData = async () => {
         const formData = new FormData()
 
         console.log(activity)
 
+        for (const block of activity.content) {
+            if (block.type === 'image') {
+                if (block.data.file.source) {
+                    formData.append('contentImages', block.data.file.source, block.id + '.jpg')
+                } else {
+                    const file = await fetch(block.data.file.url).then(r => r.blob())
+                    formData.append('contentImages', file, block.id + '.jpg')
+                }
+            }
+        }
+
         // @ts-ignore
-        formData.append('content', activity.content)
+        formData.append('content', JSON.stringify(activity.content))
         formData.append('name', activity.name)
         formData.append('previewText', activity.previewText)
         formData.append('logo', activity.logo)
         formData.append('supervisor', JSON.stringify(activity.supervisor))
         formData.append('supervisorPhoto', activity.supervisorPhoto)
-
-        // @ts-ignore
-        activity.contentImages.forEach(image => {
-            formData.append('contentImages', image)
-        })
 
         activity.achievements.forEach(achievement => {
             console.log(4)
@@ -70,7 +76,6 @@ const AdminAddActivitiesPage = () => {
         })
 
         activity.schedule.forEach(item => {
-            console.log(item)
             formData.append('schedule', JSON.stringify(item))
         })
 
