@@ -7,7 +7,7 @@ export interface Activity {
     logo: string | Blob | File,
     supervisor: Supervisor,
     supervisorPhoto: string | Blob | File,
-    content: FormDataEntryValue | null,
+    content: FormDataEntryValue | string | null,
     contentImages: FormDataEntryValue[] | null,
     schedule: ScheduleInterface[],
     achievements: File[]

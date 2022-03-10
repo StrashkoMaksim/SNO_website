@@ -37,7 +37,7 @@ export const getEditorContent = async (editorRef: any) => {
         }
         )
         .then((content: any) => { editorData.set('content', JSON.stringify(content.blocks)) })
-
+        
     return editorData
 };
 

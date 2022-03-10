@@ -1,0 +1,85 @@
+@import "../../../assets/styles/variables.scss";
+
+.Activity {
+    display: flex;
+    justify-content: space-between;
+    margin: 60px 0px;
+
+    &__MainInfo {
+        background-color: white;
+        max-width: 866px;
+        border-radius: 20px;
+        padding: 50px;
+        height: fit-content;
+
+        &__Head {
+            display: flex;
+            column-gap: 80px;
+        }
+    }
+
+    &__ScheduleAndSupervisor {
+        display: flex;
+        flex-direction: column;
+        row-gap: 30px;
+    }
+
+    .logo {
+        height: 200px;
+        width: 200px;
+    }
+
+    .Name {
+        font-size: 36px;
+        line-height: 36px;
+        font-weight: 700;
+    }
+
+    .previewText {
+        font-size: 18px;
+        font-weight: 500;
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .Activity {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 40px;
+
+        &__ScheduleAndSupervisor {
+            flex-direction: row;
+            column-gap: 40px;
+        }
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .Activity {
+        &__MainInfo {
+            padding: 30px;
+            &__Head {
+                display: flex;
+                flex-direction: column;
+                flex-flow: column-reverse;
+                row-gap: 40px;
+            }
+        }
+
+        .logo {
+            align-self: center;
+        }
+
+        &__ScheduleAndSupervisor {
+            flex-direction: row;
+            column-gap: 40px;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .Activity__ScheduleAndSupervisor{
+        flex-direction: column;
+    }
+}

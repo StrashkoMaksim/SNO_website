@@ -7,7 +7,6 @@ export const fetchActivityPreviews = (/*page = 1, count: Number*/) => {
         try {
             dispatch({ type: ActivityActionTypes.FETCH_ACTIVITIES })
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/section`)
-            console.log(response.data)
             dispatch({ type: ActivityActionTypes.FETCH_ACTIVITIES_SUCCESS, payload: response.data })
         } catch (e) {
             dispatch({
@@ -23,7 +22,7 @@ export const fetchActivityDetail = (id: string) => {
         try {
             dispatch({ type: ActivityActionTypes.FETCH_ACTIVITIES })
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/section/${id}`)
-            dispatch({ type: ActivityActionTypes.FETCH_ACTIVITIES_SUCCESS, payload: response.data })
+            dispatch({ type: ActivityActionTypes.FETCH_ACTIVITIES_SUCCESS, payload: [response.data] })
         } catch (e) {
             dispatch({
                 type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,

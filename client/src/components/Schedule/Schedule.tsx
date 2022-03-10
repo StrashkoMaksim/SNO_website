@@ -18,7 +18,7 @@ const Schedule: FC<ScheduleProps> = ({ schedule }) => {
     return (
         <div className={styles.schedule} >
             <InfoLabel text='Расписание' />
-            {schedule.map((element, index) =>
+            {schedule ? schedule.map((element, index) =>
                 <div
                     className={styles.schedule__single}
                     key={index}
@@ -52,7 +52,30 @@ const Schedule: FC<ScheduleProps> = ({ schedule }) => {
                         <span className={cn(styles.text, styles.classroom)}>{element.classroom}</span>
                     </div>
                 </div>
-            )}
+            ) : <></>}
+            <div
+                className={styles.schedule__single}
+                id={styles.iconTip}
+            >
+                <div className={styles.schedule__single__field}>
+                    <div className={styles.imgContainer}>
+                        <img src={numerator} alt=""></img>
+                    </div>
+                    <span className={styles.text}>числитель</span>
+                </div>
+                <div className={styles.schedule__single__field}>
+                    <div className={styles.imgContainer}>
+                        <img src={denominator} alt=""></img>
+                    </div>
+                    <span className={styles.text}>знаменатель</span>
+                </div>
+                <div className={styles.schedule__single__field}>
+                    <div className={styles.imgContainer}>
+                        <img src={numeratorAnddenominator} alt=""></img>
+                    </div>
+                    <span className={styles.text}>каждая неделя</span>
+                </div>
+            </div>
         </div>
     )
 }
