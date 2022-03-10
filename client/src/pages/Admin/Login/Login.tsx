@@ -3,23 +3,13 @@ import { Link } from "react-router-dom";
 import headerLogo from "../../../assets/img/headerLogo.svg"
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
 import { loginUser } from "../../../store/action-creators/user"
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useTypedSelector } from "../../../hooks/useTypedSelector";
+import { useState } from "react";
 import cn from "classnames";
 import {useActions} from "../../../hooks/useActions";
 
 const Login = () => {
-    const isAuth = useTypedSelector(state => state.user.isAuth)
     const [wrongLogin, setWrongLogin] = useState<boolean>(false)
-    const navigate = useNavigate()
     const { loginUser } = useActions()
-
-    // Если Login отрендерился, то isAuth = false, значит при его изменении 
-    // (изменение может быть только на true) переходим на страничку admin/news
-    useEffect(() => {
-        navigate('/admin/news')
-    }, [isAuth])
 
     const handleLoginSubmit = async (event: any) => {
         event.preventDefault()
