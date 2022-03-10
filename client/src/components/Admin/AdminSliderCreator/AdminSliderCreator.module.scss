@@ -42,7 +42,7 @@
     display: block;
     margin-right: 50px;
     width: fit-content;
-
+    position: relative;
     &:focus {
         outline: none;
     }
@@ -52,6 +52,16 @@
         max-height: 200px;
         width: auto;
     }
+}
+
+.closeSlideBtn {
+    height: 15px !important;
+    width: 15px !important;
+    position: absolute;
+    top: 0px;
+    right: 30px;
+    
+    cursor: pointer;
 }
 
 .controlButtons {

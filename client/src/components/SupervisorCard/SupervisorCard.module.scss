@@ -4,9 +4,9 @@
     background-color: #ffff;
     border-radius: 20px;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
     transition: all 0.4s;
-
+    position: relative;
+    height: fit-content;
     .Avatar {
         max-width: 100%;
     }
@@ -52,6 +52,7 @@
         color: $salad-green;
     }
 }
+
 
 .clickable {
     cursor: pointer;

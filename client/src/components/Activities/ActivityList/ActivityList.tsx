@@ -1,27 +1,23 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import cn from "classnames"
 import Activity from "../Activity/Activity"
-import mockLogo from "../../../assets/img/mockActivityLogo.svg"
 import styles from './ActivityList.module.scss'
 
 interface ActivityListProps {
     activities: any[]
     activitiesExpanded: boolean
+    isAdmin?: boolean
 }
 
-const ActivityList: FC<ActivityListProps> = ({ activities, activitiesExpanded }) => {
+const ActivityList: FC<ActivityListProps> = ({ activities, activitiesExpanded, isAdmin }) => {
     return (
         <div className={cn(styles.activitiesBlock, { [styles.expandedBlock]: activitiesExpanded })}>
-            {activities.map(activity =>
+            {activities?.map(activity =>
                 <Activity
-                    // id={activity._id}
-                    // imgSrc={activity.imgSrc}
-                    // title={activity.title}
-                    // shortInfo={activity.shortInfo}
-                    key={activity.id}
-                    id={'5235'}
-                    imgSrc={mockLogo}
-                    title='Математическое моделирование'
+                    key={activity._id}
+                    id={activity._id}
+                    imgSrc={activity.logo}
+                    title={activity.name}
                 />
             )}
         </div>

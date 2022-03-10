@@ -36,3 +36,23 @@
         content: "аудитория ";
     }
 }
+
+#iconTip {
+    row-gap: 7px ;
+    border: none ;
+    padding: 20px 0px 0px 0px ;
+    display: none ;
+
+    .text {
+        font-weight: 100;
+    }
+    .imgContainer {
+        opacity: 0.6;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    #iconTip {
+        display: flex ;
+    }
+}

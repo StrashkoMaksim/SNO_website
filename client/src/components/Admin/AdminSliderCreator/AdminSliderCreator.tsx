@@ -7,14 +7,12 @@ import "./AdminSliderRestyle.scss"
 import { FC, useState } from 'react';
 import { FormPages } from '../../../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage';
 import DefaultButton, { ButtonStyles, ButtonTypes } from '../../DefaultButton/DefaultButton';
+import closeIcon from '../../../assets/img/close.svg'
 
-export interface Achievements {
-    achievements: File[]
-}
 
 interface ASSProps {
     handleNavigation: (currPage: FormPages) => void
-    handleSubmit: () => void
+    handleSubmit: (achievements: File[]) => void
 }
 
 const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) => {
@@ -27,7 +25,8 @@ const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) =
         dots: true,
         slidesToScroll: 1,
         variableWidth: true,
-        threshold: 50
+        threshold: 50,
+        infinite: false
     }
 
     const handleSliderInput = (event: any) => {
@@ -44,13 +43,30 @@ const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) =
         handleNavigation(FormPages.supAndSchedule)
     }
 
+    const submit = () => {
+        handleSubmit(images)
+    }
+
+    const deleteSlide = (slideIndex: number) => {
+        return () => {
+            const tempImgs = images;
+            const tempPreviews = slidesPreview
+
+            tempImgs.splice(slideIndex, 1)
+            tempPreviews.splice(slideIndex, 1)
+
+            setImages([...tempImgs])
+            setSlidesPreview([...tempPreviews])
+        }
+    }
+
 
     return (
         <section className={cn('section')}>
             <div className={cn('container', styles.sliderBlock)}>
                 <div className={styles.sliderInputContainer}>
                     <input
-                        className={styles['visually-hidden']}
+                        className={'visually-hidden'}
                         type="file"
                         accept=".jpg"
                         id={styles.sliderInput}
@@ -64,9 +80,10 @@ const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) =
 
                 <Slider {...sliderOptions} className={styles.slider}>
                     {slidesPreview.map((slide, index) =>
-                        <a href="#" target="_blank" key={images[index].name} className={styles.slide}>
+                        <div key={images[index]?.name} className={styles.slide}>
+                            <img src={closeIcon} alt="" className={styles.closeSlideBtn} onClick={deleteSlide(index)} />
                             <img src={slide} alt="" />
-                        </a>
+                        </div>
                     )}
                 </Slider>
 
@@ -75,14 +92,14 @@ const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) =
                         text="Назад"
                         type={ButtonTypes.button}
                         style={ButtonStyles.adminFilled}
-                        extraClass={styles.backButton}
+                        extraClass={'backButton'}
                         onClick={returnToPrevSection}
                     />
                     <DefaultButton
                         text="Сохранить"
                         type={ButtonTypes.button}
                         style={ButtonStyles.adminFilled}
-                        onClick={handleSubmit}
+                        onClick={submit}
                     />
                 </div>
             </div>
