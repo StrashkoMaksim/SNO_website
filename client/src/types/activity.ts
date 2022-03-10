@@ -7,8 +7,8 @@ export interface Activity {
     logo: string | Blob | File,
     supervisor: Supervisor,
     supervisorPhoto: string | Blob | File,
-    content: FormDataEntryValue | string | null,
-    contentImages: FormDataEntryValue[] | null,
+
+    content: any[],
     schedule: ScheduleInterface[],
     achievements: File[]
 }
@@ -19,8 +19,7 @@ export const emptyActivity = {
     logo: '',
     supervisor: emptySupervisor,
     supervisorPhoto: '',
-    content: null,
-    contentImages: null,
+    content: [],
     schedule: [],
     achievements: []
 }

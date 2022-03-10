@@ -85,6 +85,8 @@
 
     &__burgerActive {
       div {
+        background: #00763b;
+
         &:nth-child(1) {
           transform: translateY(8px) rotate(-45deg);
         }

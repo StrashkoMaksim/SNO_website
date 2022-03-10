@@ -1,0 +1,9 @@
+.btns {
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
+}

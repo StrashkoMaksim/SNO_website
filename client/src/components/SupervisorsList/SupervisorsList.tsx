@@ -5,12 +5,13 @@ import {Supervisor} from "../../types/supervisor";
 
 interface SupervisorsListProps {
     supervisors: Supervisor[]
+    onClick?: (supervisor: Supervisor) => () => void
 }
 
-const SupervisorsList: FC<SupervisorsListProps> = ({ supervisors }) => {
+const SupervisorsList: FC<SupervisorsListProps> = ({ supervisors, onClick }) => {
     return (
         <div className={styles.SupervisorsBlock}>
-            {
+            {supervisors.length > 0 ?
                 supervisors.map(supervisor =>
                     <SupervisorCard
                         key={supervisor._id}
@@ -21,8 +22,11 @@ const SupervisorsList: FC<SupervisorsListProps> = ({ supervisors }) => {
                         position={supervisor.position}
                         phone={supervisor.phone}
                         photo={supervisor.photo}
+                        onClick={onClick ? onClick(supervisor) : undefined}
                     />
                 )
+                :
+                <p>Руководители отсутствуют</p>
             }
         </div>
     )

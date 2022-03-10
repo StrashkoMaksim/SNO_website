@@ -34,7 +34,12 @@ const AdminAddActivitiesPage = () => {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             } else {
-                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, createFormData(achievements), {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
+                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(), {
+                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+                })
+            } else {
+                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
             }
@@ -48,23 +53,32 @@ const AdminAddActivitiesPage = () => {
         }
     }
 
-    const createFormData = (achievements: File[]) => {
+    const createFormData = async (achievements: File[]) => {
+
         const formData = new FormData()
 
         console.log(activity)
 
+        for (const block of activity.content) {
+            if (block.type === 'image') {
+                if (block.data.file.source) {
+                    formData.append('contentImages', block.data.file.source, block.id + '.jpg')
+                } else {
+                    const file = await fetch(block.data.file.url).then(r => r.blob())
+                    formData.append('contentImages', file, block.id + '.jpg')
+                }
+            }
+        }
+
         // @ts-ignore
-        formData.append('content', activity.content)
+        formData.append('content', JSON.stringify(activity.content))
         formData.append('name', activity.name)
         formData.append('previewText', activity.previewText)
         formData.append('logo', activity.logo)
         formData.append('supervisor', JSON.stringify(activity.supervisor))
         formData.append('supervisorPhoto', activity.supervisorPhoto)
 
-        // @ts-ignore
-        activity.contentImages.forEach(image => {
-            formData.append('contentImages', image)
-        })
+
 
         achievements.forEach(achievement => {
             formData.append('achievements', achievement)

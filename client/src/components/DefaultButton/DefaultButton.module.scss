@@ -50,4 +50,24 @@
             border: 1px solid $salad-green;
         }
     }
+
+    &-delete {
+        background-color: transparent;
+        border: 1px solid $error-color;
+        padding: 10px 20px;
+
+        span {
+            color: $error-color;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        &:hover {
+            background-color: $error-color;
+
+            span {
+                color: #FFFFFF;
+            }
+        }
+    }
 }

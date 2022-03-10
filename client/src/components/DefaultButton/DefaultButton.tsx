@@ -7,7 +7,8 @@ import React, { FC } from "react";
 export enum ButtonStyles {
     filled = "filled",
     adminFilled = "adminFilled",
-    outlined = "outlined"
+    outlined = "outlined",
+    delete = "delete"
 }
 
 export enum ButtonTypes {

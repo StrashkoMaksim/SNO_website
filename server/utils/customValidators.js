@@ -47,14 +47,14 @@ exports.isObjectId = (id) => {
 }
 
 exports.checkJPG = (file) => {
-    if (file.name.substring(file.name.length - 4) !== '.jpg') {
+    if (file.name.substring(file.name.length - 4).toLowerCase() !== '.jpg') {
         return false
     }
     return true
 }
 
 exports.checkPNG = (file) => {
-    if (file.name.substring(file.name.length - 4) !== '.png') {
+    if (file.name.substring(file.name.length - 4).toLowerCase() !== '.png') {
         return false
     }
     return true

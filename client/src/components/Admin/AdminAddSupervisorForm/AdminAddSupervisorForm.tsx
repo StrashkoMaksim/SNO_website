@@ -12,10 +12,11 @@ import { emptySupervisor, Supervisor } from '../../../types/supervisor'
 
 interface AASFProps {
     updateSupervisor: (supervisor: Supervisor) => void
+    currentSupervisor?: Supervisor
 }
 
-const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor }) => {
-    const [supervisor, setSupervisor] = useState<Supervisor>(emptySupervisor)
+const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSupervisor }) => {
+    const [supervisor, setSupervisor] = useState<Supervisor>(currentSupervisor || emptySupervisor)
 
     useEffect(() => {
         updateSupervisor(supervisor)
@@ -27,11 +28,12 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor }) => {
     }
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
         const inputName = e.currentTarget.name;
         const inputValue = e.currentTarget.value;
         setSupervisor(prevState => ({ ...prevState, [inputName]: inputValue }))
     }
+
+    const defaultImg = currentSupervisor ? `${process.env.REACT_APP_SERVER_URL}/${supervisor.photo}` : placeHolderImg
 
     return (
         <div className={styles.Supervisor}>
@@ -41,7 +43,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor }) => {
             <AdminFormInputImg
                 name='avatar'
                 onChange={handleAvatarChange}
-                defaultImg={placeHolderImg}
+                defaultImg={defaultImg}
                 extraClass={styles.Avatar}
                 id='supervisorImgInput'
             />
