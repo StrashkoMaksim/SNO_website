@@ -1,20 +1,20 @@
 import React, {FC, useEffect, useState} from 'react'
 import plusIcon from "../../../assets/img/plus.svg"
-import SupervisorModal from "../../../components/SupervisorModal/SupervisorModal";
-import DefaultButton, {ButtonStyles, ButtonTypes} from "../../../components/DefaultButton/DefaultButton";
-import {useTypedSelector} from "../../../hooks/useTypedSelector";
-import SupervisorsList from "../../../components/SupervisorsList/SupervisorsList";
-import {useActions} from "../../../hooks/useActions";
-import {Supervisor} from "../../../types/supervisor";
+import SupervisorModal from "../../../components/SupervisorModal/SupervisorModal"
+import DefaultButton, {ButtonStyles, ButtonTypes} from "../../../components/DefaultButton/DefaultButton"
+import {useTypedSelector} from "../../../hooks/useTypedSelector"
+import SupervisorsList from "../../../components/SupervisorsList/SupervisorsList"
+import {useActions} from "../../../hooks/useActions"
+import {Supervisor} from "../../../types/supervisor"
 
-const AdminSupervisorsPage: FC = () => {
+const AdminCouncilPage: FC = () => {
     const { supervisors, loading, error } = useTypedSelector(state => state.supervisor)
-    const { fetchSupervisors, addSupervisor, updateSupervisor, deleteSupervisor } = useActions()
+    const { fetchCouncil, addCouncilMember, updateCouncilMember, deleteCouncilMember } = useActions()
     const [currentSupervisor, setCurrentSupervisor] = useState<Supervisor>()
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
     useEffect(() => {
-        fetchSupervisors()
+        fetchCouncil()
     }, [])
 
     const onOpenModalHandler = () => {
@@ -35,10 +35,10 @@ const AdminSupervisorsPage: FC = () => {
     return (
         <>
             <header className="adminHeader">
-                <h1 className="adminH1">Руководители</h1>
+                <h1 className="adminH1">Совет СНО</h1>
                 <div className="btns">
                     <DefaultButton
-                        text={'Добавить руководителя'}
+                        text={'Добавить члена совета'}
                         imgSrc={plusIcon}
                         style={ButtonStyles.adminFilled}
                         type={ButtonTypes.button}
@@ -52,13 +52,13 @@ const AdminSupervisorsPage: FC = () => {
                     isVisible={isModalVisible}
                     onClose={onCloseModalHandler}
                     supervisor={currentSupervisor}
-                    onAdd={addSupervisor}
-                    onUpdate={updateSupervisor}
-                    onDelete={deleteSupervisor}
+                    onAdd={addCouncilMember}
+                    onUpdate={updateCouncilMember}
+                    onDelete={deleteCouncilMember}
                 />
             }
         </>
     )
 }
 
-export default AdminSupervisorsPage
+export default AdminCouncilPage

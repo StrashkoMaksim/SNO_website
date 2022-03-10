@@ -17,6 +17,21 @@ export const fetchSupervisors = () => {
     }
 }
 
+export const fetchCouncil = () => {
+    return async (dispatch: Dispatch<SupervisorAction>) => {
+        try {
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/council`)
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data })
+        } catch (e) {
+            dispatch({
+                type: SupervisorActionTypes.FETCH_SUPERVISOR_ERROR,
+                payload: 'Произошла ошибка при загрузке членов совета'
+            })
+        }
+    }
+}
+
 export const addSupervisor = (supervisor: Supervisor) => {
     return async (dispatch: Dispatch<SupervisorAction>) => {
         try {
@@ -33,6 +48,27 @@ export const addSupervisor = (supervisor: Supervisor) => {
             dispatch({
                 type: SupervisorActionTypes.FETCH_SUPERVISOR_ERROR,
                 payload: 'Произошла ошибка при загрузке руководителей'
+            })
+        }
+    }
+}
+
+export const addCouncilMember = (supervisor: Supervisor) => {
+    return async (dispatch: Dispatch<SupervisorAction>) => {
+        try {
+            const formData = getFormData(supervisor)
+
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/council`, formData, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.council })
+
+            return response
+        } catch (e) {
+            dispatch({
+                type: SupervisorActionTypes.FETCH_SUPERVISOR_ERROR,
+                payload: 'Произошла ошибка при загрузке членов совета'
             })
         }
     }
@@ -59,6 +95,27 @@ export const updateSupervisor = (supervisor: Supervisor) => {
     }
 }
 
+export const updateCouncilMember = (supervisor: Supervisor) => {
+    return async (dispatch: Dispatch<SupervisorAction>) => {
+        try {
+            const formData = getFormData(supervisor)
+
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
+            const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/council/${supervisor._id}`, formData, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.council })
+
+            return response
+        } catch (e) {
+            dispatch({
+                type: SupervisorActionTypes.FETCH_SUPERVISOR_ERROR,
+                payload: 'Произошла ошибка при загрузке членов совета'
+            })
+        }
+    }
+}
+
 export const deleteSupervisor = (supervisorId: string) => {
     return async (dispatch: Dispatch<SupervisorAction>) => {
         try {
@@ -73,6 +130,25 @@ export const deleteSupervisor = (supervisorId: string) => {
             dispatch({
                 type: SupervisorActionTypes.FETCH_SUPERVISOR_ERROR,
                 payload: 'Произошла ошибка при загрузке руководителей'
+            })
+        }
+    }
+}
+
+export const deleteCouncilMember = (supervisorId: string) => {
+    return async (dispatch: Dispatch<SupervisorAction>) => {
+        try {
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
+            const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/council/${supervisorId}`, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+            })
+            dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.council })
+
+            return response
+        } catch (e) {
+            dispatch({
+                type: SupervisorActionTypes.FETCH_SUPERVISOR_ERROR,
+                payload: 'Произошла ошибка при загрузке членов совета'
             })
         }
     }

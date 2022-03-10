@@ -3,19 +3,18 @@ import MakeModal from "../MakeModal/MakeModal"
 import AdminAddSupervisorForm from "../Admin/AdminAddSupervisorForm/AdminAddSupervisorForm"
 import {emptySupervisor, Supervisor} from "../../types/supervisor"
 import DefaultButton, {ButtonStyles, ButtonTypes} from "../DefaultButton/DefaultButton"
-import styles from "./SupervisorModal.module.scss"
+import {useActions} from "../../hooks/useActions"
+import styles from "./CouncilModal.module.scss"
 
 interface SupervisorModalProps {
     supervisor?: Supervisor
     isVisible: boolean
     onClose: () => void
-    onAdd: (supervisor: Supervisor) => void
-    onUpdate: (supervisor: Supervisor) => void
-    onDelete: (supervisorId: string) => void
 }
 
-const SupervisorModal: FC<SupervisorModalProps> = ({ supervisor, isVisible, onClose, onAdd, onUpdate, onDelete }) => {
+const CouncilModal: FC<SupervisorModalProps> = ({ supervisor, isVisible, onClose }) => {
     const [currentSupervisor, setCurrentSupervisor] = useState<Supervisor>(supervisor || emptySupervisor)
+    const { addSupervisor, updateSupervisor, deleteSupervisor } = useActions()
 
     const addSupervisorHandler = (supervisor: Supervisor) => {
         setCurrentSupervisor(supervisor)
@@ -23,19 +22,19 @@ const SupervisorModal: FC<SupervisorModalProps> = ({ supervisor, isVisible, onCl
 
     const saveClickHandler = async () => {
         if (supervisor) {
-            await onUpdate(currentSupervisor)
+            await updateSupervisor(currentSupervisor)
         } else {
-            await onAdd(currentSupervisor)
+            await addSupervisor(currentSupervisor)
         }
         onClose()
     }
 
     const deleteClickHandler = async () => {
-        await onDelete(currentSupervisor._id)
+        await deleteSupervisor(currentSupervisor._id)
         onClose()
     }
 
-    const buttonText = supervisor ? 'Сохранить' : 'Добавить'
+    const buttonText = supervisor ? 'Сохранить' : 'Добавить руководителя'
 
     return (
         <MakeModal modalOpened={isVisible} closeModal={onClose}>
@@ -60,4 +59,4 @@ const SupervisorModal: FC<SupervisorModalProps> = ({ supervisor, isVisible, onCl
     )
 }
 
-export default SupervisorModal
+export default CouncilModal

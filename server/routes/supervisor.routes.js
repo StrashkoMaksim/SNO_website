@@ -46,7 +46,7 @@ router.put('/:id',
 router.delete('/:id',
     AuthMiddleware,
     [
-        param('id', 'Отсутствует ID руководителя').exists()
+        param('id', 'Некорректный ID руководителя').custom(id => isObjectId(id))
     ],
     SupervisorController.delete
 )

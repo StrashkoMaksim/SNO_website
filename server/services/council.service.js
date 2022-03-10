@@ -1,8 +1,7 @@
 const Council = require('../models/Council')
-const createError = require("http-errors");
-const {Types} = require("mongoose");
-const fs = require("fs");
-const {saveImg} = require("../utils/fileHelper");
+const createError = require("http-errors")
+const fs = require("fs")
+const {saveImg} = require("../utils/fileHelper")
 
 exports.get = async function () {
     const council = await Council.find()
@@ -36,7 +35,7 @@ exports.update = async function (id, lastName, firstAndMiddleName, department, p
     let photoName
     if (photo) {
         try {
-            fs.unlinkSync(`${process.env.staticPath}\\${supervisor.get('photo')}`)
+            fs.unlinkSync(`${process.env.staticPath}\\${councilMember.get('photo')}`)
         } catch (e) {
             console.log(e)
         }
@@ -63,13 +62,13 @@ exports.update = async function (id, lastName, firstAndMiddleName, department, p
 }
 
 exports.delete = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID члена совета')
-    }
-
     const councilMember = await Council.findById(id)
 
-    fs.unlinkSync(`${process.env.staticPath}\\${councilMember.get('photo')}`)
+    try {
+        fs.unlinkSync(`${process.env.staticPath}\\${councilMember.get('photo')}`)
+    } catch (e) {
+        console.log(e)
+    }
 
     await councilMember.deleteOne()
 

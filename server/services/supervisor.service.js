@@ -1,8 +1,7 @@
 const Supervisor = require('../models/Supervisor')
-const createError = require("http-errors");
-const { Types } = require("mongoose");
-const fs = require("fs");
-const { saveImg } = require("../utils/fileHelper");
+const createError = require("http-errors")
+const fs = require("fs")
+const { saveImg } = require("../utils/fileHelper")
 
 exports.get = async function () {
     const supervisors = await Supervisor.find()
@@ -64,10 +63,6 @@ exports.update = async function (id, lastName, firstAndMiddleName, department, p
 }
 
 exports.delete = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID руководителя')
-    }
-
     const supervisor = await Supervisor.findById(id)
 
     try {
