@@ -20,14 +20,16 @@ const navLinks = [
 
 interface AdminNavigationProps {
     isNavOpen: boolean
+    onClick: () => void
 }
 
-const AdminNavigation: FC<AdminNavigationProps> = ({ isNavOpen }) => {
+const AdminNavigation: FC<AdminNavigationProps> = ({ isNavOpen, onClick }) => {
     const [currentPage, setCurrentPage] = useState<string>('news')
 
     const onClickLinkHandler = (link: string) => {
         return () => {
             setCurrentPage(link)
+            onClick()
         }
     }
 
@@ -37,7 +39,8 @@ const AdminNavigation: FC<AdminNavigationProps> = ({ isNavOpen }) => {
                 <Link to={'/admin/' + link.link}
                     key={link.link}
                     className={cn({ [styles.navLinkActive]: currentPage === link.link })}
-                    onClick={onClickLinkHandler(link.link)}>
+                    onClick={onClickLinkHandler(link.link)}
+                >
                     <img src={link.imgSrc} alt={link.text} />
                     <span>{link.text}</span>
                 </Link>

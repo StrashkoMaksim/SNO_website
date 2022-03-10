@@ -11,7 +11,7 @@ interface SupervisorsListProps {
 const SupervisorsList: FC<SupervisorsListProps> = ({ supervisors, onClick }) => {
     return (
         <div className={styles.SupervisorsBlock}>
-            {
+            {supervisors.length > 0 ?
                 supervisors.map(supervisor =>
                     <SupervisorCard
                         key={supervisor._id}
@@ -25,6 +25,8 @@ const SupervisorsList: FC<SupervisorsListProps> = ({ supervisors, onClick }) => 
                         onClick={onClick ? onClick(supervisor) : undefined}
                     />
                 )
+                :
+                <p>Руководители отсутствуют</p>
             }
         </div>
     )

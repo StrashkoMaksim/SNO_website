@@ -15,7 +15,6 @@ const AdminLayout: FC = () => {
         setIsNavOpen(!isNavOpen)
     }
 
-
     return (
         <div className={cn("section", styles.adminLayout)}>
             <div className={cn("container", styles.adminLayout__container)}>
@@ -35,7 +34,7 @@ const AdminLayout: FC = () => {
                             <div></div>
                         </button>
                     </div>
-                    <AdminNavigation isNavOpen={isNavOpen} />
+                    <AdminNavigation isNavOpen={isNavOpen} onClick={burgerClickHandler} />
                 </aside>
                 <main>
                     <Outlet />
