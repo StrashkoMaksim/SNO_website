@@ -9,7 +9,11 @@ export interface Activity {
     supervisorPhoto: string | Blob | File,
     content: any[],
     schedule: ScheduleInterface[],
-    achievements: File[]
+    achievements: {
+        previewImg:string,
+        img: string,
+        _id:string
+    }[]
 }
 
 export const emptyActivity = {

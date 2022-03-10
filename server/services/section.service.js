@@ -54,8 +54,8 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
     if (achievements) {
         for (const achievement of achievements) {
             achievementsArr.push({
-                previewImg: await saveImg(achievement, 10000, 200),
-                img: await saveImg(achievement, 1200, 800)
+                previewImg: await saveImg(achievement, undefined, 200),
+                img: await saveImg(achievement, undefined, 800)
             })
         }
     }

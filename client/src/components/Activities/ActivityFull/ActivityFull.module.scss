@@ -7,6 +7,7 @@
 
     &__MainInfo {
         background-color: white;
+        width: 100%;
         max-width: 866px;
         border-radius: 20px;
         padding: 50px;
@@ -15,6 +16,8 @@
         &__Head {
             display: flex;
             column-gap: 80px;
+        justify-content: space-between;
+
         }
     }
 
