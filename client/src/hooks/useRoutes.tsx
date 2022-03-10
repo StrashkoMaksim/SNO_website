@@ -22,6 +22,7 @@ import AdminActivtiesPage from "../pages/Admin/AdminActivitiesPage/AdminActiviti
 import AdminAddActivitiesPage from "../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage";
 import AdminSupervisorsPage from "../pages/Admin/AdminSupervisorsPage/AdminSupervisorsPage";
 import AdminCouncilPage from "../pages/Admin/AdminCouncilPage/AdminCouncilPage";
+import AdminDocumentsPage from "../pages/Admin/AdminDocumentsPage/AdminDocumentsPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -43,11 +44,12 @@ export const useRoutes = () => {
                             <Route path="conf" element={<AdminNewsPage />} />
                             <Route path="council" element={<AdminCouncilPage />} />
                             <Route path="supervisors" element={<AdminSupervisorsPage />} />
-                            <Route path="documents" element={<AdminNewsPage />} />
+                            <Route path="documents" element={<AdminDocumentsPage />} />
                             <Route path="activities" element={<AdminActivtiesPage />} />
                             <Route path="activities/add" element={<AdminAddActivitiesPage />} />
                             <Route path="activities/:id" element={<AdminAddActivitiesPage />} />
                             <Route path="events" element={<AdminEventsPage />} />
+                            <Route path="*" element={<AdminNewsPage />} />
                         </Route>
                     </>
                 ) : <Route path="/admin/*" element={<Login />} />

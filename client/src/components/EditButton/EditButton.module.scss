@@ -1,0 +1,17 @@
+.editButton {
+  display: grid;
+  place-items: center;
+  border: none;
+  background-color: transparent;
+
+  img {
+    transition: 0.2s;
+  }
+
+  &:hover {
+    cursor: pointer;
+    img {
+      filter: invert(62%) sepia(28%) saturate(757%) hue-rotate(60deg) brightness(91%) contrast(88%);
+    }
+  }
+}

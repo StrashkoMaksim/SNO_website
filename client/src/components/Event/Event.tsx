@@ -3,6 +3,7 @@ import React, { FC } from "react"
 import editIcon from "../../assets/img/EditIcon.svg"
 import cn from "classnames"
 import { RequestType } from "../../pages/Admin/AdminEventsPage/AddEventModal"
+import EditButton from "../EditButton/EditButton";
 
 interface EventProps {
     id: string
@@ -64,9 +65,7 @@ const Event: FC<EventProps> = ({ id, name, date, organizerText, organizerLink, i
                     {organizerText}
                 </a>
             </div>
-            <button type="button" className={styles.editButton} onClick={handleEditBtn}>
-                <img src={editIcon} alt="" />
-            </button>
+            <EditButton onClick={handleEditBtn} additionalClass={styles.editButton} />
         </div>
     )
 }
