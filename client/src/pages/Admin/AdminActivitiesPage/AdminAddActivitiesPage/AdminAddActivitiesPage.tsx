@@ -1,5 +1,5 @@
 import styles from './AdminAddActivitiesPage.module.scss'
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AdminEditPageHeader, { AEPHTypes } from "../../../../components/AdminEditPageHeader/AdminEditPageHeader";
 import AddActivityMainInfo, { ActivityMainInfo } from "./AddActivityMainInfo/AddActivityMainInfo";
 import { Activity, emptyActivity } from "../../../../types/activity";
@@ -25,7 +25,7 @@ const AdminAddActivitiesPage = () => {
 
     const { id: activityId } = useParams()
     const { activities } = useTypedSelector(state => state.activity)
-    const { fetchActivityDetail } = useActions()
+    const { fetchActivityDetail, addActivity, updateActivity } = useActions()
 
     const [activity, setActivity] = useState<Activity>(emptyActivity)
     const [currentPage, setCurrentPage] = useState<FormPages>(FormPages.main)
@@ -33,19 +33,15 @@ const AdminAddActivitiesPage = () => {
 
     const [errorText, setErrorText] = useState<string>('')
 
-    // Получаем айдишник кружка и если он существует
-    // фетчим его данные 
-
+    // Получаем айдишник кружка и если он существует - фетчим его данные
     useEffect(() => {
         if (activityId) {
             fetchActivityDetail(activityId)
         }
-        window.scrollTo(0, 0)
+        // window.scrollTo(0, 0)
     }, [])
 
-    // Если есть айдишник кружка
-    // и его данные подгрузились - устанавливаем их в стейт
-
+    // Если есть айдишник кружка и его данные подгрузились - устанавливаем их в стейт
     useEffect(() => {
         if (activities[0] && activityId) {
             setActivity(activities[0])
@@ -53,15 +49,13 @@ const AdminAddActivitiesPage = () => {
     }, [activities[0]])
 
     const handleFormSubmit = async (achievements: File[]) => {
+        const formData = await createFormData(achievements)
+
         try {
             if (activityId) {
-                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(achievements), {
-                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-                })
+                await updateActivity(activityId, formData)
             } else {
-                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
-                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-                })
+                await addActivity(formData)
             }
             navigate('/admin/activities')
         } catch (e) {
@@ -104,12 +98,6 @@ const AdminAddActivitiesPage = () => {
         activity.schedule.forEach(item => {
             formData.append('schedule', JSON.stringify(item))
         })
-
-        // @ts-ignore
-        for (var pair of formData.entries()) {
-            console.log(pair[0])
-            console.log(pair[1])
-        }
 
         return formData
     }

@@ -21,7 +21,7 @@ export const fetchTags = () => {
 export const deleteTag = (tagId: string) => {
     return async (dispatch: Dispatch<TagAction>) => {
         try {
-            const response = await $api.delete(`${process.env.REACT_APP_SERVER_URL}/api/tag/${tagId}`)
+            const response = await $api.delete(`/tag/${tagId}`)
             dispatch({ type: TagActionTypes.FETCH_TAGS_SUCCESS, payload: response.data.tags })
         } catch (e) {
             dispatch({
@@ -35,7 +35,7 @@ export const deleteTag = (tagId: string) => {
 export const addTag = (formData: FormData) => {
     return async (dispatch: Dispatch<TagAction>) => {
         try {
-            const response = await $api.post(`${process.env.REACT_APP_SERVER_URL}/api/tag`, formData)
+            const response = await $api.post('/tag', formData)
             dispatch({ type: TagActionTypes.FETCH_TAGS_SUCCESS, payload: response.data.tags })
         } catch (e) {
             dispatch({

@@ -24,7 +24,7 @@ export const loginUser = (login: String, password: String) => {
 export const checkAuthUser = () => {
     return async (dispatch: Dispatch<UserAction>) => {
         try {
-            const response = await $api.get(`${process.env.REACT_APP_SERVER_URL}/api/auth/check-auth`)
+            const response = await $api.get('/auth/check-auth')
             dispatch({ type: UserActionTypes.LOGIN_USER, payload: response.data.token })
         } catch (e) {
             dispatch({
