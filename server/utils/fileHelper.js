@@ -1,14 +1,14 @@
-const createError = require("http-errors");
-const uuid = require("uuid");
-const sharp = require("sharp");
-const fs = require("fs");
+const createError = require("http-errors")
+const uuid = require("uuid")
+const sharp = require("sharp")
+const fs = require("fs")
 
 exports.saveImg = async (photo, width, height) => {
     if (!photo) {
         throw createError(400, 'Отсутствует фотография')
     }
 
-    if (photo.name.substring(photo.name.length - 4) !== '.jpg') {
+    if (photo.name.substring(photo.name.length - 4).toLowerCase() !== '.jpg') {
         throw createError(400, 'Некорректный формат картинки')
     }
 
@@ -26,11 +26,11 @@ exports.savePNG = async (photo, width, height) => {
         throw createError(400, 'Отсутствует фотография')
     }
 
-    if (photo.name.substring(photo.name.length - 4) !== '.png') {
+    if (photo.name.substring(photo.name.length - 4).toLowerCase() !== '.png') {
         throw createError(400, 'Некорректный формат картинки')
     }
 
-    const photoName = `${uuid.v4()}.jpg`
+    const photoName = `${uuid.v4()}.png`
 
     await sharp(`${process.env.tempPath}\\${photo.path.split('\\')[2]}`)
         .flatten(true)

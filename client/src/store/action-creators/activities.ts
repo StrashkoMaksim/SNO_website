@@ -1,6 +1,6 @@
 import { ActivityAction, ActivityActionTypes, ActivityState } from "../../types/activity"
-import { Dispatch } from "redux"
-import axios from "axios"
+import {Dispatch} from "redux"
+import axios, {AxiosError, AxiosResponse} from "axios"
 import $api from "../../hooks/useProtectedAxios"
 
 export const fetchActivityPreviews = () => {
@@ -38,23 +38,30 @@ export const addActivity = (formData: FormData) => {
         try {
             return  await $api.post('/section', formData)
         } catch (e) {
-            dispatch({
-                type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,
-                payload: 'Произошла ошибка при добавлении кружка'
-            })
+            const error = e as AxiosError
+            if (axios.isAxiosError(error)) {
+                dispatch({
+                    type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,
+                    payload: error.response?.data.message
+                })
+            }
         }
     }
 }
 
-export const updateActivity = (activityId: string, formData: FormData) => {
+export const updateActivity = (activityId: string, formData: FormData)  => {
     return async (dispatch: Dispatch<ActivityAction>) => {
         try {
-            return await $api.put(`/section/${activityId}`, formData)
+            return await $api.put<{ message: string }>(`/section/${activityId}`, formData)
         } catch (e) {
-            dispatch({
-                type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,
-                payload: 'Произошла ошибка при изменении кружка'
-            })
+            const error = e as AxiosError
+            if (axios.isAxiosError(error)) {
+                dispatch({
+                    type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,
+                    payload: error.response?.data.message
+                })
+            }
+            return error.response
         }
     }
 }
@@ -64,10 +71,14 @@ export const deleteActivity = (id: string) => {
         try {
             return await $api.delete(`/section/${id}`)
         } catch (e) {
-            dispatch({
-                type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,
-                payload: 'Произошла ошибка при удалении кружка'
-            })
+            const error = e as AxiosError
+            if (axios.isAxiosError(error)) {
+                dispatch({
+                    type: ActivityActionTypes.FETCH_ACTIVITIES_ERROR,
+                    payload: error.response?.data.message
+                })
+            }
+            return error.response
         }
     }
 }

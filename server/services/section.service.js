@@ -85,28 +85,28 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
 }
 
 exports.update = async function (id, name, previewText, content, supervisor, schedule, achievements, logo,
-    supervisorPhoto, contentImages) {
+    supervisorPhoto, contentImages, achievementsDelete) {
 
     const section = await Section.findById(id)
-    let logoName
 
     if (!section) {
         throw createError(404, 'Кружок не найден, перезагрузите страницу')
     }
 
     // Если поступила новая картинка для превью, то заменяем
+    let logoName
     if (logo) {
         try {
             fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
         } catch (e) {
             console.log(e)
         }
-        logoName = await saveImg(logo, 565, 300)
+        logoName = await savePNG(logo, 221, 221)
     }
 
     if (content) {
         // Удаление старых контентных картинок
-        JSON.parse(content).forEach(block => {
+        JSON.parse(section.get('content')).forEach(block => {
             if (block.type === 'image') {
                 try {
                     fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
@@ -132,8 +132,7 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
     if (supervisorPhoto) {
         try {
             fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
         const supervisorPhotoName = await saveImg(supervisorPhoto, 263, 173)
@@ -146,21 +145,21 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
     }
 
     const achievementsArr = []
-    if (achievements) {
-        // Удаление старых достижений
-        for (const achievement of section.get('achievements')) {
-            try {
-                fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
-                fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
-            } catch (e) {
-                console.log(e)
-            }
+    // Удаление старых достижений
+    for (const achievement of section.get('achievements')) {
+        try {
+            fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
+            fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
+        } catch (e) {
+            console.log(e)
         }
+    }
+    if (!achievementsDelete && achievements) {
         // Добавление новых достижений
         for (const achievement of achievements) {
             achievementsArr.push({
-                previewImg: await saveImg(achievement, 0, 200),
-                img: await saveImg(achievement, 1200, 800)
+                previewImg: await saveImg(achievement, undefined, 200),
+                img: await saveImg(achievement, undefined, 800)
             })
         }
     }
@@ -179,7 +178,7 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
         content: content ? JSON.stringify(content) : section.get('content'),
         supervisor: supervisor || section.get('supervisor'),
         schedule: schedule.length > 0 ? scheduleArr : section.get('schedule'),
-        achievements: achievements ? achievementsArr : section.get('achievements')
+        achievements: achievementsDelete ? [] : (achievements ? achievementsArr : section.get('achievements'))
     })
 
     if (savedSection.modifiedCount !== 1) {

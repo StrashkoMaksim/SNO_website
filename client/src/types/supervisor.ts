@@ -12,7 +12,7 @@ export enum SupervisorActionTypes {
 
 export interface Supervisor {
     _id: string
-    photo: string | File
+    photo: string | Blob
     lastName: string
     firstAndMiddleName: string
     department: string,

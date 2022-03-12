@@ -11,10 +11,9 @@
     transition: 0.4s;
     position: relative;
     border-collapse: collapse;
-    width: 262px;
-    height: 262px;
     text-decoration: none;
     color: #000000;
+    width: 100%;
 
     &:before {
         transition: all 0.4s;

@@ -169,11 +169,19 @@ exports.delete = async function (id) {
     // Удаление старых контентных картинок
     JSON.parse(news.get('content')).forEach(block => {
         if (block.type === 'image') {
-            fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            try {
+                fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            } catch (e) {
+                console.log(e)
+            }
         }
     })
 
-    fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
+    try {
+        fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
+    } catch (e) {
+        console.log(e)
+    }
 
     await news.delete()
 }

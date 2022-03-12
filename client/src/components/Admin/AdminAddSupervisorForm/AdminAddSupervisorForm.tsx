@@ -18,21 +18,10 @@ interface AASFProps {
 const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSupervisor }) => {
     const [supervisor, setSupervisor] = useState<Supervisor>(currentSupervisor || emptySupervisor)
     const [sectionFilled, setSectionFilled] = useState<boolean>(false)
-    const [previewImg, setPreviewImg] = useState<string>('')
 
     useEffect(() => {
         if (currentSupervisor && !sectionFilled && currentSupervisor.lastName !== '') {
-            fetch(`${process.env.REACT_APP_SERVER_URL}/${currentSupervisor.photo}`)
-                .then(res => res.blob())
-                .then(blob => {
-                    setPreviewImg(URL.createObjectURL(blob))
-                    const file = new File([blob], currentSupervisor.photo + '', blob)
-                    return file
-                })
-                .then(file => setSupervisor(prevState =>
-                    prevState = { ...currentSupervisor, photo: file }
-                ))
-
+            setSupervisor(currentSupervisor)
             setSectionFilled(true)
         }
     }, [currentSupervisor])
@@ -43,7 +32,10 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
 
     const handleAvatarChange = (event: any) => {
         const img = event.target.files[0];
-        setSupervisor(prevState => ({ ...prevState, photo: img }))
+
+        if (img) {
+            setSupervisor(prevState => ({ ...prevState, photo: img }))
+        }
     }
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -52,7 +44,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
         setSupervisor(prevState => ({ ...prevState, [inputName]: inputValue }))
     }
 
-    const defaultImg = currentSupervisor ? previewImg : placeHolderImg
+    const defaultImg = supervisor.photo instanceof Blob ? URL.createObjectURL(supervisor.photo) : supervisor.photo
 
     return (
         <div className={styles.Supervisor}>

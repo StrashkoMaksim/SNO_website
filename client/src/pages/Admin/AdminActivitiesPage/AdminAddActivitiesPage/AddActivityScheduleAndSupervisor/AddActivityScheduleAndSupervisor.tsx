@@ -46,11 +46,6 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
     }
 
     const updateSchedule = (schedule: ScheduleInterface[]) => {
-        if (schedule.length === 0) {
-            raiseSubmitErr('Заполните расписание!')
-            return;
-        }
-
         setScheduleAndSupervisor(prevState => {
             prevState.schedule = [...schedule]
             return prevState
@@ -72,13 +67,13 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
     const nextClickHandle = () => {
         if (scheduleAndSupervisor.schedule.length === 0) {
             raiseSubmitErr('Заполните расписание!')
-            return;
+            return
         }
 
         for (let key in scheduleAndSupervisor.supervisor) {
             if (!scheduleAndSupervisor.supervisor[key as keyof Supervisor]) {
                 raiseSubmitErr('Заполните информацию о руководителе!')
-                return;
+                return
             }
         }
         handleSectionSubmit(FormPages.achievemnets, undefined, scheduleAndSupervisor)
