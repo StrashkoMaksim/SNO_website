@@ -94,85 +94,74 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
         throw createError(404, 'Кружок не найден, перезагрузите страницу')
     }
 
-    try {
-        // Если поступила новая картинка для превью, то заменяем
-        if (logo) {
+    // Если поступила новая картинка для превью, то заменяем
+    if (logo) {
+        try {
             fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
-            logoName = await saveImg(logo, 565, 300)
+        } catch (e) {
+            console.log(e)
         }
-    }
-    catch (error) {
-        console.log(error)
+        logoName = await saveImg(logo, 565, 300)
     }
 
     if (content) {
-        try {
-
-            // Удаление старых контентных картинок
-            JSON.parse(content).forEach(block => {
-                if (block.type === 'image') {
-                    try {
-                        fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
-                    } catch (e) {
-                        console.log(e)
-                    }
-                }
-            })
-            // Сохранение новых контентных картинок
-            const contentImagesMap = new Map()
-            if (contentImages) {
-                for (const contentImage of contentImages) {
-                    contentImagesMap.set(contentImage.name, contentImage)
+        // Удаление старых контентных картинок
+        JSON.parse(content).forEach(block => {
+            if (block.type === 'image') {
+                try {
+                    fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+                } catch (e) {
+                    console.log(e)
                 }
             }
-            for (const block of content) {
-                if (block.type === 'image') {
-                    block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
-                }
+        })
+        // Сохранение новых контентных картинок
+        const contentImagesMap = new Map()
+        if (contentImages) {
+            for (const contentImage of contentImages) {
+                contentImagesMap.set(contentImage.name, contentImage)
             }
         }
-        catch (error) {
-            console.log(error)
+        for (const block of content) {
+            if (block.type === 'image') {
+                block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
+            }
         }
     }
 
     if (supervisorPhoto) {
         try {
-
             fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
-            const supervisorPhotoName = await saveImg(supervisorPhoto, 263, 173)
-
-            if (supervisor) {
-                supervisor.photo = supervisorPhotoName
-            } else {
-                section.supervisor.photo = supervisorPhotoName
-            }
         }
-        catch (error) {
-            console.log(error)
+        catch (e) {
+            console.log(e)
         }
+        const supervisorPhotoName = await saveImg(supervisorPhoto, 263, 173)
 
+        if (supervisor) {
+            supervisor.photo = supervisorPhotoName
+        } else {
+            section.supervisor.photo = supervisorPhotoName
+        }
     }
 
     const achievementsArr = []
     if (achievements) {
-        try {
-
-            // Удаление старых достижений
-            for (const achievement of section.get('achievements')) {
+        // Удаление старых достижений
+        for (const achievement of section.get('achievements')) {
+            try {
                 fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
                 fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
-            }
-            // Добавление новых достижений
-            for (const achievement of achievements) {
-                achievementsArr.push({
-                    previewImg: await saveImg(achievement, 0, 200),
-                    img: await saveImg(achievement, 1200, 800)
-                })
+            } catch (e) {
+                console.log(e)
             }
         }
-        catch (error) {
-            console.log(error)
+        // Добавление новых достижений
+        for (const achievement of achievements) {
+            achievementsArr.push({
+                previewImg: await saveImg(achievement, 0, 200),
+                img: await saveImg(achievement, 1200, 800)
+            })
         }
     }
 
@@ -210,16 +199,28 @@ exports.delete = async function (id) {
     // Удаление старых контентных картинок
     JSON.parse(section.get('content')).forEach(block => {
         if (block.type === 'image') {
-            fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            try {
+                fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            } catch (e) {
+                console.log(e)
+            }
         }
     })
 
-    fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
-    fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
+    try {
+        fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
+        fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
+    } catch (e) {
+        console.log(e)
+    }
 
     for (const achievement of section.get('achievements')) {
-        fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
-        fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
+        try {
+            fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
+            fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     await section.delete()
