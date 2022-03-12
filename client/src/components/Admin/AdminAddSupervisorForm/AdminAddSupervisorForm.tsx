@@ -17,6 +17,25 @@ interface AASFProps {
 
 const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSupervisor }) => {
     const [supervisor, setSupervisor] = useState<Supervisor>(currentSupervisor || emptySupervisor)
+    const [sectionFilled, setSectionFilled] = useState<boolean>(false)
+    const [previewImg, setPreviewImg] = useState<string>('')
+
+    useEffect(() => {
+        if (currentSupervisor && !sectionFilled && currentSupervisor.lastName !== '') {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/${currentSupervisor.photo}`)
+                .then(res => res.blob())
+                .then(blob => {
+                    setPreviewImg(URL.createObjectURL(blob))
+                    const file = new File([blob], currentSupervisor.photo + '', blob)
+                    return file
+                })
+                .then(file => setSupervisor(prevState =>
+                    prevState = { ...currentSupervisor, photo: file }
+                ))
+
+            setSectionFilled(true)
+        }
+    }, [currentSupervisor])
 
     useEffect(() => {
         updateSupervisor(supervisor)
@@ -33,7 +52,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
         setSupervisor(prevState => ({ ...prevState, [inputName]: inputValue }))
     }
 
-    const defaultImg = currentSupervisor ? `${process.env.REACT_APP_SERVER_URL}/${supervisor.photo}` : placeHolderImg
+    const defaultImg = currentSupervisor ? previewImg : placeHolderImg
 
     return (
         <div className={styles.Supervisor}>
@@ -56,7 +75,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
                         name='lastName'
                         onChange={onChangeTextInputsHandle}
                         value={supervisor.lastName}
-                        extraClass={cn(styles.Bold, styles.lastName)}
+                        extraClass={cn('Bold', styles.lastName)}
                     />
                     <AdminFormInputText
                         style={AFITStyle.input}
@@ -64,7 +83,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
                         name='firstAndMiddleName'
                         onChange={onChangeTextInputsHandle}
                         value={supervisor.firstAndMiddleName}
-                        extraClass={cn(styles.Regular, styles.midAndFirstName)}
+                        extraClass={cn('Regular', styles.midAndFirstName)}
                     />
                 </div>
 
@@ -76,7 +95,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
                         name='department'
                         onChange={onChangeTextInputsHandle}
                         value={supervisor.department}
-                        extraClass={styles.Light}
+                        extraClass='Light'
                     />
                 </div>
                 <div className={styles.Data__Block}>
@@ -87,7 +106,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
                         name='position'
                         onChange={onChangeTextInputsHandle}
                         value={supervisor.position}
-                        extraClass={styles.Light}
+                        extraClass='Light'
                     />
                 </div>
                 <div className={styles.Data__Block}>
@@ -98,7 +117,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
                         name='phone'
                         onChange={onChangeTextInputsHandle}
                         value={supervisor.phone}
-                        extraClass={styles.Light}
+                        extraClass='Light'
                     />
                 </div>
             </div>

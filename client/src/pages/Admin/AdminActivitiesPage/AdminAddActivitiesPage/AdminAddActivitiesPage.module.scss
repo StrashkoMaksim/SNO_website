@@ -110,6 +110,14 @@
     }
 }
 
+.Error {
+    display: none;
+
+    &-active {
+        display: block;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .FormNavigation {
         &__Line {

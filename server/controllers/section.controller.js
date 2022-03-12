@@ -73,8 +73,8 @@ exports.update = async function (req, res) {
         const { id } = req.params
         const { name, previewText, content, supervisor, supervisorPhoto, schedule, achievements, logo,
             contentImages } = req.body
-
-        if (!await SectionService.update(name, previewText, content, supervisor, schedule, achievements, logo,
+            
+        if (!await SectionService.update(id, name, previewText, content, supervisor, schedule, achievements, logo,
             supervisorPhoto, contentImages)) {
             throw Error()
         }

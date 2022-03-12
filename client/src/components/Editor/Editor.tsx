@@ -10,26 +10,22 @@ interface EditorProps {
 }
 
 export const getEditorContent = async (editorRef: any) => {
-    // const editorData = new FormData()
-
     return await editorRef.current.save()
-    //     .then(async (content: any) => {
-    //         for (const block of content.blocks) {
-    //             if (block.type === 'image') {
-    //                 if (block.data.file.source) {
-    //                     editorData.set('contentImages', block.data.file.source)
-    //                     block.data.file = undefined
-    //                 } else {
-    //                     const file = await fetch(block.data.file.url).then(r => r.blob())
-    //                     editorData.set('contentImages', file, block.id + '.jpg')
-    //                 }
-    //             }
-    //         }
-    //         return content;
-    //     })
-    //     .then((content: any) => { editorData.set('content', JSON.stringify(content.blocks)) })
-    //
-    // return editorData
+}
+
+export const setEditorContent = async (editorRef: any, content: any[]) => {
+    const blocks = JSON.parse(content?.toString())
+    // @ts-ignore
+    blocks.forEach(async block => {
+        if (block.type === 'image') {
+            block.data.file = { url: `${process.env.REACT_APP_SERVER_URL}/${block.data.src}` }
+        }
+    })
+
+    setTimeout(() => {
+        // @ts-ignore
+        editorRef.current?.render({ blocks })
+    }, 500)
 }
 
 

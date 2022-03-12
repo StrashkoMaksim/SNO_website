@@ -3,7 +3,7 @@ import AdminAddSupervisorForm from "../../../../../components/Admin/AdminAddSupe
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../../components/DefaultButton/DefaultButton"
 import ErrorMessage from "../../../../../components/ErrorMessage/ErrorMessage"
 import { emptySchedule, ScheduleInterface } from "../../../../../types/schedule"
-import {AddSupervisor, emptySupervisor, Supervisor} from "../../../../../types/supervisor"
+import { AddSupervisor, emptySupervisor, Supervisor } from "../../../../../types/supervisor"
 import { FormPages } from "../AdminAddActivitiesPage"
 import SchedulePicker from "../SchedulePicker/SchedulePicker"
 import styles from './AddActivityScheduleAndSupervisor.module.scss'
@@ -21,15 +21,26 @@ export interface ActivitySupervisorAndSchedule {
 interface AASASProps {
     handleNavigation: (currPage: FormPages) => void
     handleSectionSubmit: (nextSectionName: FormPages, m?: undefined, supervisorAndSchedule?: ActivitySupervisorAndSchedule) => void
+    defaultValues: ActivitySupervisorAndSchedule
 }
 
-const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, handleSectionSubmit }) => {
+const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, handleSectionSubmit, defaultValues }) => {
     const [scheduleAndSupervisor, setScheduleAndSupervisor] = useState<ActivitySupervisorAndSchedule>(emptyActivitySAS)
     const [errMessage, setErrMessage] = useState<string>('')
+    const [sectionFilled, setSectionFilled] = useState<boolean>(false)
+
+    // Заполняем секцию (только 1 раз)
+
+    useEffect(() => {
+        if (!sectionFilled && defaultValues.schedule?.length !== 0 && defaultValues.schedule) {
+            setScheduleAndSupervisor(defaultValues)
+            setSectionFilled(true)
+        }
+    }, [defaultValues])
 
     const updateSupervisor = (supervisor: Supervisor) => {
         setScheduleAndSupervisor(prevState => {
-            prevState.supervisor = { ...supervisor }
+            prevState.supervisor = { ...supervisor, photo: supervisor.photo }
             return prevState
         })
     }
@@ -76,8 +87,8 @@ const AddActivityScheduleAndSupervisor: FC<AASASProps> = ({ handleNavigation, ha
     return (
         <div className={styles.supAndSchedule}>
             <div className={styles.supAndSchedule__Inputs}>
-                <AdminAddSupervisorForm updateSupervisor={updateSupervisor} />
-                <SchedulePicker updateSchedule={updateSchedule} />
+                <AdminAddSupervisorForm updateSupervisor={updateSupervisor} currentSupervisor={scheduleAndSupervisor.supervisor} />
+                <SchedulePicker updateSchedule={updateSchedule} defaultSchedule={scheduleAndSupervisor.schedule} />
             </div>
             <div className={styles.controlButtons}>
                 <ErrorMessage errMessage={errMessage} />

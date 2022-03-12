@@ -1,7 +1,7 @@
 const Section = require("../models/Section")
-const {Types} = require("mongoose");
+const { Types } = require("mongoose");
 const createError = require("http-errors");
-const {saveImg, savePNG} = require("../utils/fileHelper");
+const { saveImg, savePNG } = require("../utils/fileHelper");
 const fs = require("fs");
 
 exports.get = async function (countStr, pageStr) {
@@ -18,7 +18,7 @@ exports.get = async function (countStr, pageStr) {
 }
 
 exports.getDetail = async function (id) {
-    if(!Types.ObjectId.isValid(id)) {
+    if (!Types.ObjectId.isValid(id)) {
         throw createError(400, 'Некорректный ID кружка')
     }
 
@@ -32,7 +32,7 @@ exports.getDetail = async function (id) {
 }
 
 exports.add = async function (name, previewText, content, supervisor, schedule, achievements, logo, supervisorPhoto,
-                              contentImages) {
+    contentImages) {
 
     const savedLogo = await savePNG(logo, 221, 221)
     supervisor.photo = await saveImg(supervisorPhoto, 263, 173)
@@ -85,70 +85,94 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
 }
 
 exports.update = async function (id, name, previewText, content, supervisor, schedule, achievements, logo,
-                                 supervisorPhoto, contentImages) {
+    supervisorPhoto, contentImages) {
 
     const section = await Section.findById(id)
+    let logoName
 
-    if(!section) {
+    if (!section) {
         throw createError(404, 'Кружок не найден, перезагрузите страницу')
     }
 
-    // Если поступила новая картинка для превью, то заменяем
-    let logoName
-    if (logo) {
-        fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
-        logoName = await saveImg(previewImg, 565, 300)
+    try {
+        // Если поступила новая картинка для превью, то заменяем
+        if (logo) {
+            fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
+            logoName = await saveImg(logo, 565, 300)
+        }
+    }
+    catch (error) {
+        console.log(error)
     }
 
     if (content) {
-        // Удаление старых контентных картинок
-        JSON.parse(news.get('content')).forEach(block => {
-            if (block.type === 'image') {
-                try {
-                    fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
-                } catch (e) {
-                    console.log(e)
+        try {
+
+            // Удаление старых контентных картинок
+            JSON.parse(content).forEach(block => {
+                if (block.type === 'image') {
+                    try {
+                        fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }
+            })
+            // Сохранение новых контентных картинок
+            const contentImagesMap = new Map()
+            if (contentImages) {
+                for (const contentImage of contentImages) {
+                    contentImagesMap.set(contentImage.name, contentImage)
                 }
             }
-        })
-        // Сохранение новых контентных картинок
-        const contentImagesMap = new Map()
-        if (contentImages) {
-            for (const contentImage of contentImages) {
-                contentImagesMap.set(contentImage.name, contentImage)
+            for (const block of content) {
+                if (block.type === 'image') {
+                    block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
+                }
             }
         }
-        for (const block of content) {
-            if (block.type === 'image') {
-                block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
-            }
+        catch (error) {
+            console.log(error)
         }
     }
 
     if (supervisorPhoto) {
-        fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
-        const supervisorPhotoName = await saveImg(supervisorPhoto, 263, 173)
+        try {
 
-        if (supervisor) {
-            supervisor.photo = supervisorPhotoName
-        } else {
-            section.supervisor.photo = supervisorPhotoName
+            fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
+            const supervisorPhotoName = await saveImg(supervisorPhoto, 263, 173)
+
+            if (supervisor) {
+                supervisor.photo = supervisorPhotoName
+            } else {
+                section.supervisor.photo = supervisorPhotoName
+            }
         }
+        catch (error) {
+            console.log(error)
+        }
+
     }
 
     const achievementsArr = []
     if (achievements) {
-        // Удаление старых достижений
-        for(const achievement of section.get('achievements')) {
-            fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
-            fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
+        try {
+
+            // Удаление старых достижений
+            for (const achievement of section.get('achievements')) {
+                fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
+                fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
+            }
+            // Добавление новых достижений
+            for (const achievement of achievements) {
+                achievementsArr.push({
+                    previewImg: await saveImg(achievement, 0, 200),
+                    img: await saveImg(achievement, 1200, 800)
+                })
+            }
         }
-        // Добавление новых достижений
-        for (const achievement of achievements) {
-            achievementsArr.push({
-                previewImg: await saveImg(achievement, 0, 200),
-                img: await saveImg(achievement, 1200, 800)
-            })
+        catch (error) {
+            console.log(error)
         }
     }
 
@@ -179,7 +203,7 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
 exports.delete = async function (id) {
     const section = await Section.findById(id)
 
-    if(!section) {
+    if (!section) {
         throw createError(404, 'Кружок не найден')
     }
 
@@ -193,7 +217,7 @@ exports.delete = async function (id) {
     fs.unlinkSync(`${process.env.staticPath}\\${section.get('logo')}`)
     fs.unlinkSync(`${process.env.staticPath}\\${section.get('supervisor.photo')}`)
 
-    for(const achievement of section.get('achievements')) {
+    for (const achievement of section.get('achievements')) {
         fs.unlinkSync(`${process.env.staticPath}\\${achievement.previewImg}`)
         fs.unlinkSync(`${process.env.staticPath}\\${achievement.img}`)
     }

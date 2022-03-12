@@ -38,10 +38,11 @@ const AdminEditPageHeader: FC<AEPHProps> = ({ linkTo, headerForObj, headerFor, o
                 {headerForObj &&
                     <div className="btns">
                         <DefaultButton
-                            text="Удалить новость"
+                            text={`Удалить ${nouns[headerFor].single}`}
                             imgSrc={deleteIcon}
                             style={ButtonStyles.outlined}
                             type={ButtonTypes.button}
+                            extraClass='AdminDeleteButton'
                             onClick={onDeleteBtnClick}
                         />
                     </div>
