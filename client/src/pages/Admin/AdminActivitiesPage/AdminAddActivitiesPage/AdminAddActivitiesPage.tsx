@@ -54,21 +54,16 @@ const AdminAddActivitiesPage = () => {
 
     const handleFormSubmit = async (achievements: File[]) => {
         try {
-            console.log(activityId)
             if (activityId) {
                 await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
-
-                navigate('/admin/activities')
-
             } else {
                 await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
-
-                navigate('/admin/activities')
             }
+            navigate('/admin/activities')
         } catch (e) {
             const error = e as Error | AxiosError;
             if (axios.isAxiosError(error)) {
@@ -77,6 +72,7 @@ const AdminAddActivitiesPage = () => {
                 setTimeout(() => setErrorText(''), 3000)
             }
         }
+
     }
 
     const createFormData = async (achievements: File[]) => {
@@ -144,13 +140,12 @@ const AdminAddActivitiesPage = () => {
 
     return (
         <>
-
             <AdminEditPageHeader
                 linkTo='/admin/activities'
                 headerForObj={activityId}
                 headerFor={AEPHTypes.activity}
-                onDeleteBtnClick={() => { }} />
-
+                onDeleteBtnClick={() => { }}
+            />
             <div className={cn(styles.FormNavigation, styles[`FormNavigation${currentPage}`])}>
                 <div className={styles.FormNavigation__Block}
                     id={styles.FormNavigation__MainInfo}
