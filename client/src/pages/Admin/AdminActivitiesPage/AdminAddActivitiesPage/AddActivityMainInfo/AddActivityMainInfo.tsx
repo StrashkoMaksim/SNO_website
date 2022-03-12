@@ -1,9 +1,9 @@
 import styles from './AddActivityMainInfo.module.scss'
-import { useRef, useCallback, FormEvent, ComponentRef, useState, FC } from 'react'
+import { useRef, useCallback, FormEvent, ComponentRef, useState, FC, useEffect } from 'react'
 import cn from 'classnames';
 import AdminFormInputText, { AFITStyle } from '../../../../../components/Admin/AdminFormInputText/AdminFormInputText';
 import AdminFormInputImg from '../../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
-import Editor, { getEditorContent } from '../../../../../components/Editor/Editor';
+import Editor, { getEditorContent, setEditorContent } from '../../../../../components/Editor/Editor';
 import placeholderImg from '../../../../../assets/img/roundPlaceholderImg.png'
 import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../../../components/DefaultButton/DefaultButton';
 import { FormPages } from '../AdminAddActivitiesPage';
@@ -19,19 +19,57 @@ export const emptyActivityMainInfo = {
 export interface ActivityMainInfo {
     name: string,
     previewText: string,
-    logo: File | Blob | string,
+    logo: string | File,
     content: any[],
 }
 
 interface AAMIProps {
     handleSectionSubmit: (nextSectionName: FormPages, data: ActivityMainInfo) => void
+    defaultValues: ActivityMainInfo
 }
 
 
-const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit }) => {
+const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues }) => {
 
-    const [activityMainInfo, setActivityMainInfo] = useState<ActivityMainInfo>(emptyActivityMainInfo)
+    const [activityMainInfo, setActivityMainInfo] = useState<ActivityMainInfo>(defaultValues)
     const [errMessage, setErrMessage] = useState<string>('')
+    const editorCore = useRef<ComponentRef<any>>(null)
+    const [editorFilled, setEditorFilled] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (!editorFilled && defaultValues.logo) {
+            fetch(`${process.env.REACT_APP_SERVER_URL}/${defaultValues.logo}`)
+                .then(res => res.blob())
+                .then(blob => {
+                    const file = new File([blob], defaultValues.logo + '.png', blob)
+                    defaultValues.logo = file
+                })
+            setActivityMainInfo(defaultValues)
+        }
+    }, [defaultValues])
+
+    // При изменении определенного кружка заполняет Editor
+    // переданными блоками
+
+    useEffect(() => {
+
+        // Если в контенте не пустой массив и если контент в принципе передан (!undefined)
+        // и если существует ref Editor`a
+        // и если Editor уже не был заполнен этой функцией до этого (иначе будет заполнятся при
+        // каждом изменении activityMainInfo)
+
+        const editorHasToBeFilled = activityMainInfo?.content?.length !== 0 &&
+            activityMainInfo?.content &&
+            editorCore.current &&
+            !editorFilled
+
+        if (editorHasToBeFilled) {
+            setEditorContent(editorCore, activityMainInfo.content)
+            setEditorFilled(true)
+        }
+
+    }, [activityMainInfo])
+
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
         const inputName = e.currentTarget.name;
@@ -45,7 +83,6 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit }) => {
         setActivityMainInfo(prevState => ({ ...prevState, logo: img }))
     }
 
-    const editorCore = useRef<ComponentRef<any>>(null)
 
     const editorInitializeHandler = useCallback((instance) => {
         editorCore.current = instance
@@ -120,7 +157,7 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit }) => {
                 <AdminFormInputImg
                     name="previewImg"
                     onChange={onPreviewImgLoad}
-                    defaultImg={placeholderImg}
+                    defaultImg={activityMainInfo.logo ? `${process.env.REACT_APP_SERVER_URL}/${activityMainInfo.logo}` : placeholderImg}
                     id='activityLogoInputImg'
                     accept='.png'
                     extraClass={styles.logo}

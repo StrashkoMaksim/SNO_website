@@ -25,7 +25,7 @@ const AdminActivtiesPage: FC = () => {
                         imgSrc={plusIcon} />
                 </div>
             </header>
-            <ActivityList activities={activities} activitiesExpanded={true} />
+            <ActivityList activities={activities} activitiesExpanded={true} isAdmin/>
         </>
     )
 }

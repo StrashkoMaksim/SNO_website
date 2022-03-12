@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from './AdminSliderCreator.module.scss'
 import "./AdminSliderRestyle.scss"
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FormPages } from '../../../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage';
 import DefaultButton, { ButtonStyles, ButtonTypes } from '../../DefaultButton/DefaultButton';
 import closeIcon from '../../../assets/img/close.svg'
@@ -13,12 +13,42 @@ import closeIcon from '../../../assets/img/close.svg'
 interface ASSProps {
     handleNavigation: (currPage: FormPages) => void
     handleSubmit: (achievements: File[]) => void
+    defaultAchievements?: {
+        previewImg: string,
+        img: string,
+        _id: string
+    }[]
 }
 
-const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit }) => {
+const AdminSliderSelector: FC<ASSProps> = ({ handleNavigation, handleSubmit, defaultAchievements }) => {
 
     const [slidesPreview, setSlidesPreview] = useState<string[]>([]);
     const [images, setImages] = useState<File[]>([])
+
+    const [sectionFilled, setSectionFilled] = useState<boolean>(false)
+
+    useEffect(() => {
+
+        if (defaultAchievements && defaultAchievements?.length !== 0 && !sectionFilled) {
+            const previews: string[] = []
+            const files: File[] = []
+
+            defaultAchievements.forEach(achievement => {
+                previews.push(`${process.env.REACT_APP_SERVER_URL}/${achievement.previewImg}`)
+                fetch(`${process.env.REACT_APP_SERVER_URL}/${achievement.img}`)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const file = new File([blob], achievement.img, blob)
+                        files.push(file)
+                    })
+            })
+
+            setSlidesPreview(previews)
+            setImages(files)
+            setSectionFilled(true)
+        }
+
+    }, [defaultAchievements])
 
     const sliderOptions = {
         arrows: false,

@@ -1,5 +1,5 @@
 import styles from './AdminAddActivitiesPage.module.scss'
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import AdminEditPageHeader, { AEPHTypes } from "../../../../components/AdminEditPageHeader/AdminEditPageHeader";
 import AddActivityMainInfo, { ActivityMainInfo } from "./AddActivityMainInfo/AddActivityMainInfo";
 import { Activity, emptyActivity } from "../../../../types/activity";
@@ -11,7 +11,9 @@ import cn from "classnames";
 import AdminSliderCreator from "../../../../components/Admin/AdminSliderCreator/AdminSliderCreator";
 import AddActivityScheduleAndSupervisor, { ActivitySupervisorAndSchedule } from './AddActivityScheduleAndSupervisor/AddActivityScheduleAndSupervisor';
 import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTypedSelector } from '../../../../hooks/useTypedSelector';
+import { useActions } from '../../../../hooks/useActions';
 
 export enum FormPages {
     main = '-MainPage',
@@ -20,18 +22,46 @@ export enum FormPages {
 }
 
 const AdminAddActivitiesPage = () => {
-    const activityId = undefined;
+
+    const { id: activityId } = useParams()
+    const { activities } = useTypedSelector(state => state.activity)
+    const { fetchActivityDetail } = useActions()
+
     const [activity, setActivity] = useState<Activity>(emptyActivity)
     const [currentPage, setCurrentPage] = useState<FormPages>(FormPages.main)
     const navigate = useNavigate()
 
-    const handleFormSubmit = async (achievements: File[]) => {
+    const [errorText, setErrorText] = useState<string>('')
 
+    // Получаем айдишник кружка и если он существует
+    // фетчим его данные 
+
+    useEffect(() => {
+        if (activityId) {
+            fetchActivityDetail(activityId)
+        }
+        window.scrollTo(0, 0)
+    }, [])
+
+    // Если есть айдишник кружка
+    // и его данные подгрузились - устанавливаем их в стейт
+
+    useEffect(() => {
+        if (activities[0] && activityId) {
+            setActivity(activities[0])
+        }
+    }, [activities[0]])
+
+    const handleFormSubmit = async (achievements: File[]) => {
         try {
+            console.log(activityId)
             if (activityId) {
                 await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/section/${activityId}`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
                 })
+
+                navigate('/admin/activities')
+
             } else {
                 await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/section`, await createFormData(achievements), {
                     headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
@@ -42,17 +72,15 @@ const AdminAddActivitiesPage = () => {
         } catch (e) {
             const error = e as Error | AxiosError;
             if (axios.isAxiosError(error)) {
-                console.log(error.response?.data.message)
-                console.log(error.response?.data.errors)
+                setErrorText('Ошибка! ' + error?.response?.data?.errors[0]?.msg)
+                console.log(error?.response?.data?.errors)
+                setTimeout(() => setErrorText(''), 3000)
             }
         }
     }
 
     const createFormData = async (achievements: File[]) => {
-
         const formData = new FormData()
-
-        console.log(activity)
 
         for (const block of activity.content) {
             if (block.type === 'image') {
@@ -73,8 +101,6 @@ const AdminAddActivitiesPage = () => {
         formData.append('supervisor', JSON.stringify(activity.supervisor))
         formData.append('supervisorPhoto', activity.supervisorPhoto)
 
-
-
         achievements.forEach(achievement => {
             formData.append('achievements', achievement)
         })
@@ -82,6 +108,12 @@ const AdminAddActivitiesPage = () => {
         activity.schedule.forEach(item => {
             formData.append('schedule', JSON.stringify(item))
         })
+
+        // @ts-ignore
+        for (var pair of formData.entries()) {
+            console.log(pair[0])
+            console.log(pair[1])
+        }
 
         return formData
     }
@@ -155,22 +187,33 @@ const AdminAddActivitiesPage = () => {
             </div>
 
             <form className={cn(styles.AddActivityForm, styles[`AddActivityForm${currentPage}`])}>
-
+                <p className={cn('admin-add-form__error', styles.Error, { [styles['Error-active']]: errorText })}>{errorText}</p>
                 <div className={styles.MainInfo}>
                     <AddActivityMainInfo
-                        handleSectionSubmit={handleSectionSubmit} />
+                        handleSectionSubmit={handleSectionSubmit}
+                        defaultValues={{
+                            name: activity.name,
+                            previewText: activity.previewText,
+                            logo: activity.logo,
+                            content: activity.content
+                        }}
+                    />
                 </div>
 
                 <div className={styles.supAndSchedule}>
                     <AddActivityScheduleAndSupervisor
                         handleNavigation={handleBackBtnClick}
-                        handleSectionSubmit={handleSectionSubmit} />
+                        handleSectionSubmit={handleSectionSubmit}
+                        defaultValues={{ supervisor: activity.supervisor, schedule: activity.schedule }}
+                    />
                 </div>
 
                 <div className={styles.AchievementsBlock}>
                     <AdminSliderCreator
                         handleNavigation={handleBackBtnClick}
-                        handleSubmit={handleFormSubmit} />
+                        handleSubmit={handleFormSubmit}
+                        defaultAchievements={activity.achievements}
+                    />
                 </div>
 
             </form>

@@ -29,9 +29,10 @@ const emptySchedule = {
 
 interface SchedulePickerProps {
     updateSchedule: (schedule: ScheduleInterface[]) => void
+    defaultSchedule?: ScheduleInterface[]
 }
 
-const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule }) => {
+const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule, defaultSchedule }) => {
 
     const [schedule, setSchedule] = useState<ScheduleInterface[]>([])
     const [singleSchedule, setSingleSchedule] = useState<ScheduleInterface>(emptySchedule)
@@ -44,6 +45,17 @@ const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule }) => {
     const [submitError, setSubmitError] = useState<string>('')
 
     const [editingBlockIndex, setEditingBlockIndex] = useState<number | null>(null)
+
+    const [sectionFilled, setSectionFilled] = useState<boolean>(false)
+
+    // Заполняем секцию (только 1 раз)
+
+    useEffect(() => {
+        if (!sectionFilled && defaultSchedule && defaultSchedule?.length !== 0) {
+            setSchedule(defaultSchedule)
+            setSectionFilled(true)
+        }
+    }, [defaultSchedule])
 
     useEffect(() => {
         updateSchedule(schedule)

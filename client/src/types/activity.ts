@@ -4,15 +4,15 @@ import { emptySupervisor, Supervisor } from "./supervisor";
 export interface Activity {
     name: string,
     previewText: string,
-    logo: string | Blob | File,
+    logo: string | File,
     supervisor: Supervisor,
     supervisorPhoto: string | Blob | File,
     content: any[],
     schedule: ScheduleInterface[],
     achievements: {
-        previewImg:string,
+        previewImg: string,
         img: string,
-        _id:string
+        _id: string
     }[]
 }
 

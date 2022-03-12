@@ -1,6 +1,6 @@
 import styles from "./AdminFormInputImg.module.scss"
 import cn from "classnames"
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 interface AFIIProps {
     name: string,
@@ -16,6 +16,10 @@ interface AFIIProps {
 const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, accept = '.jpg', extraClass, required = true }) => {
 
     const [inputImage, setInputImage] = useState<string>(defaultImg)
+
+    useEffect(() => {
+        setInputImage(defaultImg)
+    }, [defaultImg])
 
     const onChangeHandler = (event: any) => {
 

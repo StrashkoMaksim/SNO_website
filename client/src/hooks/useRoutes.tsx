@@ -21,9 +21,9 @@ import GrantsPage from "../pages/User/GrantsPage/GrantsPage";
 import AdminActivtiesPage from "../pages/Admin/AdminActivitiesPage/AdminActivitiesPage";
 import AdminAddActivitiesPage from "../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage";
 import AdminSupervisorsPage from "../pages/Admin/AdminSupervisorsPage/AdminSupervisorsPage";
-import ActivityFull from "../components/Activities/ActivityFull/ActivityFull";
 import AdminCouncilPage from "../pages/Admin/AdminCouncilPage/AdminCouncilPage";
 import AdminDocumentsPage from "../pages/Admin/AdminDocumentsPage/AdminDocumentsPage";
+import ActivityFull from "../components/Activities/ActivityFull/ActivityFull";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
