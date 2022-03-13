@@ -195,13 +195,6 @@ exports.delete = async function (id) {
     await news.delete()
 }
 
-const validatePagination = (countStr, pageStr) => {
-    const count = countStr ? Number(countStr) : 10
-    const page = pageStr ? Number(pageStr) : 1
-
-    return { count, page }
-}
-
 const getTags = async (tagsIdJSON) => {
     const tagsPromises = []
     const tagsIdArr = JSON.parse(tagsIdJSON)
