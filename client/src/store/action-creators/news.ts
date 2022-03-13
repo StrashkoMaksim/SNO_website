@@ -3,13 +3,14 @@ import {Dispatch} from "redux"
 import axios, {AxiosError} from "axios"
 import $api from "../../hooks/useProtectedAxios"
 
-export const fetchNewsPreviews = (page = 1, count: Number) => {
+export const fetchNewsPreviews = (page = 1, count: Number, tag?: string, search?: string) => {
     return async (dispatch: Dispatch<NewsAction>) => {
         try {
             dispatch({ type: NewsActionTypes.FETCH_NEWS })
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/news`, {
-                params: {page, count}
-            })
+            const response = await axios.get(
+                `${process.env.REACT_APP_SERVER_URL}/api/news?${tag ? `tag=${tag}&`: ''}${search ? `search=${search}` : ''}`,
+                {params: {page, count}}
+            )
             dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: response.data })
         } catch (e) {
             dispatch({
