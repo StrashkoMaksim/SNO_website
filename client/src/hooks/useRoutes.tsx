@@ -24,6 +24,7 @@ import AdminSupervisorsPage from "../pages/Admin/AdminSupervisorsPage/AdminSuper
 import AdminCouncilPage from "../pages/Admin/AdminCouncilPage/AdminCouncilPage";
 import AdminDocumentsPage from "../pages/Admin/AdminDocumentsPage/AdminDocumentsPage";
 import ActivityFull from "../components/Activities/ActivityFull/ActivityFull";
+import AllNewsPage from "../pages/User/AllNewsPage/AllNewsPage";
 
 export const useRoutes = () => {
     const isAuth = useTypedSelector(state => state.user.isAuth)
@@ -58,6 +59,7 @@ export const useRoutes = () => {
             <Route path="/" element={<MainLayout />}>
                 <Route index element={<MainPage />} />
                 <Route path="news" element={<NewsPage />} />
+                <Route path="news/all" element={<AllNewsPage />} />
                 <Route path="about" element={<AboutPage />} />
                 <Route path="supervisors" element={<SupervisorsPage />} />
                 <Route path="council" element={<CouncilPage />} />

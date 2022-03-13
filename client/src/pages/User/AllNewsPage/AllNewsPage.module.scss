@@ -1,0 +1,134 @@
+@import "../../../assets/styles/variables.scss";
+
+.AllNewsPage {
+    margin-bottom: 60px;
+}
+
+.filterActions {
+    display: flex;
+    column-gap: 40px;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    &__Action {
+        position: relative;
+        background-color: white;
+        display: flex;
+        width: 100%;
+        max-width: 564px;
+        height: 60px;
+        border-radius: 20px;
+        box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+        padding: 0px 40px;
+        transition: 0.2s;
+
+        &__SelectTag {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        &__Modal {
+            position: absolute;
+            top: calc(100% + 15px);
+            left: 0px;
+            background-color: white;
+            z-index: 20;
+            padding: 40px 60px;
+            width: 100%;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            row-gap: 15px;
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 0px 0px 20px 20px;
+        }
+
+        .tag {
+            width: fit-content;
+            transition: 0.2s;
+            cursor: pointer;
+            &:hover {
+                color: $salad-green;
+            }
+        }
+
+        img {
+            width: 18px;
+        }
+    }
+
+    .tagsSelector {
+        color: #666666;
+        font-size: 18px;
+        font-weight: 300;
+        text-align: center;
+
+        &-active {
+            border-radius: 20px 20px 0px 0px;
+            box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);
+
+            img {
+                transform: rotate(180deg);
+            }
+        }
+
+        &__Modal {
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-x: hidden;
+
+            &-active {
+                visibility: visible;
+                opacity: 1;
+                margin-top: 0px;
+            }
+        }
+
+        p {
+            line-height: 18px;
+            height: 18px;
+        }
+
+        img {
+            user-select: none;
+            transition: 0.2s;
+        }
+    }
+
+    .SearchBar {
+        border: none;
+        outline: none;
+        margin-left: 10px;
+        width: 100%;
+        font-size: 18px;
+
+        &::placeholder {
+            color: #666666;
+            font-size: 18px;
+            font-weight: 300;
+        }
+
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button {
+            filter: brightness(0) saturate(100%) invert(96%) sepia(0%) saturate(0%) hue-rotate(137deg) brightness(87%)
+                contrast(90%);
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .filterActions {
+        flex-direction: column;
+        row-gap: 40px;
+        align-items: center;
+
+        &__Action {
+            padding: 0px 20px;
+        }
+    }
+}

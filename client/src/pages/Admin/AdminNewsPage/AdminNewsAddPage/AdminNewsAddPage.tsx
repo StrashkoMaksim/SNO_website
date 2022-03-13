@@ -229,7 +229,7 @@ const AdminNewsAddPage: FC = () => {
 
             </div>
 
-            <form className={styles['admin-add-form']} onSubmit={submitHandler}>
+            <form className='admin-add-form' onSubmit={submitHandler}>
 
                 <InfoLabel text={todayDate} />
 
@@ -257,8 +257,8 @@ const AdminNewsAddPage: FC = () => {
 
                 <Editor onInitialize={editorInitializeHandler} />
 
-                <div className={styles["admin-add-form__field"]}>
-                    <span className={styles["admin-add-form__error"]}>{submitError}</span>
+                <div className={"admin-add-form__field"}>
+                    <span className={"admin-add-form__error"}>{submitError}</span>
                 </div>
                 <DefaultButton
                     text="Сохранить новость"

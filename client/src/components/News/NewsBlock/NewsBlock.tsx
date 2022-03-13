@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, { FC } from "react";
 import cn from "classnames"
 import styles from "./NewsBlock.module.scss"
 import NewsList from "../NewsList/NewsList";
@@ -18,7 +18,7 @@ const NewsBlock: FC<NewsBlockProps> = ({ count, page }) => {
                 <div className={styles.buttonWrapper}>
                     <LinkButton
                         text="Все новости"
-                        to="/news" />
+                        to="/news/all" />
                 </div>
             </div>
         </section >
