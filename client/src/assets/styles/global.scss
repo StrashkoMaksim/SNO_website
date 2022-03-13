@@ -142,10 +142,18 @@ h3 {
 
 @media screen and (max-width: 768px) {
   .admin-add-form {
+    padding: 30px;
+
     &__field {
       grid-gap: 10px;
       grid-template-columns: 1fr;
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .admin-add-form {
+    padding: 15px;
   }
 }
 

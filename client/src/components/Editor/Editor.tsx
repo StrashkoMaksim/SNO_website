@@ -25,7 +25,9 @@ export const setEditorContent = async (editorRef: any, content: any[] | string) 
     for (const block of blocks) {
         if (block.type === 'image') {
             if (!block.data.file) {
-                block.data.file = { url: `${process.env.REACT_APP_SERVER_URL}/${block.data.src}` }
+                const file = await fetch(`${process.env.REACT_APP_SERVER_URL}/${block.data.src}`)
+                    .then(r => r.blob()).then(blob => new File([blob], 'img.jpg'))
+                block.data.file = { source: file, url: `${process.env.REACT_APP_SERVER_URL}/${block.data.src}` }
             }
         }
     }

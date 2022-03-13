@@ -33,7 +33,6 @@ interface SchedulePickerProps {
 }
 
 const SchedulePicker: FC<SchedulePickerProps> = ({ updateSchedule, defaultSchedule }) => {
-
     const [schedule, setSchedule] = useState<ScheduleInterface[]>([])
     const [singleSchedule, setSingleSchedule] = useState<ScheduleInterface>(emptySchedule)
 

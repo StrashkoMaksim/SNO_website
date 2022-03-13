@@ -71,3 +71,9 @@
     column-gap: 30px;
     margin-top: 40px;
 }
+
+@media screen and (max-width: 930px) {
+    .slider {
+        width: calc(100vw - 70px);
+    }
+}

@@ -1,8 +1,6 @@
 import styles from "./AdminFormInputImg.module.scss"
-import cn from "classnames"
 import { FC, useEffect, useState } from 'react'
-import {prefix} from "concurrently/dist/src/defaults";
-import placeholderImg from "../../../assets/img/roundPlaceholderImg.png";
+import placeholderImg from "../../../assets/img/roundPlaceholderImg.png"
 
 interface AFIIProps {
     name: string,
@@ -16,7 +14,6 @@ interface AFIIProps {
 
 
 const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, accept = '.jpg', extraClass, required = true }) => {
-
     const [inputImage, setInputImage] = useState<string>(defaultImg)
 
     useEffect(() => {
@@ -24,9 +21,7 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, acce
     }, [defaultImg])
 
     const onChangeHandler = (event: any) => {
-        console.log(1)
-
-        const img = event.target.files[0];
+        const img = event.target.files[0]
         if (img) {
             const imgURL = URL.createObjectURL(img)
             setInputImage(imgURL)
@@ -34,7 +29,6 @@ const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, acce
         onChange(event)
     }
 
-    console.log(defaultImg)
     const imgType = inputImage.substring(0, 4) === 'blob' ? inputImage : `${process.env.REACT_APP_SERVER_URL}/${inputImage}`
     const imgSrc = defaultImg ? imgType : placeholderImg
 

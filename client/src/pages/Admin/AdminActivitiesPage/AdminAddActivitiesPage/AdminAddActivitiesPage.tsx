@@ -69,7 +69,7 @@ const AdminAddActivitiesPage = () => {
 
         for (const block of activity.content) {
             if (block.type === 'image') {
-                if (block.data.file.source) {
+                if (block.data.file.source?.hasOwnProperty('name')) {
                     formData.append('contentImages', block.data.file.source, block.id + '.jpg')
                 } else {
                     const file = await fetch(block.data.file.url).then(r => r.blob())
