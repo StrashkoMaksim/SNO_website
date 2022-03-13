@@ -257,6 +257,7 @@ const AdminNewsAddPage: FC = () => {
                 <div className="admin-add-form__field">
                     <span className="admin-add-form__error">{submitError}</span>
                 </div>
+              
                 <DefaultButton
                     text="Сохранить новость"
                     style={ButtonStyles.filled}
