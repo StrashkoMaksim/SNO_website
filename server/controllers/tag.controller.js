@@ -1,6 +1,5 @@
-const {validationResult} = require("express-validator");
 const TagService = require('../services/tag.service')
-const {errorHandler} = require("../utils/errorHandler");
+const {errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
@@ -13,17 +12,9 @@ exports.get = async function (req, res) {
 
 exports.add = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления тега'
-            })
-        }
+        errorValidator(req, res)
 
         const { name } = req.body
-
         const tags = await TagService.add(name)
 
         res.status(201).json({ message: 'Тег успешно добавлен', tags })
@@ -34,14 +25,7 @@ exports.add = async function (req, res) {
 
 exports.update = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для редактирования тега'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
         const { name } = req.body
@@ -56,17 +40,9 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления тега'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
-
         const tags = await TagService.delete(id)
 
         return res.json({ message: 'Тег успешно удален', tags })

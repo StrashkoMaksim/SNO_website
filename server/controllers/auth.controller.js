@@ -1,17 +1,9 @@
 const UserService = require('../services/auth.service')
-const {validationResult} = require("express-validator");
-const {errorHandler} = require("../utils/errorHandler");
+const {errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.login = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствует логин и/или пароль'
-            })
-        }
+        errorValidator(req, res)
 
         const { login, password } = req.body
 

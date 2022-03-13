@@ -1,6 +1,5 @@
-const {validationResult} = require("express-validator");
 const CouncilService = require('../services/council.service')
-const {errorHandler} = require("../utils/errorHandler");
+const {errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
@@ -13,14 +12,7 @@ exports.get = async function (req, res) {
 
 exports.add = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления члена совета'
-            })
-        }
+        errorValidator(req, res)
 
         const { lastName, firstAndMiddleName, department, position, phone} = req.body
         const { photo } = req.files
@@ -35,14 +27,7 @@ exports.add = async function (req, res) {
 
 exports.update = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для редактирования члена совета'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
         const { lastName, firstAndMiddleName, department, position, phone} = req.body
@@ -58,14 +43,7 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления члена совета'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 

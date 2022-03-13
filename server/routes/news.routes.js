@@ -1,10 +1,29 @@
 const {Router} = require('express')
-const {check, param} = require("express-validator");
+const {check, param, query} = require("express-validator");
 const NewsController = require('../controllers/news.controller')
 const AuthMiddleware = require('../middlewares/auth.middleware')
+const {isObjectId} = require("../utils/customValidators");
 const router = Router()
 
 router.get('/',
+    [
+        query('count')
+            .optional()
+            .isInt({ min: 1 })
+            .withMessage('Количество должно быть целым положительным числом'),
+        query('page')
+            .optional()
+            .isInt({ min: 1 })
+            .withMessage('Страница должна быть целым положительным числом'),
+        query('tag')
+            .optional()
+            .custom(tag => isObjectId(tag))
+            .withMessage('Id тега не является ObjectID'),
+        query('search')
+            .optional()
+            .notEmpty()
+            .withMessage('Строка поиска не должна быть пустой')
+    ],
     NewsController.get
 )
 
@@ -21,13 +40,6 @@ router.get('/admin/:id',
         param('id', 'Отсутствует ID новости').exists()
     ],
     NewsController.getAdmin
-)
-
-router.get('/filter-by-tag/:tagId',
-    [
-        param('tagId', 'Отсутствует ID тега').exists()
-    ],
-    NewsController.filterByTag
 )
 
 router.post('/',

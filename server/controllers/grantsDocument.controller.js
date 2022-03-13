@@ -1,6 +1,5 @@
-const {validationResult} = require("express-validator");
 const GrantsDocumentService = require('../services/grandsDocument.service')
-const {errorHandler} = require("../utils/errorHandler");
+const {errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
@@ -13,14 +12,7 @@ exports.get = async function (req, res) {
 
 exports.add = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления документа'
-            })
-        }
+        errorValidator(req, res)
 
         const { name, link } = req.body
         const { file } = req.files
@@ -35,14 +27,7 @@ exports.add = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления документа'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 

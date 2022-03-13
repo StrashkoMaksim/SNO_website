@@ -1,6 +1,5 @@
-const { validationResult } = require("express-validator");
 const SectionService = require('../services/section.service')
-const { errorHandler } = require("../utils/errorHandler");
+const { errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
@@ -16,18 +15,12 @@ exports.get = async function (req, res) {
 
 exports.getDetail = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                message: errors[0].message
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 
-        const news = await SectionService.getDetail(id)
-        res.json(news)
+        const sections = await SectionService.getDetail(id)
+        res.json(sections)
     } catch (e) {
         errorHandler(e, res)
     }
@@ -35,14 +28,7 @@ exports.getDetail = async function (req, res) {
 
 exports.add = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления кружка'
-            })
-        }
+        errorValidator(req, res)
 
         const { name, previewText, content, supervisor, supervisorPhoto, schedule, achievements, logo,
             contentImages } = req.body
@@ -61,14 +47,7 @@ exports.add = async function (req, res) {
 
 exports.update = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для редактирования кружка'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
         const { name, previewText, content, supervisor, supervisorPhoto, schedule, achievements, logo,
@@ -87,17 +66,9 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления кружка'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
-
         await SectionService.delete(id)
 
         return res.json({ message: 'Кружок успешно удален' })
