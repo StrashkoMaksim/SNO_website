@@ -40,6 +40,7 @@ export const useRoutes = () => {
                 isAuth ? (
                     <>
                         <Route path="/admin" element={<AdminLayout />}>
+                            <Route index element={<AdminNewsPage />} />
                             <Route path="news" element={<AdminNewsPage />} />
                             <Route path="news/add" element={<AdminNewsAddPage />} />
                             <Route path="news/:id" element={<AdminNewsAddPage />} />

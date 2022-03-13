@@ -21,6 +21,7 @@ const DocumentsSection: FC<DocumentsSectionProps> = ({ title, documents }) => {
             <div className={styles.Documents__Grid}>
                 {documents.map(doc =>
                     <Document
+                        key={doc._id}
                         _id={doc._id}
                         type={doc.type}
                         name={doc.name}

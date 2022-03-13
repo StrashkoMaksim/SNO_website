@@ -179,10 +179,10 @@ const AdminNewsAddPage: FC = () => {
                 />
                 <div className={styles.newsArticlePreview__Content}>
                     <h2 className={styles.newsArticlePreview__Content__Title}>
-                        {news.news[0] ? news.news[0].title : 'Заголовок'}
+                        {news.news[0].title ? news.news[0].title : 'Заголовок'}
                     </h2>
                     <p className={styles.newsArticlePreview__Content__Paragraph}>
-                        {news.news[0] ? trimDescriptionText(news.news[0].previewText) : 'Описание'}
+                        {news.news[0].previewText ? trimDescriptionText(news.news[0].previewText) : 'Описание'}
                         <span className={styles.readMoreLink}> Читать дальше</span>
                     </p>
                     <div className={styles.tagsWrapper}>
