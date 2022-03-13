@@ -1,29 +1,51 @@
 const News = require("../models/News")
 const Tag = require('../models/Tag')
-const { Types } = require("mongoose");
-const createError = require("http-errors");
-const { saveImg } = require("../utils/fileHelper");
-const fs = require("fs");
+const { Types } = require("mongoose")
+const createError = require("http-errors")
+const { saveImg } = require("../utils/fileHelper")
+const fs = require("fs")
 
-exports.get = async function (countStr, pageStr) {
-    const { count, page } = validatePagination(countStr, pageStr)
+exports.get = async function (countStr, pageStr, tag, search) {
+    let searchReg
+    if (search) {
+        searchReg = new RegExp(search, 'i')
+    } else {
+        searchReg = ''
+    }
 
-    const news = await News.find()
+    const searchQuery = {
+        $and: [
+            {$or: [
+                {title: {$regex: searchReg}},
+                {previewText: {$regex: searchReg}}
+            ]}
+        ]
+    }
+
+    if (tag) {
+        if (!await Tag.findById(tag)) {
+            throw createError(404, 'Выбранный тег не найден')
+        }
+
+        searchQuery.$and.push({
+            tags: {_id: tag}
+        })
+    }
+
+    const count = countStr ? Number(countStr) : 10
+    const page = pageStr ? Number(pageStr) : 1
+
+    const news = await News.find(searchQuery)
         .sort({ _id: -1 })
         .skip(count * (page - 1))
         .limit(count)
         .populate('tags')
         .select('title previewImg previewText date tags')
 
-
     return news
 }
 
 exports.getDetail = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id).populate('tags').select('title content date tags')
 
     if (!news) {
@@ -34,32 +56,11 @@ exports.getDetail = async function (id) {
 }
 
 exports.getAdmin = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id)
 
     if (!news) {
         createError(404, 'Новости не существует')
     }
-
-    return news
-}
-
-exports.filterByTag = async function (tagId, countStr, pageStr) {
-    const { count, page } = validatePagination(countStr, pageStr)
-
-    if (!Types.ObjectId.isValid(tagId)) {
-        throw createError(400, 'Некорректный ID тега')
-    }
-
-    const news = await News.find({ tags: { _id: tagId } })
-        .sort({ _id: -1 })
-        .skip(count * (page - 1))
-        .limit(10)
-        .populate('tags')
-        .select('title previewImg previewText date tags')
 
     return news
 }
@@ -97,10 +98,6 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
 }
 
 exports.update = async function (id, previewImg, title, previewText, content, contentImages, tagsArr) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id)
 
     if (!news) {
@@ -156,10 +153,6 @@ exports.update = async function (id, previewImg, title, previewText, content, co
 }
 
 exports.delete = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id)
 
     if (!news) {
@@ -169,24 +162,21 @@ exports.delete = async function (id) {
     // Удаление старых контентных картинок
     JSON.parse(news.get('content')).forEach(block => {
         if (block.type === 'image') {
-            fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            try {
+                fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            } catch (e) {
+                console.log(e)
+            }
         }
     })
 
-    fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
-
-    await news.delete()
-}
-
-const validatePagination = (countStr, pageStr) => {
-    const count = countStr ? Number(countStr) : 10
-    const page = pageStr ? Number(pageStr) : 1
-
-    if (!Number.isInteger(count) || !Number.isInteger(page)) {
-        throw createError(400, 'Некорректные параметры запроса')
+    try {
+        fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
+    } catch (e) {
+        console.log(e)
     }
 
-    return { count, page }
+    await news.delete()
 }
 
 const getTags = async (tagsIdJSON) => {

@@ -1,7 +1,8 @@
 const {Router} = require('express')
-const {check, param} = require("express-validator");
+const {check, param} = require("express-validator")
 const TagController = require('../controllers/tag.controller')
 const AuthMiddleware = require('../middlewares/auth.middleware')
+const {isObjectId} = require("../utils/customValidators")
 const router = Router()
 
 router.get('/',
@@ -11,7 +12,7 @@ router.get('/',
 router.post('/',
     AuthMiddleware,
     [
-        check('name', 'Отсутствует название тега').exists(),
+        check('name', 'Отсутствует название тега').trim().notEmpty(),
     ],
     TagController.add
 )
@@ -19,8 +20,8 @@ router.post('/',
 router.put('/:id',
     AuthMiddleware,
     [
-        param('id', 'Отсутствует ID тега').exists(),
-        check('name', 'Отсутствует название тега').exists(),
+        param('id', 'Некорректный ID тега').custom(id => isObjectId(id)),
+        check('name', 'Отсутствует название тега').trim().notEmpty()
     ],
     TagController.update
 )
@@ -28,7 +29,7 @@ router.put('/:id',
 router.delete('/:id',
     AuthMiddleware,
     [
-        param('id', 'Отсутствует ID тега').exists()
+        param('id', 'Некорректный ID тега').custom(id => isObjectId(id))
     ],
     TagController.delete
 )

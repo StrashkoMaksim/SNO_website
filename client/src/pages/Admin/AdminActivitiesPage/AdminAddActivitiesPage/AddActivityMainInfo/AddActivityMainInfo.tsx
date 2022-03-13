@@ -1,13 +1,11 @@
 import styles from './AddActivityMainInfo.module.scss'
 import { useRef, useCallback, FormEvent, ComponentRef, useState, FC, useEffect } from 'react'
-import cn from 'classnames';
-import AdminFormInputText, { AFITStyle } from '../../../../../components/Admin/AdminFormInputText/AdminFormInputText';
-import AdminFormInputImg from '../../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
-import Editor, { getEditorContent, setEditorContent } from '../../../../../components/Editor/Editor';
-import placeholderImg from '../../../../../assets/img/roundPlaceholderImg.png'
-import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../../../components/DefaultButton/DefaultButton';
-import { FormPages } from '../AdminAddActivitiesPage';
-import ErrorMessage from '../../../../../components/ErrorMessage/ErrorMessage';
+import AdminFormInputText, { AFITStyle } from '../../../../../components/Admin/AdminFormInputText/AdminFormInputText'
+import AdminFormInputImg from '../../../../../components/Admin/AdminFormInputImg/AdminFormInputImg'
+import Editor, { getEditorContent, setEditorContent } from '../../../../../components/Editor/Editor'
+import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../../../components/DefaultButton/DefaultButton'
+import { FormPages } from '../AdminAddActivitiesPage'
+import ErrorMessage from '../../../../../components/ErrorMessage/ErrorMessage'
 
 export const emptyActivityMainInfo = {
     name: '',
@@ -19,7 +17,7 @@ export const emptyActivityMainInfo = {
 export interface ActivityMainInfo {
     name: string,
     previewText: string,
-    logo: string | File,
+    logo: string | Blob,
     content: any[],
 }
 
@@ -38,21 +36,12 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
 
     useEffect(() => {
         if (!editorFilled && defaultValues.logo) {
-            fetch(`${process.env.REACT_APP_SERVER_URL}/${defaultValues.logo}`)
-                .then(res => res.blob())
-                .then(blob => {
-                    const file = new File([blob], defaultValues.logo + '.png', blob)
-                    defaultValues.logo = file
-                })
             setActivityMainInfo(defaultValues)
         }
     }, [defaultValues])
 
-    // При изменении определенного кружка заполняет Editor
-    // переданными блоками
-
+    // При изменении определенного кружка заполняет Editor переданными блоками
     useEffect(() => {
-
         // Если в контенте не пустой массив и если контент в принципе передан (!undefined)
         // и если существует ref Editor`a
         // и если Editor уже не был заполнен этой функцией до этого (иначе будет заполнятся при
@@ -67,14 +56,11 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
             setEditorContent(editorCore, activityMainInfo.content)
             setEditorFilled(true)
         }
-
     }, [activityMainInfo])
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
         const inputName = e.currentTarget.name;
         const inputValue = e.currentTarget.value;
-
         setActivityMainInfo(prevState => ({ ...prevState, [inputName]: inputValue }))
     }
 
@@ -82,7 +68,6 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
         const img = event.target.files[0];
         setActivityMainInfo(prevState => ({ ...prevState, logo: img }))
     }
-
 
     const editorInitializeHandler = useCallback((instance) => {
         editorCore.current = instance
@@ -93,6 +78,21 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
 
         if (editorContent.blocks.length === 0) {
             raiseSubmitErr('content')
+            return false
+        }
+
+        if (!activityMainInfo.name) {
+            raiseSubmitErr('name')
+            return false
+        }
+
+        if (!activityMainInfo.previewText) {
+            raiseSubmitErr('previewText')
+            return false
+        }
+
+        if (!activityMainInfo.logo) {
+            raiseSubmitErr('logo')
             return false
         }
 
@@ -127,10 +127,11 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
         }, 3000)
     }
 
+    const logoSrc = activityMainInfo.logo instanceof Blob ?
+        URL.createObjectURL(activityMainInfo.logo) : activityMainInfo.logo
 
     return (
-        <div className={cn('admin-add-form', styles.form)}>
-
+        <div className='admin-add-form'>
             <div className={styles.mainInputs}>
                 <div className={styles.mainInputs__TextInputs}>
                     <AdminFormInputText
@@ -142,7 +143,6 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
                         extraClass={styles['input-name']}
                         required
                     />
-
                     <AdminFormInputText
                         style={AFITStyle.textarea}
                         placeholder="Описание"
@@ -153,18 +153,16 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
                         required
                     />
                 </div>
-
                 <AdminFormInputImg
                     name="previewImg"
                     onChange={onPreviewImgLoad}
-                    defaultImg={activityMainInfo.logo ? `${process.env.REACT_APP_SERVER_URL}/${activityMainInfo.logo}` : placeholderImg}
+                    defaultImg={logoSrc}
                     id='activityLogoInputImg'
                     accept='.png'
                     extraClass={styles.logo}
                 />
             </div>
             <Editor onInitialize={editorInitializeHandler} />
-
             <div className={styles.controlButtons}>
                 <ErrorMessage errMessage={errMessage} />
                 <DefaultButton

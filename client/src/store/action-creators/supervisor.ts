@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import axios from "axios";
 import {Supervisor, SupervisorAction, SupervisorActionTypes} from "../../types/supervisor";
+import $api from "../../hooks/useProtectedAxios";
 
 export const fetchSupervisors = () => {
     return async (dispatch: Dispatch<SupervisorAction>) => {
@@ -38,9 +39,7 @@ export const addSupervisor = (supervisor: Supervisor) => {
             const formData = getFormData(supervisor)
 
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/supervisor`, formData, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
+            const response = await $api.post('/supervisor', formData)
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.supervisors })
 
             return response
@@ -59,9 +58,7 @@ export const addCouncilMember = (supervisor: Supervisor) => {
             const formData = getFormData(supervisor)
 
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/council`, formData, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
+            const response = await $api.post('/council', formData)
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.council })
 
             return response
@@ -80,9 +77,7 @@ export const updateSupervisor = (supervisor: Supervisor) => {
             const formData = getFormData(supervisor)
 
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
-            const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/supervisor/${supervisor._id}`, formData, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
+            const response = await $api.put(`/supervisor/${supervisor._id}`, formData)
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.supervisors })
 
             return response
@@ -101,9 +96,7 @@ export const updateCouncilMember = (supervisor: Supervisor) => {
             const formData = getFormData(supervisor)
 
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
-            const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/council/${supervisor._id}`, formData, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
+            const response = await $api.put(`/council/${supervisor._id}`, formData)
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.council })
 
             return response
@@ -120,9 +113,7 @@ export const deleteSupervisor = (supervisorId: string) => {
     return async (dispatch: Dispatch<SupervisorAction>) => {
         try {
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
-            const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/supervisor/${supervisorId}`, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
+            const response = await $api.delete(`/supervisor/${supervisorId}`)
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.supervisors })
 
             return response
@@ -139,9 +130,7 @@ export const deleteCouncilMember = (supervisorId: string) => {
     return async (dispatch: Dispatch<SupervisorAction>) => {
         try {
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR })
-            const response = await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/council/${supervisorId}`, {
-                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
-            })
+            const response = await $api.delete(`/council/${supervisorId}`)
             dispatch({ type: SupervisorActionTypes.FETCH_SUPERVISOR_SUCCESS, payload: response.data.council })
 
             return response

@@ -1,6 +1,6 @@
 const {validationResult} = require("express-validator");
 const SupervisorService = require('../services/supervisor.service')
-const {errorHandler} = require("../utils/errorHandler");
+const {errorHandler, errorValidator} = require("../utils/errorHandler");
 
 exports.get = async function (req, res) {
     try {
@@ -13,17 +13,9 @@ exports.get = async function (req, res) {
 
 exports.add = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления руководителя'
-            })
-        }
+        errorValidator(req, res)
 
         const { lastName, firstAndMiddleName, department, position, phone, photo} = req.body
-
         const supervisors = await SupervisorService.add(lastName, firstAndMiddleName, department, position, phone, photo)
 
         res.status(201).json({ message: 'Руководитель успешно добавлен', supervisors })
@@ -34,14 +26,7 @@ exports.add = async function (req, res) {
 
 exports.update = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для редактирования руководителя'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
         const { lastName, firstAndMiddleName, department, position, phone} = req.body
@@ -57,14 +42,7 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления руководителя'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 

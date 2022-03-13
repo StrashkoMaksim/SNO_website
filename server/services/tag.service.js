@@ -1,6 +1,5 @@
 const Tag = require('../models/Tag')
-const createError = require("http-errors");
-const {Types} = require("mongoose");
+const createError = require("http-errors")
 
 exports.get = async function () {
     const tags = await Tag.find()
@@ -19,10 +18,6 @@ exports.add = async function (name) {
 }
 
 exports.update = async function (id, name) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID тега')
-    }
-
     const tag = await Tag.findById(id)
 
     if(!tag) {
@@ -41,10 +36,6 @@ exports.update = async function (id, name) {
 }
 
 exports.delete = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID тега')
-    }
-
     await Tag.findByIdAndDelete(id)
 
     const tags = await exports.get()

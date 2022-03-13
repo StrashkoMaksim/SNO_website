@@ -13,19 +13,28 @@ export const getEditorContent = async (editorRef: any) => {
     return await editorRef.current.save()
 }
 
-export const setEditorContent = async (editorRef: any, content: any[]) => {
-    const blocks = JSON.parse(content?.toString())
-    // @ts-ignore
-    blocks.forEach(async block => {
+export const setEditorContent = async (editorRef: any, content: any[] | string) => {
+    let blocks: any[]
+
+    if (typeof content === 'string') {
+        blocks = JSON.parse(content)
+    } else {
+        blocks = content
+    }
+
+    for (const block of blocks) {
         if (block.type === 'image') {
-            block.data.file = { url: `${process.env.REACT_APP_SERVER_URL}/${block.data.src}` }
+            if (!block.data.file) {
+                const file = await fetch(`${process.env.REACT_APP_SERVER_URL}/${block.data.src}`)
+                    .then(r => r.blob()).then(blob => new File([blob], 'img.jpg'))
+                block.data.file = { source: file, url: `${process.env.REACT_APP_SERVER_URL}/${block.data.src}` }
+            }
         }
-    })
+    }
 
     setTimeout(() => {
-        // @ts-ignore
-        editorRef.current?.render({ blocks })
-    }, 500)
+        editorRef.current._editorJS.render({ blocks })
+    }, 1000)
 }
 
 

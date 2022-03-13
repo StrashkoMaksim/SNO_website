@@ -1,12 +1,12 @@
-import cn from 'classnames';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import cn from 'classnames'
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 import styles from './AdminSliderCreator.module.scss'
 import "./AdminSliderRestyle.scss"
-import { FC, useEffect, useState } from 'react';
-import { FormPages } from '../../../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage';
-import DefaultButton, { ButtonStyles, ButtonTypes } from '../../DefaultButton/DefaultButton';
+import { FC, useEffect, useState } from 'react'
+import { FormPages } from '../../../pages/Admin/AdminActivitiesPage/AdminAddActivitiesPage/AdminAddActivitiesPage'
+import DefaultButton, { ButtonStyles, ButtonTypes } from '../../DefaultButton/DefaultButton'
 import closeIcon from '../../../assets/img/close.svg'
 
 

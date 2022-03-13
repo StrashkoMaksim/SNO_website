@@ -4,9 +4,9 @@ import { emptySupervisor, Supervisor } from "./supervisor";
 export interface Activity {
     name: string,
     previewText: string,
-    logo: string | File,
+    logo: string | Blob,
     supervisor: Supervisor,
-    supervisorPhoto: string | Blob | File,
+    supervisorPhoto: string | Blob,
     content: any[],
     schedule: ScheduleInterface[],
     achievements: {

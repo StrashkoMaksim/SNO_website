@@ -1,6 +1,6 @@
-import LinkBack from "../LinkBack/LinkBack";
+import LinkBack from "../LinkBack/LinkBack"
 import { FC } from 'react'
-import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton"
 import deleteIcon from '../../assets/img/red_trash.svg'
 
 export enum AEPHTypes {
@@ -20,14 +20,13 @@ const nouns = {
 }
 
 interface AEPHProps {
-    linkTo: string,
-    headerForObj: string | undefined,
-    headerFor: AEPHTypes,
+    linkTo: string
+    headerForObj: string | undefined
+    headerFor: AEPHTypes
     onDeleteBtnClick: () => void
 }
 
 const AdminEditPageHeader: FC<AEPHProps> = ({ linkTo, headerForObj, headerFor, onDeleteBtnClick }) => {
-
     return (
         <>
             <LinkBack to={linkTo} text={`Вернуться к списку ${nouns[headerFor].plural}`} />
@@ -40,9 +39,8 @@ const AdminEditPageHeader: FC<AEPHProps> = ({ linkTo, headerForObj, headerFor, o
                         <DefaultButton
                             text={`Удалить ${nouns[headerFor].single}`}
                             imgSrc={deleteIcon}
-                            style={ButtonStyles.outlined}
+                            style={ButtonStyles.delete}
                             type={ButtonTypes.button}
-                            extraClass='AdminDeleteButton'
                             onClick={onDeleteBtnClick}
                         />
                     </div>

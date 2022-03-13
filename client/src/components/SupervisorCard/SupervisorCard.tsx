@@ -14,7 +14,7 @@ interface SupervisorProps {
     department: string
     position: string
     phone: string
-    photo: string | File
+    photo: string | Blob
     onClick?: () => void
     hasLabel?: boolean
 }

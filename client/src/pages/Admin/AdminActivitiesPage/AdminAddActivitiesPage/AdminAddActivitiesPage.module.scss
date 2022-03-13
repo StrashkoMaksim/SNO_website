@@ -40,7 +40,7 @@
         }
         .AchievementsBlock {
             display: flex;
-            width: 100vmin;
+            width: 100%;
         }
     }
 }
@@ -62,87 +62,10 @@
     align-self: center;
 }
 
-.FormNavigation {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 50px;
-    margin-bottom: 60px;
-    &__Block {
-        display: flex;
-        transition: 0.4s;
-        img {
-            transition: 0.4s;
-        }
-
-        &__Title {
-            position: relative;
-        }
-    }
-
-    &__Text {
-        position: absolute;
-        max-width: 20ch;
-        color: #959595;
-        font-weight: 600;
-        text-align: center;
-        left: -22px;
-    }
-
-    &-supAndSchedule {
-        #FormNavigation__MainInfo {
-            color: $salad-green;
-            img {
-                filter: brightness(0) saturate(100%) invert(57%) sepia(25%) saturate(827%) hue-rotate(60deg)
-                    brightness(100%) contrast(87%);
-            }
-        }
-    }
-
-    &-Achievements {
-        #FormNavigation__MainInfo,
-        #FormNavigation__supAndSchedule {
-            color: $salad-green;
-            img {
-                filter: brightness(0) saturate(100%) invert(57%) sepia(25%) saturate(827%) hue-rotate(60deg)
-                    brightness(100%) contrast(87%);
-            }
-        }
-    }
-}
-
 .Error {
     display: none;
 
     &-active {
         display: block;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .FormNavigation {
-        &__Line {
-            display: none;
-        }
-
-        &-MainPage {
-            #FormNavigation__supAndSchedule,
-            #FormNavigation__Achievements {
-                display: none;
-            }
-        }
-
-        &-supAndSchedule {
-            #FormNavigation__MainInfo,
-            #FormNavigation__Achievements {
-                display: none;
-            }
-        }
-
-        &-Achievements {
-            #FormNavigation__MainInfo,
-            #FormNavigation__supAndSchedule {
-                display: none;
-            }
-        }
     }
 }

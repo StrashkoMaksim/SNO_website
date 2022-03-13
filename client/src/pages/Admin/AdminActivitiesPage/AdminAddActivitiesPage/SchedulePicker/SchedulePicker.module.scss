@@ -83,6 +83,12 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .SchedulePicker__Picker {
+        padding: 30px;
+    }
+}
+
 @media screen and (max-width: 620px) {
     .SchedulePicker {
         flex-direction: column;

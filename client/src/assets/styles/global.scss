@@ -122,7 +122,6 @@ h3 {
 
 .admin-add-form {
   background-color: white;
-  max-width: 873px;
   padding: 50px;
   position: relative;
 
@@ -142,11 +141,28 @@ h3 {
 }
 
 @media screen and (max-width: 768px) {
+  .adminHeader {
+    grid-gap: 20px;
+    grid-template-columns: 1fr;
+
+    .btns {
+      margin-left: 0;
+    }
+  }
+
   .admin-add-form {
+    padding: 30px;
+
     &__field {
       grid-gap: 10px;
       grid-template-columns: 1fr;
     }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .admin-add-form {
+    padding: 15px;
   }
 }
 

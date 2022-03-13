@@ -1,6 +1,7 @@
 import {NewsAction, NewsActionTypes, NewsState} from "../../types/news";
 import {Dispatch} from "redux";
 import axios from "axios";
+import $api from "../../hooks/useProtectedAxios";
 
 export const fetchNewsPreviews = (page = 1, count: Number) => {
     return async (dispatch: Dispatch<NewsAction>) => {
@@ -38,10 +39,7 @@ export const fetchNewsAdmin = (id: string) => {
     return async (dispatch: Dispatch<NewsAction>) => {
         try {
             dispatch({ type: NewsActionTypes.FETCH_NEWS })
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/news/admin/${id}`,
-                {
-                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
-                })
+            const response = await $api.get(`/news/admin/${id}`)
             dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: [response.data] })
         } catch (e) {
             dispatch({
@@ -61,10 +59,7 @@ export const changeNewsState = (newsState: NewsState) => {
 export const deleteNews = (id: string) => {
     return async (dispatch: Dispatch<NewsAction>) => {
         try {
-            return await axios.delete(`${process.env.REACT_APP_SERVER_URL}/api/news/${id}`,
-                {
-                    headers: {authorization: `Bearer ${localStorage.getItem('token')}`}
-                })
+            return await $api.delete(`/news/${id}`)
         } catch (e) {
             dispatch({
                 type: NewsActionTypes.FETCH_NEWS_ERROR,

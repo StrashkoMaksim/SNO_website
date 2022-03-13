@@ -24,7 +24,6 @@ const AdminNewsAddPage: FC = () => {
     const [previewImg, setPreviewImg] = useState<string | Blob>('')
     const navigate = useNavigate()
     const { fetchTags } = useActions()
-
     const [todayDate, setTodayDate] = useState<string>('')
 
     useEffect(() => {
@@ -148,7 +147,6 @@ const AdminNewsAddPage: FC = () => {
     }
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
         // @ts-ignore
         news.news[0][e.currentTarget.name] = e.currentTarget.value
         changeNewsState(news)
@@ -156,11 +154,10 @@ const AdminNewsAddPage: FC = () => {
 
 
     const tagsInputHandler = (tag: Tag) => {
-
         const filterSelected = Array.from(selectedTags)
             .filter(selctd_tag => selctd_tag.name !== tag.name)
 
-        let newSet: Set<Tag>;
+        let newSet: Set<Tag>
 
         if (filterSelected.length < selectedTags.size) {
             newSet = new Set(filterSelected)
@@ -257,9 +254,10 @@ const AdminNewsAddPage: FC = () => {
 
                 <Editor onInitialize={editorInitializeHandler} />
 
-                <div className={"admin-add-form__field"}>
-                    <span className={"admin-add-form__error"}>{submitError}</span>
+                <div className="admin-add-form__field">
+                    <span className="admin-add-form__error">{submitError}</span>
                 </div>
+              
                 <DefaultButton
                     text="Сохранить новость"
                     style={ButtonStyles.filled}

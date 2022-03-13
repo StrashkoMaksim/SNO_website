@@ -1,12 +1,13 @@
-const { validationResult } = require("express-validator");
 const NewsService = require('../services/news.service')
-const { errorHandler } = require("../utils/errorHandler");
+const { errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
-        const { page, count } = req.query
+        errorValidator(req, res)
 
-        const news = await NewsService.get(count, page)
+        const { page, count, tag, search } = req.query
+
+        const news = await NewsService.get(count, page, tag, search)
 
         res.json(news)
     } catch (e) {
@@ -16,13 +17,7 @@ exports.get = async function (req, res) {
 
 exports.getDetail = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                message: errors[0].message
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 
@@ -35,13 +30,7 @@ exports.getDetail = async function (req, res) {
 
 exports.getAdmin = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                message: errors[0].message
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 
@@ -52,36 +41,9 @@ exports.getAdmin = async function (req, res) {
     }
 }
 
-exports.filterByTag = async function (req, res) {
-    try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                message: errors[0].message
-            })
-        }
-
-        const { page, count } = req.query
-        const { tagId } = req.params
-
-        const news = await NewsService.filterByTag(tagId, count, page)
-        res.json(news)
-    } catch (e) {
-        errorHandler(e, res)
-    }
-}
-
 exports.add = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления статьи'
-            })
-        }
+        errorValidator(req, res)
 
         const { title, previewText, content, tags } = req.body
         const { previewImg, ...contentImages } = req.files
@@ -97,14 +59,7 @@ exports.add = async function (req, res) {
 
 exports.update = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для редактирования статьи'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
         const { title, previewText, content, tags } = req.body
@@ -122,14 +77,7 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления статьи'
-            })
-        }
+        errorValidator(req, res)
 
         const { id } = req.params
 

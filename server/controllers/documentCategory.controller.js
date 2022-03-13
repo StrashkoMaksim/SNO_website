@@ -1,6 +1,5 @@
-const {validationResult} = require("express-validator");
 const DocumentCategoryService = require('../services/documentCategory.service')
-const {errorHandler} = require("../utils/errorHandler");
+const {errorHandler, errorValidator} = require("../utils/errorHandler")
 
 exports.getCategories = async function (req, res) {
     try {
@@ -31,14 +30,7 @@ exports.getCategoriesWithDocuments = async function (req, res) {
 
 exports.addCategory = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления категории'
-            })
-        }
+        errorValidator(req, res)
 
         const { title } = req.body
 
@@ -52,14 +44,7 @@ exports.addCategory = async function (req, res) {
 
 exports.updateCategory = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для редактирования категории'
-            })
-        }
+        errorValidator(req, res)
 
         const { categoryId } = req.params
         const { title } = req.body
@@ -74,14 +59,7 @@ exports.updateCategory = async function (req, res) {
 
 exports.deleteCategory = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для удаления категории'
-            })
-        }
+        errorValidator(req, res)
 
         const { categoryId } = req.params
 
@@ -95,14 +73,7 @@ exports.deleteCategory = async function (req, res) {
 
 exports.getDocumentsFromCategory = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для получения списка документов'
-            })
-        }
+        errorValidator(req, res)
 
         const { categoryId } = req.params
 
@@ -115,14 +86,7 @@ exports.getDocumentsFromCategory = async function (req, res) {
 
 exports.addDocumentInCategory = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления документа'
-            })
-        }
+        errorValidator(req, res)
 
         const { categoryId } = req.params
         const { name, link } = req.body
@@ -137,14 +101,7 @@ exports.addDocumentInCategory = async function (req, res) {
 
 exports.deleteDocumentInCategory = async function (req, res) {
     try {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Отсутствуют обязательные данные для добавления документа'
-            })
-        }
+        errorValidator(req, res)
 
         const { categoryId, documentNumber } = req.params
 
