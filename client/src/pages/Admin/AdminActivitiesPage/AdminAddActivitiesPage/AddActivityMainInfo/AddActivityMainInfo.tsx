@@ -26,7 +26,6 @@ interface AAMIProps {
     defaultValues: ActivityMainInfo
 }
 
-
 const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues }) => {
 
     const [activityMainInfo, setActivityMainInfo] = useState<ActivityMainInfo>(defaultValues)
@@ -64,8 +63,7 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
         setActivityMainInfo(prevState => ({ ...prevState, [inputName]: inputValue }))
     }
 
-    const onPreviewImgLoad = (event: any) => {
-        const img = event.target.files[0];
+    const onPreviewImgLoad = (img: File) => {
         setActivityMainInfo(prevState => ({ ...prevState, logo: img }))
     }
 
@@ -127,9 +125,6 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
         }, 3000)
     }
 
-    const logoSrc = activityMainInfo.logo instanceof Blob ?
-        URL.createObjectURL(activityMainInfo.logo) : activityMainInfo.logo
-
     return (
         <div className='admin-add-form'>
             <div className={styles.mainInputs}>
@@ -156,7 +151,7 @@ const AddActivityMainInfo: FC<AAMIProps> = ({ handleSectionSubmit, defaultValues
                 <AdminFormInputImg
                     name="previewImg"
                     onChange={onPreviewImgLoad}
-                    defaultImg={logoSrc}
+                    defaultImg={activityMainInfo.logo}
                     id='activityLogoInputImg'
                     accept='.png'
                     extraClass={styles.logo}

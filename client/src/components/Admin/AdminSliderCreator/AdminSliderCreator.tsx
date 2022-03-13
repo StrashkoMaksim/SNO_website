@@ -9,7 +9,6 @@ import { FormPages } from '../../../pages/Admin/AdminActivitiesPage/AdminAddActi
 import DefaultButton, { ButtonStyles, ButtonTypes } from '../../DefaultButton/DefaultButton'
 import closeIcon from '../../../assets/img/close.svg'
 
-
 interface ASSProps {
     handleNavigation: (currPage: FormPages) => void
     handleSubmit: (achievements: File[]) => void

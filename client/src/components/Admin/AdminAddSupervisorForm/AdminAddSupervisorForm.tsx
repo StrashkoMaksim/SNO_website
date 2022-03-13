@@ -1,7 +1,6 @@
 import styles from './AdminAddSupervisorForm.module.scss'
 import cn from 'classnames'
 import AdminFormInputImg from '../AdminFormInputImg/AdminFormInputImg'
-import placeHolderImg from '../../../assets/img/roundPlaceholderImg.png'
 import locationIcon from "../../../assets/img/locationIcon.svg"
 import phoneIcon from "../../../assets/img/phoneIcon.svg"
 import positionIcon from "../../../assets/img/positionIcon.svg"
@@ -30,12 +29,8 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
         updateSupervisor(supervisor)
     }, [supervisor])
 
-    const handleAvatarChange = (event: any) => {
-        const img = event.target.files[0];
-
-        if (img) {
-            setSupervisor(prevState => ({ ...prevState, photo: img }))
-        }
+    const handleAvatarChange = (img: File) => {
+        setSupervisor(prevState => ({ ...prevState, photo: img }))
     }
 
     const onChangeTextInputsHandle = (e: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -43,8 +38,6 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
         const inputValue = e.currentTarget.value;
         setSupervisor(prevState => ({ ...prevState, [inputName]: inputValue }))
     }
-
-    const defaultImg = supervisor.photo instanceof Blob ? URL.createObjectURL(supervisor.photo) : supervisor.photo
 
     return (
         <div className={styles.Supervisor}>
@@ -54,7 +47,7 @@ const AdminAddSupervisorForm: FC<AASFProps> = ({ updateSupervisor, currentSuperv
             <AdminFormInputImg
                 name='avatar'
                 onChange={handleAvatarChange}
-                defaultImg={defaultImg}
+                defaultImg={supervisor.photo}
                 extraClass={styles.Avatar}
                 id='supervisorImgInput'
             />

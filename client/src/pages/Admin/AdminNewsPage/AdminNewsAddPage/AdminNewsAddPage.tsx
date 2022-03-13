@@ -1,8 +1,8 @@
 import React, { ComponentRef, FC, FormEvent, useEffect, useState } from 'react'
-import Editor from "../../../../components/Editor/Editor";
+import Editor, {getEditorContent} from "../../../../components/Editor/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../components/DefaultButton/DefaultButton";
-import axios, { AxiosError } from "axios";
+import {AxiosResponse} from "axios";
 import { useTypedSelector } from "../../../../hooks/useTypedSelector";
 import { useActions } from "../../../../hooks/useActions";
 import styles from "./AdminNewsAddPage.module.scss"
@@ -13,6 +13,8 @@ import AdminFormInputText, { AFITStyle } from '../../../../components/Admin/Admi
 import AdminFormInputImg from '../../../../components/Admin/AdminFormInputImg/AdminFormInputImg';
 import placeholderImg from '../../../../assets/img/placeholderImg.png'
 import AdminEditPageHeader, { AEPHTypes } from '../../../../components/AdminEditPageHeader/AdminEditPageHeader';
+import {Dispatch} from "redux";
+import {NewsAction} from "../../../../types/news";
 
 const AdminNewsAddPage: FC = () => {
     const { id: newsId } = useParams()
@@ -23,8 +25,9 @@ const AdminNewsAddPage: FC = () => {
     const [submitError, setSubmitError] = useState<string>('')
     const [previewImg, setPreviewImg] = useState<string | Blob>('')
     const navigate = useNavigate()
-    const { fetchTags } = useActions()
+    const { fetchTags, addNews, updateNews } = useActions()
     const [todayDate, setTodayDate] = useState<string>('')
+    const editorCore = React.useRef<ComponentRef<any>>(null)
 
     useEffect(() => {
         changeNewsState({
@@ -40,19 +43,21 @@ const AdminNewsAddPage: FC = () => {
                 tags: []
             }]
         })
-    }, [])
 
-    useEffect(() => {
         const fetchNews = async () => {
             if (newsId) {
                 fetchNewsAdmin(newsId)
             }
         }
 
-        fetchNews()
-    }, [])
+        const today = new Date()
+        const day = today.getDate()
+        const month = today.getMonth() + 1 //getMonth возвращает число от 0 до 11 (почему-то)
+        const year = today.getFullYear()
 
-    useEffect(() => {
+        setTodayDate(`${day}/${month}/${year}`)
+
+        fetchNews()
         fetchTags()
     }, [])
 
@@ -75,31 +80,14 @@ const AdminNewsAddPage: FC = () => {
         }
     }, [news])
 
-    useEffect(() => {
-        const today = new Date()
-        const day = today.getDate()
-        const month = today.getMonth() + 1 //getMonth возвращает число от 0 до 11 (почему-то)
-        const year = today.getFullYear()
-
-        setTodayDate(`${day}/${month}/${year}`)
-    }, [])
-
-
-    const editorCore = React.useRef<ComponentRef<any>>(null)
-
     const editorInitializeHandler = React.useCallback((instance) => {
         editorCore.current = instance
-    }, [])
-
-    const getEditorContent = React.useCallback(async () => {
-        // @ts-ignore
-        return await editorCore.current.save();
     }, [])
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
-        const editorContent = await getEditorContent()
+        const editorContent = await getEditorContent(editorCore)
 
         // @ts-ignore
         for (const block of editorContent.blocks) {
@@ -117,22 +105,18 @@ const AdminNewsAddPage: FC = () => {
         formData.set('content', JSON.stringify(editorContent.blocks))
         formData.set('tags', JSON.stringify(Array.from(selectedTags).map(tag => tag._id)))
 
-        try {
-            if (newsId) {
-                await axios.put(`${process.env.REACT_APP_SERVER_URL}/api/news/${newsId}`, formData, {
-                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-                })
-            } else {
-                await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/news`, formData, {
-                    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-                })
-            }
+        let response: (dispatch: Dispatch<NewsAction>) => Promise<AxiosResponse | undefined>
+        if (newsId) {
+            response = await updateNews(newsId, formData)
+        } else {
+            response = await addNews(formData)
+        }
+
+        // @ts-ignore
+        if (response && response.status === 201) {
             navigate('/admin/news')
-        } catch (e) {
-            const error = e as Error | AxiosError;
-            if (axios.isAxiosError(error)) {
-                setSubmitError(error.response?.data.message)
-            }
+        } else if (news.error) {
+            setSubmitError(news.error)
         }
     }
 
@@ -152,7 +136,6 @@ const AdminNewsAddPage: FC = () => {
         changeNewsState(news)
     }
 
-
     const tagsInputHandler = (tag: Tag) => {
         const filterSelected = Array.from(selectedTags)
             .filter(selctd_tag => selctd_tag.name !== tag.name)
@@ -168,68 +151,50 @@ const AdminNewsAddPage: FC = () => {
         setSelectedTags(newSet)
     }
 
-
     const trimDescriptionText = (text: string) => {
         text = text.slice(0, 180) + '...'
         return text;
     }
 
-
-    const onPreviewImgLoad = (event: any) => {
-        const img = event.target.files[0];
+    const onPreviewImgLoad = (img: File) => {
         setPreviewImg(img)
     }
 
     return (
         <>
-
             <AdminEditPageHeader
                 linkTo='/admin/news'
                 headerForObj={newsId}
                 headerFor={AEPHTypes.news}
-                onDeleteBtnClick={onDeleteHandler} />
-
-
+                onDeleteBtnClick={onDeleteHandler}
+            />
             <div className={styles.newsArticlePreview}>
                 <InfoLabel text={todayDate} />
-
                 <AdminFormInputImg
                     name="previewImg"
                     onChange={onPreviewImgLoad}
                     id='newsPreviewInputImg'
                     extraClass={styles.imgContainer}
-                    defaultImg={placeholderImg}
+                    defaultImg={previewImg}
                 />
-
                 <div className={styles.newsArticlePreview__Content}>
-
                     <h2 className={styles.newsArticlePreview__Content__Title}>
                         {news.news[0] ? news.news[0].title : 'Заголовок'}
                     </h2>
-
                     <p className={styles.newsArticlePreview__Content__Paragraph}>
                         {news.news[0] ? trimDescriptionText(news.news[0].previewText) : 'Описание'}
                         <span className={styles.readMoreLink}> Читать дальше</span>
                     </p>
-
                     <div className={styles.tagsWrapper}>
                         {Array.from(selectedTags).map(tag =>
-                            <div
-                                key={tag._id}
-                                className={styles.tag}
-                            >
-                                {tag.name}
-                            </div>
+                            <div key={tag._id} className={styles.tag}>{tag.name}</div>
                         )}
                     </div>
                 </div>
-
             </div>
 
             <form className='admin-add-form' onSubmit={submitHandler}>
-
                 <InfoLabel text={todayDate} />
-
                 <AdminFormInputText
                     style={AFITStyle.textarea}
                     placeholder="Заголовок"
@@ -239,9 +204,7 @@ const AdminNewsAddPage: FC = () => {
                     extraClass={styles['newsArticleForm-title']}
                     required
                 />
-
                 <TagsSelector tags={tags} selectedTags={selectedTags} onInput={tagsInputHandler} />
-
                 <AdminFormInputText
                     style={AFITStyle.textarea}
                     placeholder="Описание"
@@ -251,9 +214,7 @@ const AdminNewsAddPage: FC = () => {
                     extraClass={styles['newsArticleForm-description']}
                     required
                 />
-
                 <Editor onInitialize={editorInitializeHandler} />
-
                 <div className="admin-add-form__field">
                     <span className="admin-add-form__error">{submitError}</span>
                 </div>

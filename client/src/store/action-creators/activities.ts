@@ -36,7 +36,7 @@ export const fetchActivityDetail = (id: string) => {
 export const addActivity = (formData: FormData) => {
     return async (dispatch: Dispatch<ActivityAction>) => {
         try {
-            return  await $api.post('/section', formData)
+            return await $api.post('/section', formData)
         } catch (e) {
             const error = e as AxiosError
             if (axios.isAxiosError(error)) {

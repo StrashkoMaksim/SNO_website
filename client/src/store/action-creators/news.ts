@@ -1,7 +1,7 @@
-import {NewsAction, NewsActionTypes, NewsState} from "../../types/news";
-import {Dispatch} from "redux";
-import axios from "axios";
-import $api from "../../hooks/useProtectedAxios";
+import {NewsAction, NewsActionTypes, NewsState} from "../../types/news"
+import {Dispatch} from "redux"
+import axios, {AxiosError} from "axios"
+import $api from "../../hooks/useProtectedAxios"
 
 export const fetchNewsPreviews = (page = 1, count: Number) => {
     return async (dispatch: Dispatch<NewsAction>) => {
@@ -46,6 +46,39 @@ export const fetchNewsAdmin = (id: string) => {
                 type: NewsActionTypes.FETCH_NEWS_ERROR,
                 payload: 'Произошла ошибка при загрузке новости'
             })
+        }
+    }
+}
+
+export const addNews = (formData: FormData) => {
+    return async (dispatch: Dispatch<NewsAction>) => {
+        try {
+            return await $api.post('/news', formData)
+        } catch (e) {
+            const error = e as AxiosError
+            if (axios.isAxiosError(error)) {
+                dispatch({
+                    type: NewsActionTypes.FETCH_NEWS_ERROR,
+                    payload: error.response?.data.message
+                })
+            }
+        }
+    }
+}
+
+export const updateNews = (newsId: string, formData: FormData)  => {
+    return async (dispatch: Dispatch<NewsAction>) => {
+        try {
+            return await $api.put<{ message: string }>(`/news/${newsId}`, formData)
+        } catch (e) {
+            const error = e as AxiosError
+            if (axios.isAxiosError(error)) {
+                dispatch({
+                    type: NewsActionTypes.FETCH_NEWS_ERROR,
+                    payload: error.response?.data.message
+                })
+            }
+            return error.response
         }
     }
 }

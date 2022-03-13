@@ -1,5 +1,4 @@
 import React, { FC, useEffect } from 'react'
-import styles from "../AdminNewsPage/AdminNewsPage.module.scss"
 import plusIcon from "../../../assets/img/plus.svg"
 import ActivityList from "../../../components/Activities/ActivityList/ActivityList"
 import LinkButton from "../../../components/LinkButton/LinkButton"
