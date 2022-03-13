@@ -15,6 +15,10 @@
         margin-right: 10px;
     }
 
+    span {
+        transition: .3s;
+    }
+
     &-filled {
         background-color: $dark-green;
         border: 1px solid $dark-green;
@@ -67,6 +71,10 @@
 
             span {
                 color: #FFFFFF;
+            }
+
+            img {
+                filter: brightness(0) saturate(100%) invert(100%) sepia(1%) saturate(627%) hue-rotate(334deg) brightness(113%) contrast(100%);
             }
         }
     }
