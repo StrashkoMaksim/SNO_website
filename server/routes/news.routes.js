@@ -1,19 +1,19 @@
 const {Router} = require('express')
-const {check, param, query} = require("express-validator");
+const {check, param, query} = require("express-validator")
 const NewsController = require('../controllers/news.controller')
 const AuthMiddleware = require('../middlewares/auth.middleware')
-const {isObjectId} = require("../utils/customValidators");
+const {isObjectId} = require("../utils/customValidators")
 const router = Router()
 
 router.get('/',
     [
         query('count')
             .optional()
-            .isInt({ min: 1 })
+            .trim().isInt({ min: 1 })
             .withMessage('Количество должно быть целым положительным числом'),
         query('page')
             .optional()
-            .isInt({ min: 1 })
+            .trim().isInt({ min: 1 })
             .withMessage('Страница должна быть целым положительным числом'),
         query('tag')
             .optional()
@@ -21,7 +21,7 @@ router.get('/',
             .withMessage('Id тега не является ObjectID'),
         query('search')
             .optional()
-            .notEmpty()
+            .trim().notEmpty()
             .withMessage('Строка поиска не должна быть пустой')
     ],
     NewsController.get
@@ -29,7 +29,9 @@ router.get('/',
 
 router.get('/:id',
     [
-        param('id', 'Отсутствует ID новости').exists()
+        param('id')
+            .custom(id => isObjectId(id))
+            .withMessage('ID не является ObjectID')
     ],
     NewsController.getDetail
 )
@@ -37,7 +39,9 @@ router.get('/:id',
 router.get('/admin/:id',
     AuthMiddleware,
     [
-        param('id', 'Отсутствует ID новости').exists()
+        param('id')
+            .custom(id => isObjectId(id))
+            .withMessage('ID не является ObjectID')
     ],
     NewsController.getAdmin
 )
@@ -45,8 +49,8 @@ router.get('/admin/:id',
 router.post('/',
     AuthMiddleware,
     [
-        check('title', 'Отсутствует название новости').exists(),
-        check('previewText', 'Отсутствует текст превью').exists(),
+        check('title', 'Отсутствует название новости').trim().notEmpty(),
+        check('previewText', 'Отсутствует текст превью').trim().notEmpty(),
         check('content', 'Некорректный контент новости').isJSON(),
         check('tags', 'Некорректный теги').isJSON()
     ],
@@ -56,9 +60,11 @@ router.post('/',
 router.put('/:id',
     AuthMiddleware,
     [
-        param('id', 'Отсутствует ID новости').exists(),
-        check('title', 'Отсутствует название новости').exists(),
-        check('previewText', 'Отсутствует текст превью').exists(),
+        param('id')
+            .custom(id => isObjectId(id))
+            .withMessage('ID не является ObjectID'),
+        check('title', 'Отсутствует название новости').trim().notEmpty(),
+        check('previewText', 'Отсутствует текст превью').trim().notEmpty(),
         check('content', 'Некорректный контент новости').isJSON(),
         check('tags', 'Некорректный теги').isJSON()
     ],
@@ -68,7 +74,9 @@ router.put('/:id',
 router.delete('/:id',
     AuthMiddleware,
     [
-        param('id', 'Отсутствует ID новости').exists()
+        param('id')
+            .custom(id => isObjectId(id))
+            .withMessage('ID не является ObjectID')
     ],
     NewsController.delete
 )

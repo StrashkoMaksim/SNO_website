@@ -46,10 +46,6 @@ exports.get = async function (countStr, pageStr, tag, search) {
 }
 
 exports.getDetail = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id).populate('tags').select('title content date tags')
 
     if (!news) {
@@ -60,10 +56,6 @@ exports.getDetail = async function (id) {
 }
 
 exports.getAdmin = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id)
 
     if (!news) {
@@ -106,10 +98,6 @@ exports.add = async function (previewImg, title, previewText, content, contentIm
 }
 
 exports.update = async function (id, previewImg, title, previewText, content, contentImages, tagsArr) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id)
 
     if (!news) {
@@ -165,10 +153,6 @@ exports.update = async function (id, previewImg, title, previewText, content, co
 }
 
 exports.delete = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID новости')
-    }
-
     const news = await News.findById(id)
 
     if (!news) {

@@ -19,8 +19,8 @@ router.get('/:id',
 router.post('/',
     AuthMiddleware,
     [
-        check('name', 'Отсутствует название кружка').notEmpty(),
-        check('previewText', 'Отсутствует текст превью').notEmpty(),
+        check('name', 'Отсутствует название кружка').trim().notEmpty(),
+        check('previewText', 'Отсутствует текст превью').trim().notEmpty(),
         check('logo')
             .exists().withMessage('Отсутствует логотип').bail()
             .custom(logo => checkPNG(logo))
@@ -69,8 +69,8 @@ router.put('/:id',
     AuthMiddleware,
     [
         param('id', 'Некорректный ID кружка').custom(id => isObjectId(id)),
-        check('name', 'Отсутствует название кружка').optional().notEmpty(),
-        check('previewText', 'Отсутствует текст превью').optional().notEmpty(),
+        check('name', 'Отсутствует название кружка').optional().trim().notEmpty(),
+        check('previewText', 'Отсутствует текст превью').optional().trim().notEmpty(),
         check('logo')
             .optional()
             .custom(logo => checkPNG(logo))

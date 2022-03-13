@@ -1,6 +1,5 @@
 const GrantsDocument = require('../models/GrantsDocument')
 const createError = require("http-errors")
-const {Types} = require("mongoose")
 const {saveFile} = require("../utils/fileHelper")
 const fs = require("fs")
 const validUrl = require('valid-url')
@@ -34,10 +33,6 @@ exports.add = async function (name, link, file, type = 'link') {
 }
 
 exports.delete = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID документа')
-    }
-
     const document = await GrantsDocument.findById(id)
 
     if (document && document.get('type') !== 'link') {

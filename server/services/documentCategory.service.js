@@ -1,8 +1,7 @@
 const DocumentCategory = require('../models/DocumentCategory')
-const createError = require("http-errors");
-const {Types} = require("mongoose");
-const fs = require("fs");
-const {saveFile} = require("../utils/fileHelper");
+const createError = require("http-errors")
+const fs = require("fs")
+const {saveFile} = require("../utils/fileHelper")
 const validUrl = require("valid-url");
 
 exports.getCategories = async function () {
@@ -28,10 +27,6 @@ exports.addCategory = async function (title) {
 }
 
 exports.updateCategory = async function (id, title) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID категории')
-    }
-
     const category = await DocumentCategory.findById(id)
 
     if(!category) {
@@ -50,10 +45,6 @@ exports.updateCategory = async function (id, title) {
 }
 
 exports.deleteCategory = async function (id) {
-    if (!Types.ObjectId.isValid(id)) {
-        throw createError(400, 'Некорректный ID категории')
-    }
-
     const category = await DocumentCategory.findById(id)
 
     category.get('documents').forEach(document => {
@@ -72,20 +63,12 @@ exports.deleteCategory = async function (id) {
 }
 
 exports.getDocumentsFromCategory = async function (categoryId) {
-    if (!Types.ObjectId.isValid(categoryId)) {
-        throw createError(400, 'Некорректный ID категории')
-    }
-
-    const categories = await DocumentCategory.find().select('documents').populate('documents')
+    const categories = await DocumentCategory.findById(categoryId).select('documents').populate('documents')
 
     return categories
 }
 
 exports.addDocumentInCategory = async function (categoryId, name, link, file, type = 'link') {
-    if (!Types.ObjectId.isValid(categoryId)) {
-        throw createError(400, 'Некорректный ID категории')
-    }
-
     const category = await DocumentCategory.findById(categoryId).populate('documents')
 
     if (!category) {
@@ -113,10 +96,6 @@ exports.addDocumentInCategory = async function (categoryId, name, link, file, ty
 }
 
 exports.deleteDocumentInCategory = async function (categoryId, documentNumber) {
-    if (!Types.ObjectId.isValid(categoryId)) {
-        throw createError(400, 'Некорректный ID категории')
-    }
-
     const category = await DocumentCategory.findById(categoryId)
 
     if (!category) {

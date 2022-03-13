@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const createError = require("http-errors");
+const jwt = require("jsonwebtoken")
+const createError = require("http-errors")
 
 exports.login = async function (login, password) {
     const isLoginMatch = login === process.env.adminLogin
