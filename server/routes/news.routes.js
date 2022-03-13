@@ -27,6 +27,10 @@ router.get('/',
     NewsController.get
 )
 
+router.get('/count',
+    NewsController.getCount
+)
+
 router.get('/:id',
     [
         param('id')

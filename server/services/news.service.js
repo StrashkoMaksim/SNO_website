@@ -45,6 +45,11 @@ exports.get = async function (countStr, pageStr, tag, search) {
     return news
 }
 
+exports.getCount = async function () {
+    const count = await News.count()
+    return count
+}
+
 exports.getDetail = async function (id) {
     const news = await News.findById(id).populate('tags').select('title content date tags')
 

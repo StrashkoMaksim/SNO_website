@@ -15,6 +15,15 @@ exports.get = async function (req, res) {
     }
 }
 
+exports.getCount = async function (req, res) {
+    try {
+        const count = await NewsService.getCount()
+        res.json(count)
+    } catch (e) {
+        errorHandler(e, res)
+    }
+}
+
 exports.getDetail = async function (req, res) {
     try {
         errorValidator(req, res)
