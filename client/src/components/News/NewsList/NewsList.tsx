@@ -4,21 +4,24 @@ import { useActions } from "../../../hooks/useActions";
 import NewsPreview from "../NewsPreview/NewsPreview";
 import styles from "./NewsList.module.scss"
 import NewsSkeleton from '../NewsSkeleton/NewsSkeleton';
+import emptyIcon from '../../../assets/img/emptyIcon.svg'
 
 interface NewsList {
     count: number
     page: number
+    tagId?: string | undefined
+    searchValue?: string | undefined
     isAdmin?: true
 }
 
-const NewsList: FC<NewsList> = ({ count, page, isAdmin }) => {
+const NewsList: FC<NewsList> = ({ count, page, tagId, searchValue, isAdmin }) => {
     const { news, loading } = useTypedSelector(state => state.news)
     const { fetchNewsPreviews } = useActions()
 
 
     useEffect(() => {
-        fetchNewsPreviews(page, count)
-    }, [])
+        fetchNewsPreviews(page, count, tagId, searchValue)
+    }, [page, tagId, searchValue])
 
     return (
         <div className={styles.newsList}>
@@ -42,7 +45,12 @@ const NewsList: FC<NewsList> = ({ count, page, isAdmin }) => {
                                 date={article.date}
                                 isAdmin={isAdmin}
                             />
-                        ) : <p>Новостей нет в базе</p>
+                        )
+                            :
+                            <div className={styles.notFound}>
+                                <img src={emptyIcon} alt="" />
+                                <p>К сожалению, по вашему запросу ничего не найдено. Проверьте правильность ввода или попробуйте изменить запрос.</p>
+                            </div>
                     }
                 </>
             }
