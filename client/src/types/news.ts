@@ -2,7 +2,7 @@ import {Tag} from "./tag"
 
 export interface NewsState {
     news: News[]
-    count: Number
+    count: number
     loading: boolean
     error: null | string
 }
@@ -23,7 +23,7 @@ interface FetchNewsPreviewsSuccessAction {
     type: NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS
     payload: {
         news: News[],
-        count: Number
+        count: number
     }
 }
 
