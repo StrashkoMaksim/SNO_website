@@ -42,12 +42,9 @@ exports.get = async function (countStr, pageStr, tag, search) {
         .populate('tags')
         .select('title previewImg previewText date tags')
 
-    return news
-}
+    const totalCount = await News.find(searchQuery).count()
 
-exports.getCount = async function () {
-    const count = await News.count()
-    return count
+    return { news, totalCount }
 }
 
 exports.getDetail = async function (id) {

@@ -2,6 +2,7 @@ import {Tag} from "./tag"
 
 export interface NewsState {
     news: News[]
+    count: Number
     loading: boolean
     error: null | string
 }
@@ -9,7 +10,8 @@ export interface NewsState {
 export enum NewsActionTypes {
     FETCH_NEWS = 'FETCH_NEWS',
     FETCH_NEWS_ERROR = 'FETCH_NEWS_ERROR',
-    FETCH_NEWS_SUCCESS = 'FETCH_NEWS_SUCCESS',
+    FETCH_NEWS_PREVIEWS_SUCCESS = 'FETCH_NEWS_PREVIEWS_SUCCESS',
+    FETCH_NEWS_DETAIL_SUCCESS = "FETCH_NEWS_DETAIL_SUCCESS",
     CHANGE_NEWS_STATE = 'CHANGE_NEWS_STATE',
 }
 
@@ -18,7 +20,15 @@ interface FetchNewsPreviewsAction {
 }
 
 interface FetchNewsPreviewsSuccessAction {
-    type: NewsActionTypes.FETCH_NEWS_SUCCESS
+    type: NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS
+    payload: {
+        news: News[],
+        count: Number
+    }
+}
+
+interface FetchNewsDetailSuccessAction {
+    type: NewsActionTypes.FETCH_NEWS_DETAIL_SUCCESS
     payload: News[]
 }
 
@@ -33,7 +43,7 @@ interface ChangeNewsStateAction {
 }
 
 export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessAction | FetchNewsPreviewsErrorAction |
-    ChangeNewsStateAction
+    ChangeNewsStateAction | FetchNewsDetailSuccessAction
 
 export type News = {
     _id: string

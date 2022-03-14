@@ -7,18 +7,9 @@ exports.get = async function (req, res) {
 
         const { page, count, tag, search } = req.query
 
-        const news = await NewsService.get(count, page, tag, search)
+        const { news, totalCount } = await NewsService.get(count, page, tag, search)
 
-        res.json(news)
-    } catch (e) {
-        errorHandler(e, res)
-    }
-}
-
-exports.getCount = async function (req, res) {
-    try {
-        const count = await NewsService.getCount()
-        res.json(count)
+        res.json({ news, count: totalCount })
     } catch (e) {
         errorHandler(e, res)
     }

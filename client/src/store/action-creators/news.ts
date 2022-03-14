@@ -11,7 +11,7 @@ export const fetchNewsPreviews = (page = 1, count: Number, tag?: string, search?
                 `${process.env.REACT_APP_SERVER_URL}/api/news?${tag ? `tag=${tag}&`: ''}${search ? `search=${search}` : ''}`,
                 {params: {page, count}}
             )
-            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: response.data })
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_PREVIEWS_SUCCESS, payload: response.data })
         } catch (e) {
             dispatch({
                 type: NewsActionTypes.FETCH_NEWS_ERROR,
@@ -26,7 +26,7 @@ export const fetchNewsDetail = (id: string) => {
         try {
             dispatch({ type: NewsActionTypes.FETCH_NEWS })
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/news/${id}`)
-            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: [response.data] })
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_DETAIL_SUCCESS, payload: response.data })
         } catch (e) {
             dispatch({
                 type: NewsActionTypes.FETCH_NEWS_ERROR,
@@ -41,7 +41,7 @@ export const fetchNewsAdmin = (id: string) => {
         try {
             dispatch({ type: NewsActionTypes.FETCH_NEWS })
             const response = await $api.get(`/news/admin/${id}`)
-            dispatch({ type: NewsActionTypes.FETCH_NEWS_SUCCESS, payload: [response.data] })
+            dispatch({ type: NewsActionTypes.FETCH_NEWS_DETAIL_SUCCESS, payload: response.data })
         } catch (e) {
             dispatch({
                 type: NewsActionTypes.FETCH_NEWS_ERROR,

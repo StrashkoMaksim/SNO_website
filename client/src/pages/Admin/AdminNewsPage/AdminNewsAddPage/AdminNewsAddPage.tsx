@@ -41,7 +41,8 @@ const AdminNewsAddPage: FC = () => {
                 content: '',
                 date: '',
                 tags: []
-            }]
+            }],
+            count: 0
         })
 
         const fetchNews = async () => {
