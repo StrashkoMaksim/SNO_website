@@ -1,26 +1,6 @@
-.search {
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  padding-bottom: 2px;
+.adminHeader{
   display: flex;
-
-  img {
-    margin-right: 14px;
-    width: 12px;
-  }
-
-  input {
-    background: none;
-    border: none;
-    color: #959595;
-    font-size: 14px;
-    line-height: 1;
-    width: 100%;
-
-    &:focus {
-      outline: none;
-    }
-  }
+  justify-content: end;
 }
 
 .AdminOutlinedButton {

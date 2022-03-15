@@ -1,4 +1,4 @@
-import {Tag} from "./tag"
+import { Tag } from "./tag"
 
 export interface NewsState {
     news: News[]
@@ -48,9 +48,19 @@ export type NewsAction = FetchNewsPreviewsAction | FetchNewsPreviewsSuccessActio
 export type News = {
     _id: string
     title: string
-    previewImg: string
+    previewImg: string | Blob
     previewText: string
-    content: string
+    content: any[]
     date: string
     tags: Tag[]
+}
+
+export const emptyNews = {
+    _id: '',
+    title: '',
+    previewImg: '',
+    previewText: '',
+    content: [],
+    date: '',
+    tags: []
 }

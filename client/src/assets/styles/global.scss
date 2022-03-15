@@ -112,11 +112,8 @@ h3 {
   .btns {
     align-items: center;
     display: flex;
-    margin-left: 20px;
-
-    & > *:not(:last-child) {
-      margin-right: 8px;
-    }
+    justify-self: flex-end;
+    column-gap: 20px;
   }
 }
 
@@ -146,7 +143,7 @@ h3 {
     grid-template-columns: 1fr;
 
     .btns {
-      margin-left: 0;
+      justify-self: baseline;
     }
   }
 
@@ -163,6 +160,14 @@ h3 {
 @media screen and (max-width: 480px) {
   .admin-add-form {
     padding: 15px;
+  }
+
+  .adminHeader {
+    justify-content: center;
+    .btns {
+      flex-direction: column;
+      row-gap: 20px;
+    }
   }
 }
 
