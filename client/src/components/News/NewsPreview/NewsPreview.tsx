@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 interface NewsPreviewProps {
     id: string
-    imgSrc: string
+    imgSrc: string | Blob
     title: string
     shortInfo: string
     tags: any[]

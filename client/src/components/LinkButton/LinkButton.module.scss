@@ -11,13 +11,14 @@
     padding: 10px 20px;
     font-weight: 600;
     font-size: 14px;
-    transition: .4s;
+    transition: 0.4s;
     text-decoration: none;
 
-    &:hover{
+    &:hover {
         background-color: $salad-green;
         border: 1px solid $salad-green;
-    };
+        color: white;
+    }
 
     img {
         margin-right: 10px;

@@ -1,7 +1,12 @@
 @import "../../../../assets/styles/variables";
 
+.addNews{
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
 .newsArticlePreview {
-    margin-top: 40px;
     max-width: 565px;
     background-color: white;
     position: relative;

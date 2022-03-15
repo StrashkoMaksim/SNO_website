@@ -22,11 +22,8 @@ const AdminNewsPage = () => {
     return (
         <>
             <header className="adminHeader">
-                <div className={styles.search}>
-                    <img src={searchIcon} alt="Поиск" />
-                    <input type="text" placeholder="Введите название новости" />
-                </div>
-                <div className="btns">
+                <h1 className='adminH1'>Новости</h1>
+                <div className='btns'>
                     <DefaultButton
                         text={'Управление тегами'}
                         imgSrc={settingsIcon}
