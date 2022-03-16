@@ -1,8 +1,7 @@
 const News = require("../models/News")
 const Tag = require('../models/Tag')
-const { Types } = require("mongoose")
 const createError = require("http-errors")
-const { saveImg } = require("../utils/fileHelper")
+const { saveImg, saveContent, deleteContentImages} = require("../utils/fileHelper")
 const fs = require("fs")
 
 exports.get = async function (countStr, pageStr, tag, search) {
@@ -48,7 +47,7 @@ exports.get = async function (countStr, pageStr, tag, search) {
 }
 
 exports.getDetail = async function (id) {
-    const news = await News.findById(id).populate('tags').select('title content date tags')
+    const news = await News.findById(id).populate('tags').select('title previewText content date tags')
 
     if (!news) {
         createError(404, 'Новости не существует')
@@ -68,26 +67,20 @@ exports.getAdmin = async function (id) {
 }
 
 exports.add = async function (previewImg, title, previewText, content, contentImages, tagsArr) {
-    const tags = await getTags(tagsArr)
-    const contentArr = JSON.parse(content)
+    const previewImgName = await saveImg(previewImg, 565, undefined)
+    const savedContent = await saveContent(content, contentImages)
 
-    if (contentArr.length < 1) {
-        throw createError(400, 'Отсутствует контент')
-    }
-
-    const previewImgName = await saveImg(previewImg, 565, 300)
-    for (const block of contentArr) {
-        if (block.type === 'image') {
-            block.data.src = await saveImg(contentImages[block.id], 773)
-        }
+    let tags
+    if (tagsArr) {
+        tags = await getTags(tagsArr)
     }
 
     const news = new News({
         previewImg: previewImgName,
         title,
         previewText,
-        content: JSON.stringify(contentArr),
-        tags
+        content: JSON.stringify(savedContent),
+        tags: tags || []
     })
 
     const savedNews = await news.save()
@@ -106,45 +99,35 @@ exports.update = async function (id, previewImg, title, previewText, content, co
         throw createError(404, 'Новость не найдена')
     }
 
-    const tags = await getTags(tagsArr)
-    const contentArr = JSON.parse(content)
-
-    if (contentArr.length === 0) {
-        throw createError(400, 'Отсутствует контент')
-    }
-
     // Если поступила новая картинка для превью, то заменяем
     let previewImgName
-    if (previewImg.size > 0) {
-        fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
-        previewImgName = await saveImg(previewImg, 565, 300)
+    if (previewImg) {
+        try {
+            fs.unlinkSync(`${process.env.staticPath}\\${news.get('previewImg')}`)
+        } catch (e) {
+            console.log(e)
+        }
+        previewImgName = await saveImg(previewImg, 565, undefined)
     }
 
-    // Удаление старых контентных картинок
-    JSON.parse(news.get('content')).forEach(block => {
-        if (block.type === 'image') {
-            try {
-                fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
-            } catch (e) {
-                console.log(e)
-            }
-        }
-    })
+    let savedContent
+    if (content) {
+        await deleteContentImages(news)
+        savedContent = await saveContent(content, contentImages)
+    }
 
-    // Сохранение новых контентных картинок
-    for (const block of contentArr) {
-        if (block.type === 'image') {
-            block.data.src = await saveImg(contentImages[block.id], 773)
-        }
+    let tags
+    if (tagsArr) {
+        tags = await getTags(tagsArr)
     }
 
     const savedNews = await News.replaceOne({ _id: id }, {
         previewImg: previewImgName || news.get('previewImg'),
         title,
         previewText,
-        content: JSON.stringify(contentArr),
+        content: JSON.stringify(savedContent),
         date: news.get('date'),
-        tags
+        tags: tags || news.get('tags')
     })
 
     if (savedNews.modifiedCount !== 1) {
@@ -181,15 +164,10 @@ exports.delete = async function (id) {
     await news.delete()
 }
 
-const getTags = async (tagsIdJSON) => {
+const getTags = async (tagsIdArr) => {
     const tagsPromises = []
-    const tagsIdArr = JSON.parse(tagsIdJSON)
 
     tagsIdArr.forEach(tagId => {
-        if (!Types.ObjectId.isValid(tagId)) {
-            throw createError(400, 'Некорректный ID тега')
-        }
-
         const tagPromise = Tag.findById(tagId)
         tagsPromises.push(tagPromise)
     })

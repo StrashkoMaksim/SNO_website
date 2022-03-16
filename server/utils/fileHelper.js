@@ -63,3 +63,32 @@ exports.saveFile = async (file) => {
 
     return { resultType, resultLink }
 }
+
+exports.saveContent = async (content, contentImages) => {
+    const contentImagesMap = new Map()
+    if (contentImages) {
+        for (const contentImage of contentImages) {
+            contentImagesMap.set(contentImage.name, contentImage)
+        }
+
+        for (const block of content) {
+            if (block.type === 'image') {
+                block.data.src = await exports.saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
+            }
+        }
+    }
+
+    return content
+}
+
+exports.deleteContentImages = async (document) => {
+    JSON.parse(document.get('content')).forEach(block => {
+        if (block.type === 'image') {
+            try {
+                fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    })
+}

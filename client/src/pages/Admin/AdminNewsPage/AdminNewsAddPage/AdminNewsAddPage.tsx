@@ -1,5 +1,5 @@
 import React, { ComponentRef, FC, FormEvent, useEffect, useState } from 'react'
-import Editor, { getEditorContent } from "../../../../components/Editor/Editor";
+import Editor, {getEditorContent, setEditorContent} from "../../../../components/Editor/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../components/DefaultButton/DefaultButton";
 import { AxiosResponse } from "axios";
@@ -55,8 +55,19 @@ const AdminNewsAddPage = () => {
     useEffect(() => {
         if (news[0] && newsId) {
             setNewsState(news[0])
+            if (news[0].content) {
+                setEditorContent(editorCore, news[0].content)
+            }
         }
     }, [news[0]])
+
+    useEffect(() => {
+        if (error) {
+            setErrorText(error)
+        } else {
+            setErrorText('')
+        }
+    }, [error])
 
     const submitHandler = async (e: FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -77,13 +88,18 @@ const AdminNewsAddPage = () => {
         formData.set('title', newsState.title)
         formData.set('previewText', newsState.previewText)
         formData.set('date', newsState.date)
-        formData.set('previewImg', newsState.previewImg);
         formData.set('content', JSON.stringify(editorContent.blocks))
-        formData.set('tags', JSON.stringify(Array.from(selectedTags).map(tag => tag._id)))
+
+        if (newsState.previewImg instanceof Blob) {
+            formData.append('previewImg', newsState.previewImg)
+        }
+
+        Array.from(selectedTags).forEach(tag => {
+            formData.append('tags', tag._id)
+        })
 
         // @ts-ignore
         for(var pair of formData.entries()){
-
             console.log(pair[0], pair[1]);
         }
 
@@ -97,8 +113,6 @@ const AdminNewsAddPage = () => {
         // @ts-ignore
         if (response && response.status === 201) {
             navigate('/admin/news')
-        } else if (error) {
-            setErrorText(error)
         }
     }
 
@@ -140,7 +154,7 @@ const AdminNewsAddPage = () => {
     return (
         <>
             <AdminEditPageHeader
-                linkTo='/admin/activities'
+                linkTo='/admin/news'
                 headerForObj={newsId}
                 headerFor={AEPHTypes.news}
                 onDeleteBtnClick={handleDeleteClick}

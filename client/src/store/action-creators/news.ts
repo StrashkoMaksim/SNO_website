@@ -74,10 +74,10 @@ export const updateNews = (newsId: string, formData: FormData)  => {
         } catch (e) {
             const error = e as AxiosError
             if (axios.isAxiosError(error)) {
-                dispatch({
-                    type: NewsActionTypes.FETCH_NEWS_ERROR,
-                    payload: error.response?.data.message
-                })
+               dispatch({
+                   type: NewsActionTypes.FETCH_NEWS_ERROR,
+                   payload: error.response?.data.message
+               })
             }
             return error.response
         }

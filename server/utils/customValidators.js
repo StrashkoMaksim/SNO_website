@@ -46,6 +46,15 @@ exports.isObjectId = (id) => {
     return true
 }
 
+exports.checkArrayObjectId = (arr) => {
+    arr.forEach(tag => {
+        if(!exports.isObjectId(tag)) {
+            return false
+        }
+    })
+    return true
+}
+
 exports.checkJPG = (file) => {
     if (file.name.substring(file.name.length - 4).toLowerCase() !== '.jpg') {
         return false

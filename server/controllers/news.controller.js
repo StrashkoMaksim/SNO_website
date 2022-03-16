@@ -45,8 +45,8 @@ exports.add = async function (req, res) {
     try {
         errorValidator(req, res)
 
-        const { title, previewText, content, tags } = req.body
-        const { previewImg, ...contentImages } = req.files
+        const { title, previewText, content, tags, previewImg, contentImages } = req.body
+
         if (!await NewsService.add(previewImg, title, previewText, content, contentImages, tags)) {
             throw Error()
         }
@@ -62,8 +62,7 @@ exports.update = async function (req, res) {
         errorValidator(req, res)
 
         const { id } = req.params
-        const { title, previewText, content, tags } = req.body
-        const { previewImg, ...contentImages } = req.files
+        const { title, previewText, content, tags, previewImg, contentImages } = req.body
 
         if (!await NewsService.update(id, previewImg, title, previewText, content, contentImages, tags)) {
             throw Error()

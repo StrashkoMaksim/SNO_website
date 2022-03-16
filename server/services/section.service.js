@@ -1,7 +1,7 @@
 const Section = require("../models/Section")
 const { Types } = require("mongoose");
 const createError = require("http-errors");
-const { saveImg, savePNG } = require("../utils/fileHelper");
+const { saveImg, savePNG, saveContent, deleteContentImages} = require("../utils/fileHelper");
 const fs = require("fs");
 
 exports.get = async function (countStr, pageStr) {
@@ -36,19 +36,7 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
 
     const savedLogo = await savePNG(logo, 221, 221)
     supervisor.photo = await saveImg(supervisorPhoto, 263, 173)
-
-    const contentImagesMap = new Map()
-    if (contentImages) {
-        for (const contentImage of contentImages) {
-            contentImagesMap.set(contentImage.name, contentImage)
-        }
-    }
-
-    for (const block of content) {
-        if (block.type === 'image') {
-            block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
-        }
-    }
+    const savedContent = await saveContent(content, contentImages)
 
     const achievementsArr = []
     if (achievements) {
@@ -69,7 +57,7 @@ exports.add = async function (name, previewText, content, supervisor, schedule, 
         name,
         previewText,
         logo: savedLogo,
-        content: JSON.stringify(content),
+        content: JSON.stringify(savedContent),
         supervisor,
         schedule: scheduleArr,
         achievements: achievementsArr.reverse()
@@ -104,29 +92,10 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
         logoName = await savePNG(logo, 221, 221)
     }
 
+    let savedContent
     if (content) {
-        // Удаление старых контентных картинок
-        JSON.parse(section.get('content')).forEach(block => {
-            if (block.type === 'image') {
-                try {
-                    fs.unlinkSync(`${process.env.staticPath}\\${block.data.src}`)
-                } catch (e) {
-                    console.log(e)
-                }
-            }
-        })
-        // Сохранение новых контентных картинок
-        const contentImagesMap = new Map()
-        if (contentImages) {
-            for (const contentImage of contentImages) {
-                contentImagesMap.set(contentImage.name, contentImage)
-            }
-        }
-        for (const block of content) {
-            if (block.type === 'image') {
-                block.data.src = await saveImg(contentImagesMap.get(block.id + '.jpg'), 773)
-            }
-        }
+        await deleteContentImages(section)
+        savedContent = await saveContent(content, contentImages)
     }
 
     if (supervisorPhoto) {
@@ -175,7 +144,7 @@ exports.update = async function (id, name, previewText, content, supervisor, sch
         name: name || section.get('name'),
         previewText: previewText || section.get('previewText'),
         logo: logoName || section.get('logo'),
-        content: content ? JSON.stringify(content) : section.get('content'),
+        content: savedContent ? JSON.stringify(savedContent) : section.get('content'),
         supervisor: supervisor || section.get('supervisor'),
         schedule: schedule.length > 0 ? scheduleArr : section.get('schedule'),
         achievements: achievementsDelete ? [] : (achievements ? achievementsArr : section.get('achievements'))
