@@ -15,7 +15,7 @@ exports.saveImg = async (photo, width, height) => {
     const photoName = `${uuid.v4()}.jpg`
 
     await sharp(`${process.env.tempPath}\\${photo.path.split('\\')[2]}`)
-        .resize({ width: width, height: height, fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 1 } })
+        .resize({ width: width, height: height, background: { r: 255, g: 255, b: 255, alpha: 1 } })
         .toFile(`${process.env.staticPath}\\${photoName}`)
 
     return photoName

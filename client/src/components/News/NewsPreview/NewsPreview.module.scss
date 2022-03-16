@@ -29,6 +29,9 @@
 
 .previewImg {
     transition: 0.4s;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .shortInfo {

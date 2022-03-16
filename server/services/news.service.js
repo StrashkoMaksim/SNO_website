@@ -67,7 +67,7 @@ exports.getAdmin = async function (id) {
 }
 
 exports.add = async function (previewImg, title, previewText, content, contentImages, tagsArr) {
-    const previewImgName = await saveImg(previewImg, 565, undefined)
+    const previewImgName = await saveImg(previewImg, 565, 300)
     const savedContent = await saveContent(content, contentImages)
 
     let tags
@@ -107,7 +107,7 @@ exports.update = async function (id, previewImg, title, previewText, content, co
         } catch (e) {
             console.log(e)
         }
-        previewImgName = await saveImg(previewImg, 565, undefined)
+        previewImgName = await saveImg(previewImg, 565, 300)
     }
 
     let savedContent
