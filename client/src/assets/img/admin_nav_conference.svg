@@ -1,0 +1,9 @@
+<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_519_3363" fill="white">
+<rect y="0.478027" width="20" height="20" rx="1.17202"/>
+</mask>
+<rect y="0.478027" width="20" height="20" rx="1.17202" stroke="#CCCCCC" stroke-width="4.21928" mask="url(#path-1-inside-1_519_3363)"/>
+<rect x="3.91016" y="7.21777" width="6.5175" height="2.08696" rx="1.04348" transform="rotate(45 3.91016 7.21777)" fill="#CCCCCC"/>
+<rect x="11.5742" y="6.06982" width="8.14078" height="2.08696" rx="1.04348" transform="rotate(45 11.5742 6.06982)" fill="#CCCCCC"/>
+<rect x="5.62109" y="11.8042" width="8.20832" height="2.08696" rx="1.04348" transform="rotate(-45 5.62109 11.8042)" fill="#CCCCCC"/>
+</svg>

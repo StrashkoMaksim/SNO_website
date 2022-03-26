@@ -6,16 +6,20 @@ import NewsImg from "../../../assets/img/admin_nav_news.svg";
 import SectionImg from "../../../assets/img/admin_nav_section.svg";
 import DocumentsImg from "../../../assets/img/admin_nav_documents.svg";
 import CouncilImg from "../../../assets/img/admin_nav_council.svg";
+import SupervisorsImg from "../../../assets/img/admin_nav_supervisors.svg";
+import ConferenceImg from "../../../assets/img/admin_nav_conference.svg";
+import ScholarshipImg from "../../../assets/img/admin_nav_scholarship.svg";
+import EventsImg from "../../../assets/img/admin_nav_events.svg";
 
 const navLinks = [
     { link: 'news', text: 'Новости', imgSrc: NewsImg },
     { link: 'activities', text: 'Кружки', imgSrc: SectionImg },
-    { link: 'conf', text: 'Конференция', imgSrc: NewsImg },
+    { link: 'conf', text: 'Конференция', imgSrc: ConferenceImg },
     { link: 'documents', text: 'Документы', imgSrc: DocumentsImg },
-    { link: 'grants', text: 'Стипендия', imgSrc: NewsImg },
-    { link: 'supervisors', text: 'Руководители', imgSrc: NewsImg },
+    { link: 'grants', text: 'Стипендия', imgSrc: ScholarshipImg },
+    { link: 'supervisors', text: 'Руководители', imgSrc: SupervisorsImg },
     { link: 'council', text: 'Совет СНО', imgSrc: CouncilImg },
-    { link: 'events', text: 'Мероприятия', imgSrc: NewsImg },
+    { link: 'events', text: 'Мероприятия', imgSrc: EventsImg },
 ]
 
 interface AdminNavigationProps {

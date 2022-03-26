@@ -57,7 +57,7 @@ exports.getDetail = async function (id) {
 }
 
 exports.getAdmin = async function (id) {
-    const news = await News.findById(id)
+    const news = await News.findById(id).populate('tags')
 
     if (!news) {
         createError(404, 'Новости не существует')

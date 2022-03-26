@@ -7,10 +7,10 @@
 
     &__MainInfo {
         background-color: white;
+        position: relative;
         width: 100%;
         max-width: 866px;
-        border-radius: 20px;
-        padding: 50px;
+        padding: 60px 50px 50px 50px;
         height: fit-content;
 
         &__Head {
@@ -24,6 +24,36 @@
         display: flex;
         flex-direction: column;
         row-gap: 30px;
+        background-color: white;
+        width: 278px;
+        padding: 20px;
+        align-items: center;
+        height: fit-content;
+
+        &__Header {
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            border-bottom: 1px solid #c4c4c4;
+            width: 100%;
+            text-align: center;
+        }
+
+        .otherNewsSingle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            row-gap: 10px;
+            img {
+                max-width: 200px;
+                border-radius: 20px 0px 20px 0px;
+            }
+            p{
+                font-size: 20px;
+                color: #707070;
+                font-weight: 700;
+            }
+        }
     }
 
     .Title {
@@ -34,29 +64,31 @@
 
     .previewText {
         font-size: 18px;
-        font-weight: 500;
-        margin-top: 20px;
+        margin-top: 30px;
     }
-}
 
-@media screen and (max-width: 1200px) {
-    .News {
-        flex-direction: column;
-        align-items: center;
-        row-gap: 40px;
+    .tagsWrapper {
+        margin-top: 10px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
     }
-}
 
-@media screen and (max-width: 750px) {
-    .News {
-        &__MainInfo {
-            padding: 30px;
-            &__Head {
-                display: flex;
-                flex-direction: column;
-                flex-flow: column-reverse;
-                row-gap: 40px;
-            }
+    .tag {
+        color: $salad-green;
+        border: 1px solid $salad-green;
+        border-radius: 20px;
+        padding: 5px 10px;
+        font-size: 14px;
+        min-width: 70px;
+        text-align: center;
+        transition: 0.2s;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $salad-green;
+            color: white;
+            cursor: pointer;
         }
     }
 }

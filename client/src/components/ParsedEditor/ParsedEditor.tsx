@@ -26,8 +26,6 @@ const ParsedEditor: FC<ParsedEditorProps> = ({ content }) => {
         if (typeof content === 'string') {
             const blocks = JSON.parse(content)
             setEditorBlocks(blocks)
-            console.log(blocks)
-
         }
     }, [content])
 

@@ -1,5 +1,5 @@
 import React, { ComponentRef, FC, FormEvent, useEffect, useState } from 'react'
-import Editor, {getEditorContent, setEditorContent} from "../../../../components/Editor/Editor";
+import Editor, { getEditorContent, setEditorContent } from "../../../../components/Editor/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../../components/DefaultButton/DefaultButton";
 import { AxiosResponse } from "axios";
@@ -39,7 +39,7 @@ const AdminNewsAddPage = () => {
         const month = today.getMonth() + 1 //getMonth возвращает число от 0 до 11 (почему-то)
         const year = today.getFullYear()
 
-        setTodayDate(`${day}/${month}/${year}`)
+        setTodayDate(`${day}/${month < 10 ? '0' + month : month}/${year}`)
 
         fetchTags()
     }, [])
@@ -55,9 +55,29 @@ const AdminNewsAddPage = () => {
     useEffect(() => {
         if (news[0] && newsId) {
             setNewsState(news[0])
-            if (news[0].content) {
-                setEditorContent(editorCore, news[0].content)
-            }
+            setSelectedTags(new Set(news[0].tags))
+            console.log(news[0])
+        }
+    }, [news[0]])
+
+    const [editorFilled, setEditorFilled] = useState<boolean>(false)
+
+    // При изменении определенного кружка заполняет Editor переданными блоками
+    useEffect(() => {
+        // Если в контенте не пустой массив и если контент в принципе передан (!undefined)
+        // и если существует ref Editor`a
+        // и если Editor уже не был заполнен этой функцией до этого (иначе будет заполнятся при
+        // каждом изменении activityMainInfo)
+
+        const editorHasToBeFilled = news[0]?.content?.length !== 0 &&
+            news[0]?.content &&
+            editorCore.current &&
+            !editorFilled
+
+        if (editorHasToBeFilled) {
+            console.log(news[0].content)
+            setEditorContent(editorCore, news[0].content)
+            setEditorFilled(true)
         }
     }, [news[0]])
 
@@ -99,7 +119,7 @@ const AdminNewsAddPage = () => {
         })
 
         // @ts-ignore
-        for(var pair of formData.entries()){
+        for (var pair of formData.entries()) {
             console.log(pair[0], pair[1]);
         }
 
@@ -136,7 +156,7 @@ const AdminNewsAddPage = () => {
     }
 
     const trimDescriptionText = (text: string) => {
-        text = text.slice(0, 180) + '...'
+        text = text.slice(0, 165) + '...'
         return text;
     }
 

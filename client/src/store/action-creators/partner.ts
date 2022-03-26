@@ -3,7 +3,7 @@ import axios from "axios"
 import {PartnerAction, PartnerActionTypes} from "../../types/partner"
 import $api from "../../hooks/useProtectedAxios"
 
-export const fetchTags = () => {
+export const fetchPartners = () => {
     return async (dispatch: Dispatch<PartnerAction>) => {
         try {
             dispatch({ type: PartnerActionTypes.FETCH_PARTNERS })
@@ -18,10 +18,10 @@ export const fetchTags = () => {
     }
 }
 
-export const deleteTag = (tagId: string) => {
+export const deletePartner = (partnerId: string) => {
     return async (dispatch: Dispatch<PartnerAction>) => {
         try {
-            const response = await $api.delete(`/tag/${tagId}`)
+            const response = await $api.delete(`/partner/${partnerId}`)
             dispatch({ type: PartnerActionTypes.FETCH_PARTNERS_SUCCESS, payload: response.data.partners })
         } catch (e) {
             dispatch({
@@ -32,10 +32,10 @@ export const deleteTag = (tagId: string) => {
     }
 }
 
-export const addTag = (formData: FormData) => {
+export const addPartner = (formData: FormData) => {
     return async (dispatch: Dispatch<PartnerAction>) => {
         try {
-            const response = await $api.post('/tag', formData)
+            const response = await $api.post('/partner', formData)
             dispatch({ type: PartnerActionTypes.FETCH_PARTNERS_SUCCESS, payload: response.data.partners })
         } catch (e) {
             dispatch({

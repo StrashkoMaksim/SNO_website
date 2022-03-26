@@ -4,11 +4,11 @@
     display: flex;
     flex-wrap: wrap;
     column-gap: 15px;
+    row-gap: 15px;
 }
 
 .Selector {
     position: relative;
-
     .MenuItems {
         position: absolute;
         left: 0;
@@ -19,7 +19,11 @@
         flex-direction: column;
         border-radius: 0px 0px 10px 10px;
         display: none;
-        width: 150px;
+        width: 200px;
+        max-height: 400px;
+
+        overflow-x: hidden;
+
         &-active {
             display: flex;
         }
@@ -68,7 +72,7 @@
 }
 
 .addBtn {
-    width: 150px;
+    width: 200px;
     border-radius: 0;
     color: $salad-green;
     border: 1px solid $salad-green;

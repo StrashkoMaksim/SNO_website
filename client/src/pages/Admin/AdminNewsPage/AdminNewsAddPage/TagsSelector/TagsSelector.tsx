@@ -14,11 +14,10 @@ interface TagsSelectorProps {
 const TagsSelector: FC<TagsSelectorProps> = ({ tags, selectedTags, onInput }) => {
 
     const [selectorOpened, setSelectorOpened] = useState(false);
-    const [autoTags, setAutoTags] = useState<Tag[]>([])
+    const [autoTags, setAutoTags] = useState<Tag[]>(tags)
 
     const onSelectorBlur = (value: boolean) => {
         return (e: any) => {
-            e.target.value = ''
             setTimeout(() => setSelectorOpened(value), 80)
         }
     }
@@ -29,7 +28,6 @@ const TagsSelector: FC<TagsSelectorProps> = ({ tags, selectedTags, onInput }) =>
         let filteredTags: Tag[];
 
         filteredTags = tags.filter(tag => tag.name.toLowerCase().match(event.target.value.toLowerCase()))
-
         setAutoTags(filteredTags)
     }
 
@@ -47,6 +45,7 @@ const TagsSelector: FC<TagsSelectorProps> = ({ tags, selectedTags, onInput }) =>
                     className={styles.addBtn}
                     placeholder="Добавить тег"
                     onBlur={onSelectorBlur(false)}
+                    onFocus={() => setSelectorOpened(true)}
                     onChange={onTagSelectorChange}
                 />
                 <div className={cn(styles.MenuItems, { [styles['MenuItems-active']]: selectorOpened })}
