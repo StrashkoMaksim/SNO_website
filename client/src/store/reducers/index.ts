@@ -5,6 +5,7 @@ import { userReducer } from "./userReducer";
 import { tagReducer } from "./tagReducer";
 import { activitiesReducer } from "./activitiesReducer";
 import { partnerReducer } from "./partnerReducer";
+import { documentsReducer } from "./documentsReducer";
 
 export const rootReducer = combineReducers({
     news: newsReducer,
@@ -12,7 +13,8 @@ export const rootReducer = combineReducers({
     user: userReducer,
     tag: tagReducer,
     activity: activitiesReducer,
-    partner: partnerReducer
+    partner: partnerReducer,
+    documents: documentsReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

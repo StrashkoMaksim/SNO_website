@@ -11,7 +11,7 @@ interface NewsPreviewProps {
     shortInfo: string
     tags: any[]
     date: string
-    isAdmin?: true
+    isAdmin?: boolean
 }
 
 

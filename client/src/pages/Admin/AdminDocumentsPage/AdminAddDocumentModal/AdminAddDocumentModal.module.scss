@@ -1,0 +1,43 @@
+@import "../../../../assets/styles/variables.scss";
+
+.form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    .fileInputLabel {
+        background-color: transparent;
+        color: rgba(0, 0, 0, 0.54);
+        border: 1px solid rgb(182, 182, 182);
+        background-color: $light-green;
+        padding: 15px;
+        border-radius: 5px;
+        width: fit-content;
+    }
+
+    .selectedFileBlock {
+        display: flex;
+        margin-top: 20px;
+        align-items: center;
+        color: $dark-green;
+        column-gap: 10px;
+
+        p {
+            max-width: 50ch;
+        }
+    }
+    
+    .addBtn {
+        border: none;
+        border-radius: 20px;
+        background-color: $salad-green;
+        padding: 10px 30px;
+        color: white;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: $dark-green;
+        }
+    }
+}

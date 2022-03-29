@@ -5,7 +5,7 @@ import NewsList from '../../../components/News/NewsList/NewsList';
 import cn from 'classnames';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
-import { FormEvent, useEffect, useState } from 'react';
+import { FC, FormEvent, useEffect, useState } from 'react';
 import Pagination from "../../Pagination/Pagination";
 
 type Tag = {
@@ -20,7 +20,11 @@ const defaultTag = {
 
 const NEWS_COUNT = 4
 
-const NewsWithPagination = () => {
+interface NWPProps {
+    isAdmin?: boolean;
+}
+
+const NewsWithPagination: FC<NWPProps> = ({ isAdmin = false }) => {
     const { tags } = useTypedSelector(state => state.tag)
     const { fetchTags } = useActions()
     const { count } = useTypedSelector(state => state.news)
@@ -110,7 +114,7 @@ const NewsWithPagination = () => {
 
                 </div>
             </div>
-            <NewsList count={NEWS_COUNT} page={currentPage} tagId={currentTag._id} searchValue={searchQuery} />
+            <NewsList count={NEWS_COUNT} page={currentPage} tagId={currentTag._id} searchValue={searchQuery} isAdmin={isAdmin} />
             <Pagination totalCount={count} visibleCount={NEWS_COUNT} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </div >
     )

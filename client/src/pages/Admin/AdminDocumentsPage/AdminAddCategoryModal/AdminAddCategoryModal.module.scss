@@ -1,0 +1,28 @@
+@import "../../../../assets/styles/variables.scss";
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    align-items: center;
+    margin-top: 20px;
+
+    .titleInput {
+        font-size: 26px;
+        font-weight: 600;
+    }
+
+    .addBtn {
+        border: none;
+        border-radius: 20px;
+        background-color: $salad-green;
+        padding: 10px 30px;
+        color: white;
+        transition: 0.2s;
+
+        &:hover {
+            background-color: $dark-green;
+        }
+    }
+
+}

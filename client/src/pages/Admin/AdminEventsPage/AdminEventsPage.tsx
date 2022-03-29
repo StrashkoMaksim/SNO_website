@@ -21,13 +21,11 @@ const AdminEventsPage = () => {
 
     const updateEvents = () => setEventsUpdated(!eventsUpdated)
 
-
     const [modalForm_Data, setModalForm_Data] = React.useState<eventData>(defaultFormData)
     const [modalForm_ReqType, setModalForm_ReqType] = React.useState<RequestType>(RequestType.post)
     const [modalOpened, setModalOpened] = React.useState<boolean>(false);
 
     const openModalForm = (eventData?: eventData, reqType?: RequestType) => {
-        console.log(eventData)
         if (eventData) setModalForm_Data(eventData)
         if (reqType) setModalForm_ReqType(reqType)
         setModalOpened(true)

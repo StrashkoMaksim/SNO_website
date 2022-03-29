@@ -1,7 +1,7 @@
 const DocumentCategory = require('../models/DocumentCategory')
 const createError = require("http-errors")
 const fs = require("fs")
-const {saveFile} = require("../utils/fileHelper")
+const { saveFile } = require("../utils/fileHelper")
 const validUrl = require("valid-url");
 
 exports.getCategories = async function () {
@@ -12,12 +12,11 @@ exports.getCategories = async function () {
 
 exports.getCategoriesWithDocuments = async function () {
     const categories = await DocumentCategory.find()
-
     return categories
 }
 
 exports.addCategory = async function (title) {
-    const category = new DocumentCategory({ title })
+    const category = new DocumentCategory({ title: title })
 
     await category.save()
 
@@ -29,7 +28,7 @@ exports.addCategory = async function (title) {
 exports.updateCategory = async function (id, title) {
     const category = await DocumentCategory.findById(id)
 
-    if(!category) {
+    if (!category) {
         throw createError(404, 'Категория не найдена')
     }
 
@@ -50,7 +49,7 @@ exports.deleteCategory = async function (id) {
     category.get('documents').forEach(document => {
         if (document.type !== 'link') {
             fs.unlink(`${process.env.staticPath}\\${document.link}`, (err) => {
-                if(err) console.log(err);
+                if (err) console.log(err);
             })
         }
     })
@@ -74,20 +73,23 @@ exports.addDocumentInCategory = async function (categoryId, name, link, file, ty
     if (!category) {
         throw createError(404, 'Категория не найдена')
     }
-
     if (!file && !link) {
         throw createError(400, 'Отсутствует ссылка или файл')
     } else if (file) {
-        const { resultType, resultLink } = saveFile(file)
-        type = resultType
-        link = resultLink
+        saveFile(file).then((response) => {
+            const type = response.resultType
+            const link = response.resultLink
+
+            category.get('documents').push({ type, name, link })
+        })
     } else {
         if (!validUrl.isUri(link)) {
             throw createError(400, 'Некорректная ссылка')
         }
+        category.get('documents').push({ type, name, link })
+
     }
 
-    category.get('document').push({type, name, link})
     await category.save()
 
     const categories = await exports.getDocumentsFromCategory(categoryId)
@@ -110,7 +112,7 @@ exports.deleteDocumentInCategory = async function (categoryId, documentNumber) {
 
     if (document.type !== 'link') {
         fs.unlink(`${process.env.staticPath}\\${document.link}`, (err) => {
-            if(err) console.log(err);
+            if (err) console.log(err);
         })
     }
 

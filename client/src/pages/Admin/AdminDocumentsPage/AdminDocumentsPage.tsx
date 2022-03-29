@@ -1,36 +1,44 @@
-import React, {FC, useEffect, useState} from 'react'
+import { FC, useEffect, useState } from 'react'
 import plusIcon from "../../../assets/img/plus.svg"
-import SupervisorModal from "../../../components/SupervisorModal/SupervisorModal";
-import DefaultButton, {ButtonStyles, ButtonTypes} from "../../../components/DefaultButton/DefaultButton";
-import {useTypedSelector} from "../../../hooks/useTypedSelector";
-import SupervisorsList from "../../../components/SupervisorsList/SupervisorsList";
-import {useActions} from "../../../hooks/useActions";
-import {Supervisor} from "../../../types/supervisor";
+import AdminFormInputText, { AFITStyle } from '../../../components/Admin/AdminFormInputText/AdminFormInputText';
+import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
 import DocumentsSection from "../../../components/DocumentsSection/DocumentsSection";
+import { useActions } from '../../../hooks/useActions';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { DocumentCategory, EmptyDocumentCategory } from '../../../types/document';
+import AdminAddCategoryModal from './AdminAddCategoryModal/AdminAddCategoryModal';
+import styles from "./AdminDocumentsPage.module.scss"
 
 const AdminDocumentsPage: FC = () => {
-    const { supervisors, loading, error } = useTypedSelector(state => state.supervisor)
-    const { fetchSupervisors, addSupervisor, updateSupervisor, deleteSupervisor } = useActions()
-    const [currentSupervisor, setCurrentSupervisor] = useState<Supervisor>()
+    const { documents } = useTypedSelector(state => state.documents)
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+    const { fetchDocumentCategories, deleteDocumentCategory, deleteDocumentFromDocumentCategory } = useActions()
+    const [editableCategory, setEditableCategory] = useState<DocumentCategory>(EmptyDocumentCategory)
 
     useEffect(() => {
-        fetchSupervisors()
+        fetchDocumentCategories()
     }, [])
 
-    const onOpenModalHandler = () => {
+    const triggerDataFetch = () => setTimeout(() => fetchDocumentCategories(), 300)
+
+    const openModal = (title?: string, id?: string) => {
         setIsModalVisible(true)
+        if (title && id) setEditableCategory({ ...editableCategory, _id: id, title: title, documents: [] })
     }
 
-    const onCloseModalHandler = () => {
+    const closeModal = () => {
         setIsModalVisible(false)
+        setEditableCategory(EmptyDocumentCategory)
     }
 
-    const editSupervisorHandle = (supervisor: Supervisor) => {
-        return () => {
-            setCurrentSupervisor(supervisor)
-            onOpenModalHandler()
-        }
+    const deleteCategory = (id: string) => {
+        deleteDocumentCategory(id)
+        triggerDataFetch()
+    }
+
+    const deleteDocument = (id: string, docNumber: number) => {
+        deleteDocumentFromDocumentCategory(id, docNumber)
+        triggerDataFetch()
     }
 
     return (
@@ -43,20 +51,29 @@ const AdminDocumentsPage: FC = () => {
                         imgSrc={plusIcon}
                         style={ButtonStyles.adminFilled}
                         type={ButtonTypes.button}
-                        onClick={onOpenModalHandler}
+                        onClick={() => openModal()}
                     />
                 </div>
             </header>
-            {/*<DocumentsSection title={'dfgd'} documents={} />*/}
-            {isModalVisible &&
-                <SupervisorModal
-                    isVisible={isModalVisible}
-                    onClose={onCloseModalHandler}
-                    supervisor={currentSupervisor}
-                    onAdd={addSupervisor}
-                    onUpdate={updateSupervisor}
-                    onDelete={deleteSupervisor}
-                />
+            <AdminAddCategoryModal
+                title={editableCategory.title}
+                modalOpened={isModalVisible}
+                reload={triggerDataFetch}
+                closeModal={closeModal}
+                id={editableCategory._id}
+            />
+            {documents.map((category) =>
+                <DocumentsSection
+                    key={category._id}
+                    editTitle={openModal}
+                    deleteCategory={deleteCategory}
+                    title={category.title}
+                    id={category._id}
+                    documents={category.documents}
+                    updateData={triggerDataFetch}
+                    deleteDocument={deleteDocument}
+                    isAdmin
+                />)
             }
         </>
     )

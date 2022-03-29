@@ -1,5 +1,5 @@
 const GrantsDocumentService = require('../services/grandsDocument.service')
-const {errorHandler, errorValidator} = require("../utils/errorHandler")
+const { errorHandler, errorValidator } = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
@@ -14,10 +14,10 @@ exports.add = async function (req, res) {
     try {
         errorValidator(req, res)
 
-        const { name, link } = req.body
+        const { name, link, type } = req.body
         const { file } = req.files
 
-        const documents = await GrantsDocumentService.add(name, link, file)
+        const documents = await GrantsDocumentService.add(name, link, file, type)
 
         res.status(201).json({ message: 'Документ успешно добавлен', documents })
     } catch (e) {

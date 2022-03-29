@@ -2,8 +2,26 @@ import styles from './GrantsPage.module.scss'
 import scholarship from "../../../assets/img/scholarship.svg"
 import Grant from "../../../components/Grant/Grant"
 import DocumentsSection from '../../../components/DocumentsSection/DocumentsSection'
+import { useEffect, useState } from 'react'
+import http from "../../../assets/http-config";
 
 const GrantsPage = () => {
+
+    const [documents, setDocuments] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchDocuments = async () => {
+            const response = await http.get(`/grants-document`)
+            return response;
+        }
+
+        fetchDocuments()
+            .then(response => {
+                if (response.status === 200) {
+                    setDocuments(response.data)
+                }
+            })
+    }, [])
 
     const mockGrant = {
         achievement: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.',
@@ -12,37 +30,6 @@ const GrantsPage = () => {
     }
 
     const grants = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
-    const documents = [
-        {
-            "_id": "621336d3e03d4ac0b87cef8b",
-            "type": "link",
-            "name": "Правила оказания медицинских услуг в Обществе с ограниченной ответственностью «Скандинавский Центр Здоровья»",
-            "link": "https://www.google.com/search?q=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&oq=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&aqs=chrome..69i57j0i10i131i433l2j0i10j0i10i433j0i10i131i433l4j0i10.2946j0j7&sourceid=chrome&ie=UTF-8",
-            "__v": 0
-        },
-        {
-            "_id": "621336d3e03d4ac0b87cef8b",
-            "type": "doc",
-            "name": "Политика в отношении обработки персональных данных",
-            "link": "https://www.google.com/search?q=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&oq=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&aqs=chrome..69i57j0i10i131i433l2j0i10j0i10i433j0i10i131i433l4j0i10.2946j0j7&sourceid=chrome&ie=UTF-8",
-            "__v": 0
-        },
-        {
-            "_id": "621336d3e03d4ac0b87cef8b",
-            "type": "pdf",
-            "name": "Специальная оценка условий труда",
-            "link": "https://www.google.com/search?q=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&oq=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&aqs=chrome..69i57j0i10i131i433l2j0i10j0i10i433j0i10i131i433l4j0i10.2946j0j7&sourceid=chrome&ie=UTF-8",
-            "__v": 0
-        },
-        {
-            "_id": "621336d3e03d4ac0b87cef8b",
-            "type": "link",
-            "name": "Свидетельство о постановке на учет в налоговый орган",
-            "link": "https://www.google.com/search?q=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&oq=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D1%82%D1%87%D0%B8%D0%BA&aqs=chrome..69i57j0i10i131i433l2j0i10j0i10i433j0i10i131i433l4j0i10.2946j0j7&sourceid=chrome&ie=UTF-8",
-            "__v": 0
-        },
-    ]
 
     return (
 

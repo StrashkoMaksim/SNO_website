@@ -11,7 +11,7 @@ interface NewsList {
     page: number
     tagId?: string | undefined
     searchValue?: string | undefined
-    isAdmin?: true
+    isAdmin?: boolean
 }
 
 const NewsList: FC<NewsList> = ({ count, page, tagId, searchValue, isAdmin }) => {

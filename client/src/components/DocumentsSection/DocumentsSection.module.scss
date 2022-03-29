@@ -6,8 +6,47 @@
     padding: 30px 50px;
     margin-bottom: 60px;
 
-    &__Title {
-        margin-bottom: 30px;
+    &__TitleBlock {
+        display: flex;
+        column-gap: 7px;
+        position: relative;
+        .title {
+            margin-bottom: 30px;
+            width: fit-content;
+        }
+
+        .editBtn {
+            width: 33px;
+            height: 33px;
+            background-color: transparent;
+            border: none;
+            display: grid;
+            place-items: center;
+            transition: 0.2s all;
+
+            &:hover {
+                background-color: #e6e6e6;
+                border-radius: 50%;
+            }
+        }
+
+        .deleteBtn {
+            background-color: transparent;
+            border: none;
+            color: #ffcece;
+            height: 25px;
+            border-bottom: 1px solid #ffcece;
+            padding-bottom: 26px;
+            transition: 0.2s;
+            justify-self: flex-end;
+            position: absolute;
+            right: 0px;
+
+            &:hover {
+                color: $error-color;
+                border-color: $error-color;
+            }
+        }
     }
 
     &__Grid {
@@ -17,6 +56,29 @@
         row-gap: 25px;
         column-gap: 30px;
         justify-content: space-between;
+
+        .addDocBtn {
+            background-color: transparent;
+            color: $salad-green;
+            border: 1px solid $salad-green;
+            padding: 5px 0px;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: $salad-green;
+                color: white;
+            }
+        }
+        .docWithDeleteBtn {
+            display: flex;
+            column-gap: 5px;
+            .deleteDocBtn {
+                background-color: transparent;
+                border: none;
+                width: 8px;
+                height: 8px;
+            }
+        }
     }
 
     &__Single {

@@ -7,6 +7,7 @@ import searchIcon from '../../../assets/img/search.svg'
 import plusIcon from '../../../assets/img/plus.svg'
 import settingsIcon from '../../../assets/img/settings.svg'
 import TagsModal from "../../../components/TagsModal/TagsModal";
+import NewsWithPagination from '../../../components/News/NewsWithPagination/NewsWithPagination';
 
 const AdminNewsPage = () => {
     const [isTagsModalVisible, setIsTagsModalVisible] = useState<boolean>(false)
@@ -37,7 +38,7 @@ const AdminNewsPage = () => {
                         to={'/admin/news/add'} />
                 </div>
             </header>
-            <NewsList count={10} page={1} isAdmin={true} />
+            <NewsWithPagination isAdmin/>
             {isTagsModalVisible &&
                 <TagsModal isVisible={isTagsModalVisible} onClose={onCloseModalHandler} />
             }
