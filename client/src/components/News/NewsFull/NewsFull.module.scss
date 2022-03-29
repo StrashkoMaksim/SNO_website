@@ -29,6 +29,7 @@
         padding: 20px;
         align-items: center;
         height: fit-content;
+        padding: 40px 20px;
 
         &__Header {
             font-size: 16px;
@@ -44,14 +45,21 @@
             flex-direction: column;
             align-items: center;
             row-gap: 10px;
+            color: #707070;
+
             img {
                 max-width: 200px;
                 border-radius: 20px 0px 20px 0px;
             }
-            p{
+            p {
                 font-size: 20px;
-                color: #707070;
                 font-weight: 700;
+                transition: 0.2s;
+            }
+
+            &:hover {
+                color: $salad-green;
+                cursor: pointer;
             }
         }
     }
@@ -90,5 +98,20 @@
             color: white;
             cursor: pointer;
         }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .News {
+        justify-content: center;
+
+        &__OtherNews {
+            display: none;
+        }
+    }
+}
+@media screen and (max-width: 500px) {
+    .News__MainInfo {
+        padding: 60px 30px 40px 30px;
     }
 }

@@ -18,7 +18,7 @@ const defaultTag = {
     name: 'Все теги'
 }
 
-const NEWS_COUNT = 1
+const NEWS_COUNT = 4
 
 const NewsWithPagination = () => {
     const { tags } = useTypedSelector(state => state.tag)
@@ -32,6 +32,22 @@ const NewsWithPagination = () => {
     useEffect(() => {
         fetchTags()
     }, [])
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const tagIdFromQuery = params.get('tag');
+        const searchStringQuery = params.get('search');
+        if (tagIdFromQuery) {
+            const tagName = tags.filter(tag => tag._id === tagIdFromQuery)[0]?.name
+            if (tagName) setCurrentTag({ _id: tagIdFromQuery, name: tagName })
+        }
+        if (searchStringQuery) setSearchQuery(searchQuery)
+        window.addEventListener('popstate', function (event) {
+            console.log('changed')
+        });
+    }, [])
+
+
 
     const changeCurrentTag = (tagId: string | undefined, name: string) => {
         return () => {

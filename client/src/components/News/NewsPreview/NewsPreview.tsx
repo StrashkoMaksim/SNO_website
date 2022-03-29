@@ -49,7 +49,7 @@ const NewsPreview: FC<NewsPreviewProps> = (
                     }
                 </p>
                 <div className={styles.tagsWrapper}>
-                    {tags.map(tag => <Link to={`/news?tag=${tag._id}`} className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</Link>)}
+                    {tags.map(tag => <Link to={`/news/all?tag=${tag._id}`} className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</Link>)}
                 </div>
             </div>
         </article>

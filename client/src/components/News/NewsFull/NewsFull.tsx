@@ -15,7 +15,7 @@ const NewsFull = () => {
     useEffect(() => {
         if (newsId) fetchNewsDetail(newsId)
         window.scrollTo(0, 0)
-    }, [])
+    }, [newsId])
 
     // Переводит дату из серверного timestamp в читаемый вид
     const convertDate = (date: string) => {
@@ -35,7 +35,7 @@ const NewsFull = () => {
                         <div className={styles.News__MainInfo__Head}>
                             <p className={styles.Title}>{news[0]?.title}</p>
                             <div className={styles.tagsWrapper}>
-                                {news[0]?.tags.map(tag => <Link to={`/news?tag=${tag._id}`} className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</Link>)}
+                                {news[0]?.tags.map(tag => <Link to={`/news/all?tag=${tag._id}`} className={cn(styles.tag, 'Regular')} key={tag._id}>{tag.name}</Link>)}
                             </div>
                             <p className={styles.previewText}>{news[0]?.previewText}</p>
                         </div>
@@ -47,10 +47,10 @@ const NewsFull = () => {
                         <p className={styles.News__OtherNews__Header}>другие новости</p>
                         {news.map(article => {
                             if (article._id !== news[0]._id)
-                                return <div key={article._id} className={styles.otherNewsSingle}>
+                                return <Link key={article._id} className={styles.otherNewsSingle} to={'/news/' + article._id}>
                                     <img src={`${process.env.REACT_APP_SERVER_URL}/${article.previewImg}`} alt="" />
                                     <p>{article.title}</p>
-                                </div>
+                                </Link>
                         }
                         )}
                     </aside>
