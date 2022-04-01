@@ -28,6 +28,7 @@ app.use('/api/event', require('./routes/event.routes'))
 app.use('/api/document-category', require('./routes/documentCategory.routes'))
 app.use('/api/grants-document', require('./routes/grantsDocument.routes'))
 app.use('/api/section', require('./routes/section.routes'))
+app.use('/api/partners', require('./routes/partner.routes'))
 
 const PORT = process.env.PORT || 5000
 

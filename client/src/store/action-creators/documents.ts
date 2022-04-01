@@ -37,7 +37,8 @@ export const addDocumentCategory = (title: string) => {
 export const updateDocumentCategory = (categoryId: string, title: string) => {
     return async (dispatch: Dispatch<DocumentsAction>) => {
         try {
-            return await $api.put<{ message: string }>(`/document-category/${categoryId}`, { title: title })
+            console.log(`renaming to ${title}`)
+            return await $api.put(`/document-category/${categoryId}`, { title: title })
         } catch (e) {
             const error = e as AxiosError
             if (axios.isAxiosError(error)) {

@@ -53,7 +53,7 @@ const MainPage = () => {
     return (
         <>
             <NewsBlock count={4} page={1} />
-            <ActivitiesBlock />
+            <ActivitiesBlock isAdmin={false}/>
             <Slider slides={partners} title='Партнеры' />
         </>
     )

@@ -32,7 +32,7 @@ exports.updateCategory = async function (id, title) {
         throw createError(404, 'Категория не найдена')
     }
 
-    const savedCategory = await DocumentCategory.replaceOne({ _id: id }, { title })
+    const savedCategory = await DocumentCategory.updateOne({ _id: id }, {$set: { "title": title }})
 
     if (savedCategory.modifiedCount !== 1) {
         throw Error()

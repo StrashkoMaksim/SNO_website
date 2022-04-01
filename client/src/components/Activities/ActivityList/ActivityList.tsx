@@ -18,7 +18,7 @@ const ActivityList: FC<ActivityListProps> = ({ activities, activitiesExpanded, i
                     id={activity._id}
                     imgSrc={activity.logo}
                     title={activity.name}
-                    isAdmin
+                    isAdmin={isAdmin}
                 />
             )}
         </div>

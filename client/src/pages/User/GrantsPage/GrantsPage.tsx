@@ -21,6 +21,9 @@ const GrantsPage = () => {
                     setDocuments(response.data)
                 }
             })
+
+        window.scroll(0, 0)
+
     }, [])
 
     const mockGrant = {

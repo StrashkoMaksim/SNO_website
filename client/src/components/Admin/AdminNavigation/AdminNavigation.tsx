@@ -10,6 +10,7 @@ import SupervisorsImg from "../../../assets/img/admin_nav_supervisors.svg";
 import ConferenceImg from "../../../assets/img/admin_nav_conference.svg";
 import ScholarshipImg from "../../../assets/img/admin_nav_scholarship.svg";
 import EventsImg from "../../../assets/img/admin_nav_events.svg";
+import PartnersImg from "../../../assets/img/admin_nav_partners.svg";
 
 const navLinks = [
     { link: 'news', text: 'Новости', imgSrc: NewsImg },
@@ -20,6 +21,7 @@ const navLinks = [
     { link: 'supervisors', text: 'Руководители', imgSrc: SupervisorsImg },
     { link: 'council', text: 'Совет СНО', imgSrc: CouncilImg },
     { link: 'events', text: 'Мероприятия', imgSrc: EventsImg },
+    { link: 'partners', text: 'Партнеры', imgSrc: PartnersImg },
 ]
 
 interface AdminNavigationProps {

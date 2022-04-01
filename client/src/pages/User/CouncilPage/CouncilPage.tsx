@@ -5,17 +5,18 @@ import SupervisorsList from "../../../components/SupervisorsList/SupervisorsList
 
 const CouncilPage: FC = () => {
     const { supervisors, error, loading } = useTypedSelector(state => state.supervisor)
-    const { fetchSupervisors } = useActions()
+    const { fetchCouncil } = useActions()
 
     useEffect(() => {
-        fetchSupervisors()
+        fetchCouncil()
+        window.scroll(0, 0)
     }, [])
 
     return (
         <section className={'section'}>
             <div className={'container'}>
                 <h1>Совет СНО</h1>
-                <SupervisorsList supervisors={supervisors}/>
+                <SupervisorsList supervisors={supervisors} />
             </div>
         </section>
     );

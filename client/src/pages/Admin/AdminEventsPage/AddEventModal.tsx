@@ -99,6 +99,7 @@ const AddEventModal: FC<AddEventModalProps> = ({ closeModal, modalOpened, eventD
         catch (err) {
             console.log(err)
         }
+        setTimeout(() => closeModal(), 1000)
     }
 
     const postEvent = async () => {

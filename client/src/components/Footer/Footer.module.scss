@@ -40,6 +40,31 @@
         }
     }
 
+    .linkB {
+        color: white;
+        cursor: pointer;
+        border-radius: 30px;
+        padding: 15px 60px;
+        font-size: 18px;
+        transition: 0.4s;
+        display: flex;
+        align-items: center;
+        width: fit-content;
+        font-weight: 400;
+
+        span {
+            transition: 0.3s;
+        }
+
+        border: 1px solid white;
+        background-color: transparent;
+
+        &:hover {
+            background-color: white;
+            color: #3a7440;
+        }
+    }
+
     &__Label {
         color: white;
         margin-top: 5px;
@@ -56,6 +81,11 @@
             display: flex;
             column-gap: 30px;
         }
+    }
+
+    .max-width{
+        width: 100%;
+        justify-content: center;
     }
 }
 

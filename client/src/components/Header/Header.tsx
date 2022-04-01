@@ -48,14 +48,14 @@ const Header = () => {
                     </div>
                 </div>
                 <nav className={cn(styles.Header__Navigation, { [styles.menuOpen]: menuOpened })}>
-                    <Link className={styles.Header__Link} to={'/about'}>О СНО</Link>
-                    <Link className={styles.Header__Link} to={'/supervisors'}>Руководители</Link>
-                    <Link className={styles.Header__Link} to={'/council'}>Совет СНО</Link>
-                    <Link className={styles.Header__Link} to={'/registration'}>Регистрация участников</Link>
-                    <Link className={styles.Header__Link} to={'/events'}>Мероприятия</Link>
-                    <Link className={styles.Header__Link} to={'/documents'}>Документы</Link>
-                    <Link className={styles.Header__Link} to={'/conference'}>Студенческая конференция</Link>
-                    <Link className={styles.Header__Link} to={'/grants'}>Повышенная стипендия</Link>
+                    <Link className={styles.Header__Link} to={'/about'}  onClick={burgerClickHandler}>О СНО</Link>
+                    <Link className={styles.Header__Link} to={'/supervisors'} onClick={burgerClickHandler}>Руководители</Link>
+                    <Link className={styles.Header__Link} to={'/council'} onClick={burgerClickHandler}>Совет СНО</Link>
+                    <Link className={styles.Header__Link} to={'/registration'} onClick={burgerClickHandler}>Регистрация участников</Link>
+                    <Link className={styles.Header__Link} to={'/events'} onClick={burgerClickHandler}>Мероприятия</Link>
+                    <Link className={styles.Header__Link} to={'/documents'} onClick={burgerClickHandler}>Документы</Link>
+                    <Link className={styles.Header__Link} to={'/conference'} onClick={burgerClickHandler}>Студенческая конференция</Link>
+                    <Link className={styles.Header__Link} to={'/grants'} onClick={burgerClickHandler}>Повышенная стипендия</Link>
                 </nav>
             </div>
         </header>);

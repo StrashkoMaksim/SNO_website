@@ -1,6 +1,7 @@
 import DocumentsSection from "../../../components/DocumentsSection/DocumentsSection";
 import styles from "./ConferencePage.module.scss"
 import mockImg from "../../../assets/img/mockConference.png"
+import { useEffect } from "react";
 
 const ConferencePage = () => {
 
@@ -34,6 +35,8 @@ const ConferencePage = () => {
             "__v": 0
         },
     ]
+
+    useEffect(() => window.scroll(0, 0), [])
 
     return (
         <section className={'section'}>

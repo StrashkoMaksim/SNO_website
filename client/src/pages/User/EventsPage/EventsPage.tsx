@@ -19,6 +19,9 @@ const EventsPage: FC = () => {
                     setEvents(response.data)
                 }
             })
+
+        window.scroll(0, 0)
+
     }, [])
 
 

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import checkMark from "../../../assets/img/checkMark.svg"
 import regIcon from "../../../assets/img/RegistrationIcon.svg"
 import styles from "./RegistrationPage.module.scss"
@@ -7,6 +7,7 @@ import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/De
 import CustomCheckBox from "../../../components/CustomCheckBox/CustomCheckBox";
 
 const RegistrationPage = () => {
+    useEffect(() => window.scroll(0, 0), [])
 
     const defaultFormData = {
         fio: "",
@@ -56,7 +57,7 @@ const RegistrationPage = () => {
                 <h1>Регистрация участника</h1>
                 <div className={styles.RegistrationInfo}>
                     <img src={regIcon} alt="registration icon" />
-                    <p className={styles.Regular}>Регистрация участника позволяет нам получить информацию об актуальности наших кружков для
+                    <p className={'Regular'}>Регистрация участника позволяет нам получить информацию об актуальности наших кружков для
                         студентов ДВГУПС, благодаря чему появляется возможность перераспределить расписание и
                         рассмотреть возможность добавления новых кружков.</p>
                 </div>
