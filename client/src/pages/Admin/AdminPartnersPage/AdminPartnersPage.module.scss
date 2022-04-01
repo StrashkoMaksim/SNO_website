@@ -1,0 +1,60 @@
+.addPartnerBlock{
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 30px;
+    padding: 50px 20px;
+
+    .submitBtn{
+        justify-self: flex-end;
+        margin-top: 20px;
+    }
+}
+
+.sliderBlock {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    row-gap: 40px;
+    padding: 20px 20px 50px 20px !important;
+}
+
+.slider {
+    background-color: white;
+    max-height: 416px;
+    max-width: 893px !important;
+
+}
+
+.slide {
+    display: block;
+    margin-right: 50px;
+    width: fit-content;
+    position: relative;
+    &:focus {
+        outline: none;
+    }
+
+    img {
+        height: 100%;
+        max-height: 200px;
+        width: auto;
+    }
+}
+
+.closeSlideBtn {
+    height: 15px !important;
+    width: 15px !important;
+    position: absolute;
+    top: 0px;
+    right: 30px;
+    
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 930px) {
+    .slider {
+        width: calc(100vw - 70px);
+    }
+}

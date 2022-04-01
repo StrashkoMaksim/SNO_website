@@ -114,9 +114,6 @@ const AddEventModal: FC<AddEventModalProps> = ({ closeModal, modalOpened, eventD
 
     const putEvent = async () => {
 
-        console.log(formData.date)
-        console.log(formData.date instanceof Date)
-
         await http.put(`/event/${eventData.id}`, formData, {
             headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
         })

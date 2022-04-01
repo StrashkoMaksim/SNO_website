@@ -1,0 +1,29 @@
+.slick-dots {
+    bottom: -35px;
+
+    li {
+        height: 0;
+        width: 20;
+
+        button {
+            &::before {
+                color: #afafaf;
+                font-size: 10px;
+                transition: 0.2s;
+            }
+            &:hover::before {
+                color: #c2c2c2;
+            }
+        }
+    }
+
+    li.slick-active {
+        button::before {
+            color: #c2c2c2;
+        }
+    }
+}
+
+.slick-list{
+    max-height: 210px;
+}

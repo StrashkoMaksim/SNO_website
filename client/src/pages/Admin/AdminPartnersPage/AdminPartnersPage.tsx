@@ -1,68 +1,93 @@
 import { FC, useEffect, useState } from 'react'
-import DocumentsSection from "../../../components/DocumentsSection/DocumentsSection";
 import http from "../../../assets/http-config";
-import AdminSliderSelector from '../../../components/Admin/AdminSliderCreator/AdminSliderCreator';
-import AdminSliderCreator from '../../../components/Admin/AdminSliderCreator/AdminSliderCreator';
+import cn from 'classnames'
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import styles from './AdminPartnersPage.module.scss'
+import "./AdminSliderRestyle.scss"
+import closeIcon from '../../../assets/img/close.svg'
+import DefaultButton, { ButtonStyles, ButtonTypes } from '../../../components/DefaultButton/DefaultButton';
+import AddPartnerModal from './AddPartnerModal/AddPartnerModal';
+
+
+interface Partner {
+    img: File,
+    link: string,
+    _id: string
+}
 
 const AdminPartnersPage: FC = () => {
-    const [documents, setDocuments] = useState<any[]>([]);
-    const [documentsUpdated, setDocumentsUpdated] = useState<boolean>(false)
+
+    const [slidesPreview, setSlidesPreview] = useState<string[]>([]);
+    const [partners, setPartners] = useState<Partner[]>([])
+    const [partnersUpdated, setPartnersUpdated] = useState<boolean>(false)
+    const [modalOpened, setModalOpened] = useState<boolean>(false)
+
+    const closeModal = () => setModalOpened(false)
+    const openModal = () => setModalOpened(true)
+
+    const sliderOptions = {
+        arrows: false,
+        dots: true,
+        slidesToScroll: 1,
+        variableWidth: true,
+        threshold: 50,
+        infinite: false
+    }
 
     useEffect(() => {
-        const fetchDocuments = async () => {
-            const response = await http.get(`/grants-document`)
+        const fetchPartners = async () => {
+            const response = await http.get(`/partners`)
             return response;
         }
 
-        fetchDocuments()
+        fetchPartners()
             .then(response => {
                 if (response.status === 200) {
-                    setDocuments(response.data)
+                    setPartners(response.data)
                 }
             })
-    }, [documentsUpdated])
 
-    const triggerDataFetch = () => setDocumentsUpdated(!documentsUpdated)
+    }, [partnersUpdated])
 
-    const deleteDocument = async (id: string) => {
-        await http.delete(`/grants-document/${id}`,
-            {
-                headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
+    useEffect(() => {
+        const previews: string[] = partners.map(partner => `${process.env.REACT_APP_SERVER_URL}/${partner.img}`)
+        setSlidesPreview(previews)
+    }, [partners])
+
+    const addPartner = async (partner: Partner) => {
+        console.log(partner.img)
+        const formData = new FormData()
+        if (partner.img) formData.set('img', partner.img)
+        formData.set('link', partner.link)
+
+        await http.post('/partners', formData, {
+            headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
+        })
             .then(response => {
-                // @ts-ignore
-                if (response && response.status !== 200 && response.status !== 201) {
-                    // @ts-ignore
-                    console.log(response)
-                    // @ts-ignore
-                    alert(response.data.message)
-                }
-                triggerDataFetch();
+                if (response.status === 201) setPartnersUpdated(!partnersUpdated)
+            })
+            .catch(err => {
+                alert(err.response.data.message)
             })
     }
 
-    const addDocument = async (document: any) => {
-        const fd = new FormData();
-        fd.set('name', document.name)
-        fd.set('link', document.link)
-        fd.set('file', document.file)
-
-        await http.post('/grants-document', fd,
-            {
+    const deletePartner = (slideIndex: number, partnerId: string) => {
+        return async () => {
+            await http.delete(`/partners/${partnerId}`, {
                 headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
             })
-            .then(response => {
-                // @ts-ignore
-                if (response && response.status !== 200 && response.status !== 201) {
-                    // @ts-ignore
-                    console.log(response)
-                    // @ts-ignore
-                    alert(response.data.message)
-                }
-                triggerDataFetch();
-            })
+                .then(response => {
+                    if (response.status === 200) setPartnersUpdated(!partnersUpdated)
 
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
     }
+
 
     return (
         <>
@@ -70,10 +95,31 @@ const AdminPartnersPage: FC = () => {
                 <h1 className="adminH1">Партнеры</h1>
             </header>
 
-            <AdminSliderCreator handleNavigation={() => { }} handleSubmit={() => { }} />
+            <AddPartnerModal modalOpened={modalOpened} closeModal={closeModal} onSubmit={addPartner} />
+
+            <div className={styles.addPartnerBlock}>
+
+                <DefaultButton
+                    text='Добавить партнера'
+                    type={ButtonTypes.button}
+                    style={ButtonStyles.adminFilled}
+                    onClick={openModal}
+                />
+
+                <Slider {...sliderOptions} className={styles.slider}>
+                    {slidesPreview.map((slide, index) =>
+                        <div key={partners[index]?._id} className={styles.slide}>
+                            <img src={closeIcon} alt="" className={styles.closeSlideBtn} onClick={deletePartner(index, partners[index]?._id)} />
+                            <img src={slide} alt="" />
+                        </div>
+                    )}
+                </Slider>
+
+            </div>
 
         </>
     )
 }
 
-export default AdminPartnersPage
+export default AdminPartnersPage;
+

@@ -1,5 +1,5 @@
 const PartnerService = require('../services/partner.service')
-const {errorHandler, errorValidator} = require("../utils/errorHandler")
+const { errorHandler, errorValidator } = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
@@ -13,12 +13,12 @@ exports.get = async function (req, res) {
 exports.add = async function (req, res) {
     try {
         errorValidator(req, res)
-
         const { img, link } = req.body
         const partners = await PartnerService.add(img, link)
-
         res.status(201).json({ message: 'Партнер успешно добавлен', partners })
     } catch (e) {
+        console.log(e)
+        console.log(e.message)
         errorHandler(e, res)
     }
 }
