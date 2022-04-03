@@ -1,13 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 import plusIcon from "../../../assets/img/plus.svg"
-import AdminFormInputText, { AFITStyle } from '../../../components/Admin/AdminFormInputText/AdminFormInputText';
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
 import DocumentsSection from "../../../components/DocumentsSection/DocumentsSection";
 import { useActions } from '../../../hooks/useActions';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { DocumentCategory, EmptyDocumentCategory } from '../../../types/document';
 import AdminAddCategoryModal from './AdminAddCategoryModal/AdminAddCategoryModal';
-import styles from "./AdminDocumentsPage.module.scss"
 
 const AdminDocumentsPage: FC = () => {
     const { documents } = useTypedSelector(state => state.documents)

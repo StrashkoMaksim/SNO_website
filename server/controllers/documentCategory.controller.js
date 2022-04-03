@@ -20,22 +20,11 @@ exports.getCategoriesWithDocuments = async function (req, res) {
     }
 }
 
-exports.getCategoriesWithDocuments = async function (req, res) {
-    try {
-        const categories = await DocumentCategoryService.getCategoriesWithDocuments()
-        res.json(categories)
-    } catch (e) {
-        errorHandler(e, res)
-    }
-}
 
 exports.addCategory = async function (req, res) {
     try {
         errorValidator(req, res)
         const { title } = req.body
-        console.log(req.body)
-
-        console.log(title)
         const categories = await DocumentCategoryService.addCategory(title)
 
         res.status(201).json({ message: 'Категория успешно добавлена', categories })

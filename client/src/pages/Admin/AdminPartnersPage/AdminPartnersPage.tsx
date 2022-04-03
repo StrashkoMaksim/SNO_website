@@ -57,7 +57,6 @@ const AdminPartnersPage: FC = () => {
     }, [partners])
 
     const addPartner = async (partner: Partner) => {
-        console.log(partner.img)
         const formData = new FormData()
         if (partner.img) formData.set('img', partner.img)
         formData.set('link', partner.link)

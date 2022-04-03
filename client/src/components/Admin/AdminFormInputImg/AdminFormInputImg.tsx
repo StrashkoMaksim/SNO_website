@@ -15,7 +15,7 @@ interface AFIIProps {
 
 const AdminFormInputImg: FC<AFIIProps> = ({ name, onChange, defaultImg, id, accept = '.jpg', extraClass, required = true }) => {
     defaultImg = defaultImg instanceof Blob ? URL.createObjectURL(defaultImg) : defaultImg
-    const imgType = defaultImg.substring(0, 4) === 'blob' ? defaultImg : `${process.env.REACT_APP_SERVER_URL}/${defaultImg}`
+    const imgType = defaultImg?.substring(0, 4) === 'blob' ? defaultImg : `${process.env.REACT_APP_SERVER_URL}/${defaultImg}`
     const imgSrc = defaultImg ? imgType : placeholderImg
 
     const onChangeHandler = (event: FormEvent<HTMLInputElement>) => {

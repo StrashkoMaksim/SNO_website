@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react'
 import Document from "../Document/Document"
 import editIcon from "../../assets/img/editTextIcon.svg"
 import deleteIcon from "../../assets/img/xMark.svg"
-import { DocumentsAction, DocumentType } from '../../types/document'
+import { DocumentsAction, IDocument } from '../../types/document'
 import AdminAddDocumentModal from '../../pages/Admin/AdminDocumentsPage/AdminAddDocumentModal/AdminAddDocumentModal'
 import { useActions } from '../../hooks/useActions'
 import { Dispatch } from 'redux'
@@ -12,7 +12,7 @@ import { style } from '@mui/system'
 
 interface DocumentsSectionProps {
     title: string,
-    documents: DocumentType[],
+    documents: IDocument[],
     id?: string,
     editTitle?: (title: string, id: string) => void,
     isAdmin?: boolean,
@@ -90,7 +90,7 @@ const DocumentsSection: FC<DocumentsSectionProps> = ({ title, id, documents, edi
             </div>
 
             <div className={styles.Documents__Grid}>
-                {documents.map((doc, index) =>
+                {documents?.map((doc, index) =>
                     <div
                         key={doc._id}
                         className={styles.docWithDeleteBtn}

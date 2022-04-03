@@ -86,11 +86,17 @@ const AdminAddDocumentModal: FC<AADMProps> = ({ modalOpened, closeModal, id, del
         }
 
         onSubmit(document)
+        clearModal()
+    }
+
+    const clearModal = () => {
+        setDocument({ ...document, name: '', file: null, link: '' })
+        setSelectedDocument({ img: '', name: '' })
         closeModal()
     }
 
     return (
-        <MakeModal modalOpened={modalOpened} closeModal={closeModal} >
+        <MakeModal modalOpened={modalOpened} closeModal={clearModal} >
             <ErrorMessage errMessage={errorMessage} />
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.pickerElement}>

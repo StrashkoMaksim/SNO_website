@@ -32,9 +32,13 @@
     background: #ffffff;
     max-width: fit-content;
     width: 100%;
-    padding: 32px;
+    padding: 40px;
     position: relative;
     margin: 0 auto;
+
+    &-noBackground{
+        background: none;
+    }
 
     // Это собственно контейнер с оригинальной формой
     section {

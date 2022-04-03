@@ -1,4 +1,4 @@
-export interface DocumentType {
+export interface IDocument {
     _id: string,
     type: string,
     name: string,
@@ -9,7 +9,7 @@ export interface DocumentType {
 export interface DocumentCategory {
     _id: string,
     title: string,
-    documents: DocumentType[]
+    documents: IDocument[]
 }
 
 export const EmptyDocumentCategory = {

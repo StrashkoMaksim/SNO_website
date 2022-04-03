@@ -1,0 +1,51 @@
+@import "../../../../assets/styles/variables.scss";
+
+.conference {
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+
+    &__image {
+        background-color: #eff3eb;
+
+        label {
+            width: 100%;
+            display: grid;
+            place-items: center;
+        }
+        img {
+            width: 100%;
+        }
+    }
+
+    &__description {
+        padding: 40px 50px;
+        background-color: white;
+    }
+
+    .saveConferenceBtn {
+        align-self: center;
+    }
+    .deleteBtnWrapper {
+        display: grid;
+    }
+
+    .deleteBtn {
+        background-color: transparent;
+        border: none;
+        color: #ffcece;
+        height: 25px;
+        border-bottom: 1px solid #ffcece;
+        padding-bottom: 26px;
+        transition: 0.2s;
+        justify-self: flex-end;
+        width: 200px;
+
+        &:hover {
+            color: $error-color;
+            border-color: $error-color;
+        }
+    }
+}

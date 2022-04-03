@@ -15,7 +15,7 @@ import PartnersImg from "../../../assets/img/admin_nav_partners.svg";
 const navLinks = [
     { link: 'news', text: 'Новости', imgSrc: NewsImg },
     { link: 'activities', text: 'Кружки', imgSrc: SectionImg },
-    { link: 'conf', text: 'Конференция', imgSrc: ConferenceImg },
+    { link: 'conference', text: 'Конференция', imgSrc: ConferenceImg },
     { link: 'documents', text: 'Документы', imgSrc: DocumentsImg },
     { link: 'grants', text: 'Стипендия', imgSrc: ScholarshipImg },
     { link: 'supervisors', text: 'Руководители', imgSrc: SupervisorsImg },

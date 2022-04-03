@@ -1,35 +1,29 @@
 import cn from "classnames";
-import React, { useEffect, FC } from "react";
-import http from "../../../assets/http-config";
-import Events from "./Events";
+import { FC, useState } from "react";
+import EventsWithPagination from "./EventsWithPagination/EventsWithPagination";
+import styles from './EventsPage.module.scss'
 
 const EventsPage: FC = () => {
 
-    const [events, setEvents] = React.useState<any[]>([]);
+    const [oldEvents, setOldEvents] = useState<boolean>(false)
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            const response = await http.get(`/event`)
-            return response;
-        }
-
-        fetchEvents()
-            .then(response => {
-                if (response.status === 200) {
-                    setEvents(response.data)
-                }
-            })
-
-        window.scroll(0, 0)
-
-    }, [])
-
+    const toggleOldEvents = () => setOldEvents(!oldEvents)
 
     return (
         <section className={cn('section')}>
             <div className={cn('container')}>
-                <h1>Ближайшие мероприятия</h1>
-                <Events events={events} />
+
+                <div className={styles.header}>
+                    <h1>{oldEvents ? 'Все' : 'Ближайшие'} мероприятия</h1>
+                    <button
+                        className={styles.showAllEventsBtn}
+                        onClick={toggleOldEvents}
+                    >
+                        Показать {oldEvents ? ' ближайшие' : ' все'} мероприятия
+                    </button>
+                </div>
+
+                <EventsWithPagination oldEvents={oldEvents}/>
             </div>
         </section>
     )

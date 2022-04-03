@@ -1,10 +1,12 @@
 const EventService = require('../services/event.service')
-const { errorHandler, errorValidator} = require("../utils/errorHandler")
+const { errorHandler, errorValidator } = require("../utils/errorHandler")
 
 exports.get = async function (req, res) {
     try {
-        const events = await EventService.get()
-        res.json(events)
+        const { page, count, oldEvents } = req.query
+
+        const { events, totalCount } = await EventService.get(page, count, oldEvents)
+        res.json({ events, count: totalCount })
     } catch (e) {
         errorHandler(e, res)
     }
