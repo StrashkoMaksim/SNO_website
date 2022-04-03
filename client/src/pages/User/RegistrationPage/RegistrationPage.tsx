@@ -5,6 +5,7 @@ import styles from "./RegistrationPage.module.scss"
 import cn from "classnames"
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../../../components/DefaultButton/DefaultButton";
 import CustomCheckBox from "../../../components/CustomCheckBox/CustomCheckBox";
+import axios from "axios"
 
 const RegistrationPage = () => {
     useEffect(() => window.scroll(0, 0), [])
@@ -25,12 +26,28 @@ const RegistrationPage = () => {
         const { target } = event;
 
         console.log(formData)
+
+        const fd = new FormData()
+
+        fd.set('ФИО', formData.fio)
+        fd.set('Группа', formData.group)
+        fd.set('Другие_интересы', formData.otherHobbies)
+        fd.set('О_себе', formData.about)
+
+        let hobbies = ''
+        for (let [key, value] of Object.entries(formData.hobbies)) {
+            hobbies = hobbies + key + ', '
+        }
+        fd.set('Интересы', hobbies)
+
         setFormSubmitted(true)
         setTimeout(() => setFormSubmitted(false), 3000)
 
         target.reset();
 
         // Отправить formData куда надо
+        axios.post(`${process.env.REACT_APP_REGISTRATION_SHEET}`, fd)
+
     }
 
     const onChangeInput = (event: React.FormEvent<HTMLInputElement>) => {

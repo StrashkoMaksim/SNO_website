@@ -3,7 +3,8 @@ import cn from "classnames";
 import styles from './CallForm.module.scss'
 import DefaultButton, { ButtonStyles, ButtonTypes } from "../DefaultButton/DefaultButton";
 import checkMark from "../../assets/img/checkMark.svg"
-import xMark from "../../assets/img/xMark.svg"
+import axios from 'axios'
+
 
 interface CallFormProps {
     modal?: boolean
@@ -20,15 +21,15 @@ const CallForm: FC<CallFormProps> = ({ modal, closeModal }) => {
         const data: any = new FormData(target);
 
         data.append('Имя', target.name.value)
-        data.append('Номер телефона', target.phoneNumber.value)
+        data.append('Номер_телефона', target.phoneNumber.value)
         data.append('Вопрос', target.question.value)
 
         setFormSubmitted(true)
         setTimeout(() => setFormSubmitted(false), 3000)
 
-        target.reset();
+        axios.post(`${process.env.REACT_APP_CALLFORM_SHEET}`, data)
 
-        // Отправить data куда надо
+        target.reset();
     }
 
     return (
